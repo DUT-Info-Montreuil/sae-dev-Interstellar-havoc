@@ -1,0 +1,54 @@
+.my-anchor-pane {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #000019, #400040);
+}
+
+.bouton{
+  -fx-background-color: #684869; /* Couleur de fond */
+  -fx-text-fill: white;
+  -fx-font-style: italic;
+  -fx-border-color: white;
+  -fx-border-width: 2px;
+  -fx-border-radius: 10px;
+  -fx-background-radius: 16px;
+}
+.labelHaut{
+    -fx-font-size: 10pt;
+    -fx-font-family: "UniversFont";
+    -fx-text-fill: white;
+    -fx-background-color: #684869; /* Couleur de fond */
+    -fx-alignment: top-center;
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 16px; /* Rayon de courbure des coins */
+}
+.labelNombre{
+    -fx-text-fill: white;
+
+}
+
+.labelTour1{
+    -fx-graphic: url('tourel1.png');
+    max-width: 10px; /* Largeur souhaitée */
+    max-height: 20px;
+
+}
+
+
+.labelTour2{
+    -fx-graphic: url('tourel2.png');
+    max-width: 10px; /* Largeur souhaitée */
+    max-height: 20px;
+
+}
+
+.labelTour3{
+    -fx-graphic: url('tourel3.png');
+    max-width: 10px; /* Largeur souhaitée */
+    max-height: 20px;
+
+}
+
+
+
+
