@@ -49,7 +49,10 @@ public class ControlleurTerrainJeu implements Initializable {
     Terrain terrain;
     Environnement env;
 
-
+    /**
+     * Méthode pour afficher les caractéristiques des bobines
+     * lorsqu'elles sont cliquées.
+     */
     public void TestClickTourel(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
@@ -101,20 +104,34 @@ public class ControlleurTerrainJeu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Crée une nouvelle instance de terrain et de terrainVue
         terrain = new Terrain();
         terrainVue = new TerrainVue(tilePane, terrain);
-        env  = new Environnement();
+        env = new Environnement();
+
+        // Affiche le terrain
         terrainVue.afficherTerrain();
+
+        // Initialise l'environnement
         env.init();
+
+        // Crée et affiche les sprites des ennemis sur le terrain
         for (int i = 0; i < env.getEnnemis().size(); i++) {
             creerSprite(env.getEnnemis().get(i));
-
         }
+
+        // Initialise l'animation du jeu
         initAnimation();
+
+        // Associe les actions de clic sur les labels des bobines aux fonctionnalités correspondantes
         this.TestClickTourel();
     }
-    public void initAnimation() {
 
+    /**
+     * Initialise l'animation du jeu en utilisant la classe Timeline de JavaFX.
+     * La méthode unTour() de l'environnement est appelée toutes les 0.3 secondes.
+     */
+    public void initAnimation() {
         gameLoop = new Timeline();
         temps = 0;
 
@@ -128,33 +145,54 @@ public class ControlleurTerrainJeu implements Initializable {
         gameLoop.play();
     }
 
+    /**
+     * Crée un sprite pour un ennemi donné en utilisant une image spécifique.
+     * Le sprite est ajouté au pane du terrain.
+     * @param e Ennemi à afficher
+     */
     void creerSprite(Ennemi e) {
+        // Charge l'image de l'ennemi
         URL urlEnnemiLent = Main.class.getResource("image/ennemis/pika.png");
         Image ennemiLent = new Image(String.valueOf(urlEnnemiLent));
         ImageView ImLent = new ImageView(ennemiLent);
 
+        // Lie les propriétés de translation du sprite aux propriétés de position de l'ennemi
         ImLent.translateXProperty().bind(e.getXProperty());
         ImLent.translateYProperty().bind(e.getYProperty());
 
+        // Vérifie si le sprite est valide avant de l'ajouter au pane
         if (ImLent != null) {
             ImLent.setId(e.getId());
             pane.getChildren().add(ImLent);
         }
     }
 
+    /**
+     * Met à jour l'affichage des sprites des ennemis sur le terrain.
+     * Cette méthode est appelée à chaque rafraîchissement de l'écran.
+     */
     void rafraichirAffichage() {
         for (Ennemi acteur : env.getEnnemis()) {
-            ImageView sprite = (ImageView) pane.lookup("#"+acteur.getId());
-            if (sprite!= null) {
+            // Recherche le sprite de l'ennemi dans le pane
+            ImageView sprite = (ImageView) pane.lookup("#" + acteur.getId());
+
+            // Si le sprite existe, met à jour sa position en fonction de l'ennemi
+            if (sprite != null) {
                 sprite.setTranslateX(acteur.getX());
                 sprite.setTranslateY(acteur.getY());
             }
-            else{
+            // Sinon, crée un nouveau sprite pour l'ennemi et l'ajoute au pane
+            else {
                 creerSprite(acteur);
             }
         }
     }
 
+    /**
+     * Gère l'événement de clic sur le bouton "Quitter".
+     * Arrête l'animation du jeu, ferme la fenêtre actuelle et ouvre le menu principal.
+     * @param event Événement de clic sur le bouton
+     */
     @FXML
     void ButtonQuitter(ActionEvent event) {
         Parent root;
