@@ -10,56 +10,66 @@ import java.util.ArrayList;
 
 public class Environnement {
 
+    // Référence au pane utilisé pour afficher les ennemis (non utilisé dans le code fourni)
     Pane pane;
+
+    // Taux d'apparition des ennemis (non utilisé dans le code fourni)
     private int spawnRate;
+
+    // Référence au terrain (non utilisé dans le code fourni)
     private Terrain terr;
+
+    // Liste des ennemis morts (non utilisée dans le code fourni)
     private ArrayList<Ennemi> mort;
-    private  ObservableList<Ennemi> ennemis;
+
+    // Liste des ennemis en jeu
+    private ObservableList<Ennemi> ennemis;
 
     public Environnement() {
-        this.mort = new ArrayList<>();
-        this.ennemis = FXCollections.observableArrayList();
+        mort = new ArrayList<>();
+        ennemis = FXCollections.observableArrayList();
         terr = new Terrain();
     }
 
+    // Retourne la liste des ennemis en jeu
     public ObservableList<Ennemi> getEnnemis() {
-
         return ennemis;
     }
 
+    // Retourne la liste des ennemis morts
     public ArrayList<Ennemi> getMort() {
-
         return mort;
     }
 
-    public void ajouter(Ennemi a) {
-
-        this.ennemis.add(a);
+    // Ajoute un ennemi à la liste des ennemis en jeu
+    public void ajouter(Ennemi ennemi) {
+        ennemis.add(ennemi);
     }
 
+    // Initialise l'environnement en créant plusieurs ennemis (dans cet exemple, 5 Ballistes)
     public void init() {
-      for(int i =0; i<5; i++){
-          Ennemi e = new Balliste();
-          ennemis.add(e);
-      }
-    }
-
-    public void unTour() {
-    for(int i = 0; i< ennemis.size(); i++) {
-        Ennemi e = ennemis.get(i);
-        e.agit(16, 16);
-        //  pane.getChildren().add(e.getImLent());
-    }
-
-        for (int i = ennemis.size() - 1; i >= 0; i--) {
-            Ennemi en = ennemis.get(i);
-            if (!en.estVivant()) {
-                System.out.println("mort de : " + en);
-                ennemis.remove(i);
-                this.mort.add(en);
-            }
+        for (int i = 0; i < 5; i++) {
+            Ennemi ennemi = new Balliste();
+            ennemis.add(ennemi);
         }
     }
 
-}
+    // Effectue un tour de jeu en faisant agir tous les ennemis en jeu
+    public void unTour() {
+        for (int i = 0; i < ennemis.size(); i++) {
+            Ennemi ennemi = ennemis.get(i);
+            ennemi.agit(16, 16);
+            //  pane.getChildren().add(e.getImLent()); // Ajoute l'ennemi au pane (non utilisé dans le code fourni)
+        }
 
+        // Vérifie si les ennemis sont vivants ou non
+        for (int i = ennemis.size() - 1; i >= 0; i--) {
+            Ennemi ennemi = ennemis.get(i);
+            if (!ennemi.estVivant()) {
+                System.out.println("Mort de l'ennemi : " + ennemi);
+                ennemis.remove(i);
+                mort.add(ennemi);
+            }
+        }
+    }
+}
