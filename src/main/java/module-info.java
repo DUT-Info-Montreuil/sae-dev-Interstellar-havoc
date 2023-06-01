@@ -2,7 +2,6 @@ module com.example.demo {
     requires javafx.controls;
     requires javafx.fxml;
 
-    requires org.controlsfx.controls;
     requires java.desktop;
 
     opens com.application.S2_dev to javafx.fxml;
