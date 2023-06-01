@@ -15,14 +15,18 @@ public abstract class Ennemi {
     private DoubleProperty y;
     private Terrain terr;
     int i = 0;
-    int pv;
+    private int pv;
     private String id;
     public static int compteur = 0;
-    public Ennemi() {
+    private int dgts;
+    private int portee;
+    public Ennemi(int dgts,int portee,int pv) {
+        this.dgts=dgts;
+        this.portee=portee;
         x = new SimpleDoubleProperty(5);
         y = new SimpleDoubleProperty(21);
         terr = new Terrain();
-        this.pv = 5;
+        this.pv = pv;
         this.id="E"+compteur;
         compteur++;
     }
@@ -49,7 +53,7 @@ public abstract class Ennemi {
 
     public void move(Cell cell) {
         if (cell != null) {
-           // System.out.println("(X: " + x.getValue() + ", Y: " + y.getValue() + ")");
+            // System.out.println("(X: " + x.getValue() + ", Y: " + y.getValue() + ")");
         }
     }
     public boolean estVivant() {
@@ -66,14 +70,14 @@ public abstract class Ennemi {
 
         Cell currentCell = shortestPath.get(i);
         Cell previousCell = i > 0 ? shortestPath.get(i - 1) : null;
-      //  System.out.println("take  (X: " + currentCell.getX() + ", Y: " + currentCell.getY() + ")");
+        //  System.out.println("take  (X: " + currentCell.getX() + ", Y: " + currentCell.getY() + ")");
         if (previousCell != null) {
             if (currentCell.getX() != previousCell.getX()) {
 
                 if (currentCell.getX() > previousCell.getX()) {
                     this.setY( this.getY() + tileWidth);
                 }else if (currentCell.getX() < previousCell.getX()) {
-                   this.setY(this.getY() - tileWidth);
+                    this.setY(this.getY() - tileWidth);
                 }
             }
             if (currentCell.getY() != previousCell.getY()) {
@@ -84,7 +88,8 @@ public abstract class Ennemi {
                 }
             }
             if (currentCell.getY()==60&&currentCell.getX()==12){
-                System.out.println("JE vais attaquer");
+                attaquerTour();
+
             }
         }
 
@@ -96,6 +101,9 @@ public abstract class Ennemi {
 
 
 
+    }
+    public void attaquerTour(){
+        System.out.println("Je vais attaquer");
     }
 
     public void setX(double x1) {
