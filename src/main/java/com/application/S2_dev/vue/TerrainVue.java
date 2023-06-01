@@ -17,16 +17,16 @@ public class TerrainVue {
     }
 
     public void afficherTerrain(){
-        URL urlImageHerbe = Main.class.getResource("image/map/herbe.jpg");
+        URL urlImageHerbe = Main.class.getResource("image/map/terrain.png");
         Image imageHerbe = new Image(String.valueOf(urlImageHerbe));
 
-        URL urlImageChemin = Main.class.getResource("image/map/chemin.jpg");
+        URL urlImageChemin = Main.class.getResource("image/map/chemin.png");
         Image imageChemin = new Image(String.valueOf(urlImageChemin));
 
-        URL urlImageCheminBloque = Main.class.getResource("image/map/troi.jpg");
+        URL urlImageCheminBloque = Main.class.getResource("image/map/cheminBloque.png");
         Image imageCheminBloque = new Image(String.valueOf(urlImageCheminBloque));
 
-        URL urlBat = Main.class.getResource("image/map/bat.png");
+        URL urlBat = Main.class.getResource("image/map/base.png");
         Image bat = new Image(String.valueOf(urlBat));
 
         for(int i = 0; i<terrain.getTerrain().length; i++) {

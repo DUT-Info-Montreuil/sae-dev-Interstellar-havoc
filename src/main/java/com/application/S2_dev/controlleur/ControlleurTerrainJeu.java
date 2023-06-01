@@ -65,6 +65,11 @@ public class ControlleurTerrainJeu implements Initializable {
                     Image image = new Image(String.valueOf(url));
                     ImageView imageView = new ImageView(image);
                     alert.setGraphic(imageView);
+                    alert.setOnShowing(
+                            e ->
+                                    this.gameLoop.pause()
+
+                    );
                     alert.showAndWait();
                 }
 
@@ -80,6 +85,14 @@ public class ControlleurTerrainJeu implements Initializable {
                     Image image = new Image(String.valueOf(url));
                     ImageView imageView = new ImageView(image);
                     alert.setGraphic(imageView);
+                    alert.setOnShowing(
+                            e ->
+                                this.gameLoop.pause()
+
+                            );
+                    alert.setOnHidden(e -> {
+                        this.gameLoop.play();
+                    });
                     alert.showAndWait();
                 }
         );
@@ -94,6 +107,17 @@ public class ControlleurTerrainJeu implements Initializable {
                     Image image = new Image(String.valueOf(url));
                     ImageView imageView = new ImageView(image);
                     alert.setGraphic(imageView);
+                    alert.setOnShowing(
+                            e ->
+                                    this.gameLoop.pause()
+
+                    );
+                    alert.setOnHidden(e -> {
+                        this.gameLoop.play();
+                    });
+                    alert.setOnHidden(e -> {
+                        this.gameLoop.play();
+                    });
                     alert.showAndWait();
                 }
         );
@@ -129,7 +153,7 @@ public class ControlleurTerrainJeu implements Initializable {
     }
 
     void creerSprite(Ennemi e) {
-        URL urlEnnemiLent = Main.class.getResource("image/ennemis/pika.png");
+        URL urlEnnemiLent = Main.class.getResource("image/ennemis/Scavenger.png");
         Image ennemiLent = new Image(String.valueOf(urlEnnemiLent));
         ImageView ImLent = new ImageView(ennemiLent);
 
@@ -173,5 +197,13 @@ public class ControlleurTerrainJeu implements Initializable {
             e.printStackTrace();
         }
 
+    }
+    @FXML
+    void ButtonPlay(ActionEvent event) {
+        this.gameLoop.play();
+    }
+    @FXML
+    void ButtonPause(ActionEvent event) {
+    this.gameLoop.pause();
     }
 }
