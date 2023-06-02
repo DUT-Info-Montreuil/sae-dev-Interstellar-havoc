@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.Pane;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Random;
 //import java.util.random.*;
@@ -40,20 +41,30 @@ public class Environnement {
 
     public void ajouterVague() {
         int compteurSpawnEnnemi =3;
-        for(int compteur =0;compteur<=compteurSpawnEnnemi;compteur++){
-            int spawnRate = random.nextInt(5)+1;
-            switch (spawnRate){
-                case 1 :
-                    Ennemi b = new Scavenger();
-                case 2 :
-                    Ennemi a = new Scavenger();
-                case 3 :
-                    Ennemi c = new Balliste();
-                case 4 :
-                    Ennemi d = new Behemoth();
-                case 5 :
-                    Ennemi e = new Balliste();
+        if (ennemis.size()>=compteurSpawnEnnemi){
+            for(int compteur =0;compteur<=compteurSpawnEnnemi;compteur++){
+                int spawnRate = random.nextInt(5)+1;
+                switch (spawnRate){
+                    case 1 :
+                        case 2 :
+                            Ennemi a = new Balliste();
+                            ennemis.add(a);
+                    case 3 :
+
+                    case 4 :
+                        Ennemi d = new Scavenger();
+                        ennemis.add(d);
+                    case 5 :
+                        Ennemi e = new Behemoth();
+                        ennemis.add(e);
+                }
+            compteurSpawnEnnemi++;
+                if (compteurSpawnEnnemi==10){
+                    compteurSpawnEnnemi=0;
+                }
+
             }
+
 
         }
 

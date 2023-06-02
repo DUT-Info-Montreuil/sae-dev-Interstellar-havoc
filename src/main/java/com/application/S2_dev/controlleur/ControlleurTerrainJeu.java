@@ -103,7 +103,7 @@ public class ControlleurTerrainJeu implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         terrain = new Terrain();
         terrainVue = new TerrainVue(tilePane, terrain);
-        env  = new Environnement();
+        env  = new Environnement(pane);
         terrainVue.afficherTerrain();
         env.init();
         for (int i = 0; i < env.getEnnemis().size(); i++) {
