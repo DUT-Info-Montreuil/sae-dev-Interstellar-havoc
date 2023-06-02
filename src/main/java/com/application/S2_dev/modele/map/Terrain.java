@@ -66,8 +66,8 @@ public class Terrain {
         return grid[i][j];
     }
 
-    public TerrainType getCase(int i, int j) {
-        switch (terrain[i][j]) {
+    public TerrainType getCase1(int i, int j) {
+        switch (grid[i][j]) {
             case 0:
                 return TerrainType.GRASS;
             case 1:

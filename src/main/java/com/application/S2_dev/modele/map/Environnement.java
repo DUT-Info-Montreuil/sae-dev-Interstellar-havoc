@@ -50,7 +50,7 @@ public class Environnement {
 
     public void ajouterVague() {
         boolean spawnPossible = true;
-       // int compteurSpawnEnnemi = 5;
+        // int compteurSpawnEnnemi = 5;
         int ennemisMax = 5;
         int ennemisActuels = ennemis.size();
 
@@ -62,7 +62,7 @@ public class Environnement {
             int ennemisAAjouter =  ennemisMax - ennemisActuels;
 
             if (ennemisActuels == 0) {
-                Ennemi en = new Balliste();
+                Ennemi en = new Balliste(5,21);
                 ennemis.add(en);
                 ennemisAAjouter--;
             }
@@ -71,15 +71,15 @@ public class Environnement {
                 int spawnRate = random.nextInt(150) + 1;
                 switch (spawnRate) {
                     case 1:
-                        Ennemi en = new Behemoth();
+                        Ennemi en = new Behemoth(5,21);
                         ennemis.add(en);
                         break;
                     case 2:
-                        Ennemi en1 = new Scavenger();
+                        Ennemi en1 = new Scavenger(5,21);
                         ennemis.add(en1);
                         break;
                     case 3:
-                        Ennemi en2 = new Balliste();
+                        Ennemi en2 = new Balliste(5,21);
                         ennemis.add(en2);
                         break;
                 }
@@ -87,6 +87,40 @@ public class Environnement {
         }
     }
     public void unTour() {
+        for(int i = 0; i< ennemis.size(); i++) {
+            Ennemi e = ennemis.get(i);
+            e.agit(16, 16);
+        }
+
+        for (Ennemi e : ennemis) {
+            if (!e.estVivant()) {
+                System.out.println("mort de : " + e.getId());
+                this.mort.add(e);
+            }
+        }
+        for(Ennemi e : mort){
+            ennemis.remove(e);
+        }
+
+        /**
+         * attacks enemies if in range
+         */
+        for (Tour tour : tours) {
+            if (!tour.isDestroyed()) {
+                for (Ennemi e : ennemis) {
+                    tour.attack(e);
+                }
+            } else {
+                System.out.println("Tower destroyed: " + tour.getId());
+                tours.remove(tour);
+                this.mort2.add(tour);
+            }
+        }
+        ajouterVague();
+
+    }
+    public void unTour1() {
+
 
         for(int i = 0; i< ennemis.size(); i++) {
             Ennemi e = ennemis.get(i);

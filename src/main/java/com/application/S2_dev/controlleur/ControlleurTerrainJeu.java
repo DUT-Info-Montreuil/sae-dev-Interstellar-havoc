@@ -96,14 +96,11 @@ public class ControlleurTerrainJeu implements Initializable {
         terrainVue = new TerrainVue(tilePane, terrain);
         env = new Environnement(pane);
         terrainVue.afficherTerrain();
-        env.init();
-
-        for (int i = 0; i < env.getEnnemis().size(); i++) {
-            creerSprite(env.getEnnemis().get(i));
-        }
-
+        EnnemiVue en = new EnnemiVue(pane, labelScavenger, labelBalliste, labelBehemoth);
+        env.getEnnemis().addListener(en);
         initAnimation();
         this.TestClickTourel();
+
     }
 
     /**
@@ -215,6 +212,8 @@ public class ControlleurTerrainJeu implements Initializable {
             } else {
                 creerSprite(acteur);
             }
+        }
+    }
             @FXML
             void ButtonInventaire (ActionEvent event){
                 Parent root;
@@ -263,5 +262,5 @@ public class ControlleurTerrainJeu implements Initializable {
                 this.gameLoop.pause();
             }
         }
-    }
-}
+
+

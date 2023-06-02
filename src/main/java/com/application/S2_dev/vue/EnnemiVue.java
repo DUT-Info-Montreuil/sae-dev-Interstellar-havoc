@@ -1,7 +1,10 @@
 package com.application.S2_dev.vue;
 
 import com.application.S2_dev.Main;
+import com.application.S2_dev.modele.ennemis.Behemoth;
 import com.application.S2_dev.modele.ennemis.Ennemi;
+import com.application.S2_dev.modele.ennemis.Scavenger;
+import com.application.S2_dev.modele.ennemis.Balliste;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -45,6 +48,15 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
         for (int i = 0; i < c.getRemoved().size(); i++) {
             ImageView sprite = (ImageView) panneau_de_jeu.lookup("#" + c.getRemoved().get(i).getId());
             panneau_de_jeu.getChildren().remove(sprite);
+            if (c.getRemoved().get(i) instanceof Scavenger) {
+                nbVivantScavenger--;
+            } else if (c.getRemoved().get(i) instanceof Balliste) {
+                nbVivantBalliste--;
+            }
+            else if(c.getRemoved().get(i) instanceof Behemoth){
+                nbVivantBehemoth--;
+            }
+
         }
 
         for (int i = 0; i < c.getAddedSubList().size(); i++) {
@@ -81,17 +93,12 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
             balliste.translateYProperty().bind(e.getYProperty());
             // System.out.println(balliste.getTranslateX()+" et y "+ balliste.getTranslateY());
 
-        ImLent.translateXProperty().bind(e.getXProperty());
-        ImLent.translateYProperty().bind(e.getYProperty());
 
         } else if (e instanceof Behemoth) {
             behemoth = new ImageView(ImageBehemoth);
             behemoth.translateXProperty().bind(e.getXProperty());
             behemoth.translateYProperty().bind(e.getYProperty());
 
-        if (ImLent != null) {
-            ImLent.setId(e.getId());
-            panneau_de_jeu.getChildren().add(ImLent);
         }
         if (scavenger != null) {
             scavenger.setId(e.getId());
