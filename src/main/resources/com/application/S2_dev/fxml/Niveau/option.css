@@ -1,0 +1,71 @@
+.my-anchor-pane {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #000019, #400040);
+}
+
+.my-anchor-pane2 {
+    -fx-background-color: #761eba; /* Couleur de fond */
+    -fx-background-radius: 20px; /* Rayon de courbure des coins */
+    -fx-font-size: 14px; /* Taille de la police */
+    -fx-pref-width: 100px; /* Largeur préférée */
+    -fx-border-color:white;
+    -fx-border-width: 2px;
+    -fx-border-radius:13px;
+}
+.titre {
+  
+    -fx-font-size: 28pt;
+    -fx-background-color: #120312; /* Couleur de fond */
+    -fx-font-family: "UniversFont";
+    -fx-text-fill: rgb(156, 128, 177);
+    -fx-alignment: center;
+    -fx-content-display: center;
+    -fx-border-color: rgb(147, 139, 139);
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+       
+}
+
+.label-titre {
+  -fx-graphic: url('titre.png');
+  -fx-graphic-text-gap: 10px; /* Espacement entre l'image et le texte */
+  -fx-text-fill: white; /* Couleur du texte */
+  -fx-font-size: 24px; /* Taille de police */
+  -fx-alignment: center; /* Alignement horizontal et vertical */
+}
+
+
+.label2 {
+    -fx-font-size: 14pt;
+    -fx-font-family: "UniversFont";
+     -fx-font-style: italic;
+    -fx-text-fill: white;
+    -fx-background-color: #761eba; /* Couleur de fond */
+    -fx-alignment: center;
+    -fx-content-display: center;
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 16px; /* Rayon de courbure des coins */
+}
+/* Interstellar Havoc: Infinite Frontiers #6a516b; */
+
+.bouton{
+  -fx-background-color: #684869; /* Couleur de fond */
+  -fx-text-fill: white;
+  -fx-font-style: italic;
+  -fx-border-color: white;
+  -fx-border-width: 2px;
+  -fx-border-radius: 10px;
+  -fx-background-radius: 16px;
+}
+.label3{
+    -fx-font-size: 7pt;
+    -fx-font-family: "UniversFont";
+    -fx-text-fill: rgb(11, 1, 18);
+    -fx-background-color: #ac9aad; /* Couleur de fond */
+    -fx-alignment: center;
+}
+
+
+
+
