@@ -3,7 +3,7 @@ package com.application.S2_dev.modele.data;
 
 public enum TowerType {
     
-    Nikola(0), Edison(1), Oppenheimer(2);
+    Nikola(2), Edison(0), Oppenheimer(1);
     
     private int value;
     

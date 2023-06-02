@@ -54,7 +54,7 @@ public class ControlleurTerrainJeu implements Initializable {
     Terrain terrain;
     Environnement env;
 
-    private TowerType selectedTowerType = null;
+    private TowerType selectedTowerType;
 
     public void TestClickTourel(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -66,9 +66,11 @@ public class ControlleurTerrainJeu implements Initializable {
         });
         
         idBobineOppenheimer.setOnMouseClicked( h -> {
+            System.out.println("je clique");
             double x = h.getX();
             double y = h.getY();
             selectedTowerType = TowerType.Oppenheimer;
+            System.out.println(" selectedTowerType"+  selectedTowerType);
         });
         
         idBobineNikola.setOnMouseClicked( h -> {
@@ -166,13 +168,13 @@ public class ControlleurTerrainJeu implements Initializable {
         
         switch (t.getType()) {
             case Nikola:
-                urlTour = Main.class.getResource("image/tour/tourel1.png");
+                urlTour = Main.class.getResource("image/tour/bobineNicolas.png");
                 break;
             case Edison:
-                urlTour = Main.class.getResource("image/tour/tourel2.png");
+                urlTour = Main.class.getResource("image/tour/bobineEdison.png");
                 break;
             case Oppenheimer:
-                urlTour = Main.class.getResource("image/tour/tourel3.png");
+                urlTour = Main.class.getResource("image/tour/bobineOppenheimer.png");
                 break;
             default:
                 urlTour = null;
