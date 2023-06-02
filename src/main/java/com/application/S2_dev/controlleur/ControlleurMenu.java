@@ -18,10 +18,8 @@ public class ControlleurMenu implements Initializable {
 
     @FXML
     private Label lab;
-
     @FXML
-    void actionOption(ActionEvent event) {
-        // Action exécutée lors du clic sur le bouton "Option"
+    void ButtonConsigne(ActionEvent event) {
         Parent root;
         try {
             // Ferme la fenêtre actuelle
@@ -35,6 +33,40 @@ public class ControlleurMenu implements Initializable {
             stage.setScene(new Scene(root, 1200, 800));
             stage.show();
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    void ButtonCredit(ActionEvent event) {
+        Parent root;
+        try {
+            Stage stage1 = (Stage) lab.getScene().getWindow();
+            stage1.close();
+            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Option.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Tower Defence");
+            stage.setScene(new Scene(root, 1200, 800));
+            stage.show();
+            // ((Node)(event.getSource())).getScene().getWindow().hide();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    void ButtonNiveau(ActionEvent event) {
+        Parent root;
+        try {
+            Stage stage1 = (Stage) lab.getScene().getWindow();
+            stage1.close();
+            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Option.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Tower Defence");
+            stage.setScene(new Scene(root, 1200, 800));
+            stage.show();
+            // ((Node)(event.getSource())).getScene().getWindow().hide();
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
