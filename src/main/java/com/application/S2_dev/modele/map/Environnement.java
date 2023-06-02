@@ -61,11 +61,11 @@ public class Environnement {
         if (spawnPossible) {
             int ennemisAAjouter =  ennemisMax - ennemisActuels;
 
-            if (ennemisActuels == 0) {
+           /* if (ennemisActuels == 0) {
                 Ennemi en = new Balliste(5,21);
                 ennemis.add(en);
                 ennemisAAjouter--;
-            }
+            }*/
 
             for (int compteur = 0; compteur < ennemisAAjouter; compteur++) {
                 int spawnRate = random.nextInt(150) + 1;

@@ -153,20 +153,6 @@ public class ControlleurTerrainJeu implements Initializable {
         }
     }
 
-    void creerSprite(Ennemi e) {
-        URL urlEnnemiLent = Main.class.getResource("image/ennemis/Scavenger.png");
-        Image ennemiLent = new Image(String.valueOf(urlEnnemiLent));
-        ImageView ImLent = new ImageView(ennemiLent);
-
-        ImLent.translateXProperty().bind(e.getXProperty());
-        ImLent.translateYProperty().bind(e.getYProperty());
-
-        if (ImLent != null) {
-            ImLent.setId(e.getId());
-            pane.getChildren().add(ImLent);
-        }
-    }
-
     double[] creerSprite(Tour t) {
 
         URL urlTour;
@@ -203,17 +189,6 @@ public class ControlleurTerrainJeu implements Initializable {
         return new double[]{tourView.getImage().getHeight(), tourView.getImage().getWidth()};
     }
 
-    void rafraichirAffichage() {
-        for (Ennemi acteur : env.getEnnemis()) {
-            ImageView sprite = (ImageView) pane.lookup("#" + acteur.getId());
-            if (sprite != null) {
-                sprite.setTranslateX(acteur.getX());
-                sprite.setTranslateY(acteur.getY());
-            } else {
-                creerSprite(acteur);
-            }
-        }
-    }
             @FXML
             void ButtonInventaire (ActionEvent event){
                 Parent root;
