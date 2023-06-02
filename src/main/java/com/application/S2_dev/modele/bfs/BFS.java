@@ -4,34 +4,32 @@ import java.util.*;
 
 public class BFS {
     public BFS() {
-        //
+
     }
 
     public LinkedList<Cell> shortestPath(int[][] matrix, int[] start, int[] end) {
         int sx = start[0], sy = start[1];
         int dx = end[0], dy = end[1];
 
-        //System.out.println("m "+matrix[sx][sy]+" ,m2 "+matrix[dx][dy]);
-        // if start or end value is 0, return empty path
         if (matrix[sx][sy] != 1 || matrix[dx][dy] != 1) {
             System.out.println("There is no path.");
             return new LinkedList<>();
         }
 
-        // initialize the cells
+        // initialisation de le cellule
         int m = matrix.length;
         int n = matrix[0].length;
         Cell[][] cells = new Cell[m][n];
 
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if (matrix[i][j] == 1) {  // Change here
+                if (matrix[i][j] == 1) {  // Change
                     cells[i][j] = new Cell(i, j, Integer.MAX_VALUE, null);
                 }
             }
         }
 
-        // breadth-first search
+        // bfs
         LinkedList<Cell> queue = new LinkedList<>();
         Cell src = cells[sx][sy];
         src.dist = 0;
@@ -40,13 +38,13 @@ public class BFS {
         Cell p;
 
         while ((p = queue.poll()) != null) {
-            // find destination
+            // trouve la destination
             if (p.x == dx && p.y == dy) {
                 dest = p;
                 break;
             }
 
-            // moving up
+            // bouge en haut
             visit(cells, queue, p.x - 1, p.y, p);
             // moving down
             visit(cells, queue, p.x + 1, p.y, p);

@@ -60,16 +60,17 @@ public class ControlleurTerrainJeu implements Initializable {
     Environnement env;
 
     private TowerType selectedTowerType;
-
     public void TestClickTourel() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
+        // Gestionnaire de clics pour la bobine Edison
         idBobineEdison.setOnMouseClicked(h -> {
             double x = h.getX();
             double y = h.getY();
             selectedTowerType = TowerType.Edison;
         });
 
+        // Gestionnaire de clics pour la bobine Oppenheimer
         idBobineOppenheimer.setOnMouseClicked(h -> {
             System.out.println("je clique");
             double x = h.getX();
@@ -78,12 +79,14 @@ public class ControlleurTerrainJeu implements Initializable {
             System.out.println(" selectedTowerType" + selectedTowerType);
         });
 
+        // Gestionnaire de clics pour la bobine Nikola
         idBobineNikola.setOnMouseClicked(h -> {
             double x = h.getX();
             double y = h.getY();
             selectedTowerType = TowerType.Nikola;
         });
 
+        // Gestionnaire de clics pour le TilePane (terrain)
         tilePane.setOnMouseClicked(h -> {
             spawnTower(h.getX(), h.getY());
         });
@@ -91,7 +94,6 @@ public class ControlleurTerrainJeu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         terrain = new Terrain();
         terrainVue = new TerrainVue(tilePane, terrain);
         env = new Environnement(pane);
@@ -100,14 +102,12 @@ public class ControlleurTerrainJeu implements Initializable {
         env.getEnnemis().addListener(en);
         initAnimation();
         this.TestClickTourel();
-
     }
 
     /**
-     * game loop
+     * Boucle de jeu
      */
     public void initAnimation() {
-
         gameLoop = new Timeline();
         temps = 0;
 
@@ -122,12 +122,12 @@ public class ControlleurTerrainJeu implements Initializable {
     }
 
     public void spawnTower(double x, double y) {
-        // Check if the tower can be placed at the specified coordinates
+        // Vérifier si la tour peut être placée aux coordonnées spécifiées
         if (env.canPlaceTowerAt(x, y)) {
 
             Tour tower;
 
-            // Create the tower object based on the tower type
+            // Créer l'objet tour en fonction du type de tour sélectionné
             switch (selectedTowerType) {
                 case Nikola:
                     tower = new NikolaCoil((int) x, (int) y);
@@ -143,20 +143,20 @@ public class ControlleurTerrainJeu implements Initializable {
                     break;
             }
 
-            // Add the tower to the terrain and display it on the pane
+            // Ajouter la tour au terrain et l'afficher sur le pane
             env.addTower(tower);
             creerSprite(tower);
 
         } else {
-            // Tower placement is not allowed at the specified coordinates
-            System.out.println("Tower placement not allowed at coordinates (" + x + ", " + y + ")");
+            // Le placement de la tour n'est pas autorisé aux coordonnées spécifiées
+            System.out.println("Placement de la tour non autorisé aux coordonnées (" + x + ", " + y + ")");
         }
     }
 
     double[] creerSprite(Tour t) {
-
         URL urlTour;
 
+        // Sélectionner l'URL de l'image de la tour en fonction du type de tour
         switch (t.getType()) {
             case Nikola:
                 urlTour = Main.class.getResource("image/tour/bobineNicolas.png");
@@ -172,12 +172,15 @@ public class ControlleurTerrainJeu implements Initializable {
                 break;
         }
 
+        // Charger l'image de la tour à partir de l'URL
         Image tour = new Image(String.valueOf(urlTour));
         ImageView tourView = new ImageView(tour);
 
+        // Lier les propriétés de translation de la tour aux propriétés de position de la tour
         tourView.translateXProperty().bind(t.getXProperty());
         tourView.translateYProperty().bind(t.getYProperty());
 
+        // Vérifier si l'objet tourView n'est pas null
         if (tourView != null) {
             tourView.setId(t.getId());
             t.getXProperty().set(t.getX() - (tourView.getImage().getWidth() / 2));
@@ -186,56 +189,66 @@ public class ControlleurTerrainJeu implements Initializable {
             pane.getChildren().add(tourView);
         }
 
+        // Retourner les dimensions de l'image de la tour
         return new double[]{tourView.getImage().getHeight(), tourView.getImage().getWidth()};
+
     }
 
-            @FXML
-            void ButtonInventaire (ActionEvent event){
-                Parent root;
-                this.gameLoop.play();
-                try {
-                    this.gameLoop.pause();
-                    root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Inventaire/Inventaire.fxml"));
-                    Stage stage = new Stage();
-                    stage.setTitle("Inventaire");
-                    stage.setScene(new Scene(root, 1000, 600));
-                    stage.show();
-                    stage.setOnHidden(
-                            e ->
-                                    this.gameLoop.play()
+    @FXML
+    void ButtonInventaire(ActionEvent event) {
+        Parent root;
+        // Reprendre la boucle de jeu
+        this.gameLoop.play();
+        try {
+            // Mettre en pause la boucle de jeu
+            this.gameLoop.pause();
+            // Charger la vue de l'inventaire à partir du fichier FXML
+            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Inventaire/Inventaire.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Inventaire");
+            stage.setScene(new Scene(root, 1000, 600));
+            stage.show();
+            // Revenir à la boucle de jeu lorsque la fenêtre de l'inventaire est fermée
+            stage.setOnHidden(e -> this.gameLoop.play());
 
-                    );
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @FXML
-            void ButtonQuitter (ActionEvent event){
-                Parent root;
-                try {
-                    gameLoop.stop();
-                    Stage stage1 = (Stage) tilePane.getScene().getWindow();
-                    stage1.close();
-                    root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Menu/Menu.fxml"));
-                    Stage stage = new Stage();
-                    stage.setTitle("Menu de jeu");
-                    stage.setScene(new Scene(root, 1250, 800));
-                    stage.show();
-                    //((Node)(event.getSource())).getScene().getWindow().hide();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            @FXML
-            void ButtonPlay (ActionEvent event){
-                this.gameLoop.play();
-            }
-            @FXML
-            void ButtonPause (ActionEvent event){
-                this.gameLoop.pause();
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
+
+    @FXML
+    void ButtonQuitter(ActionEvent event) {
+        Parent root;
+        try {
+            // Arrêter la boucle de jeu
+            gameLoop.stop();
+            // Fermer la fenêtre actuelle
+            Stage stage1 = (Stage) tilePane.getScene().getWindow();
+            stage1.close();
+            // Charger la vue du menu à partir du fichier FXML
+            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Menu/Menu.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Menu de jeu");
+            stage.setScene(new Scene(root, 1250, 800));
+            stage.show();
+            //((Node)(event.getSource())).getScene().getWindow().hide();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void ButtonPlay(ActionEvent event) {
+        // Reprendre la boucle de jeu
+        this.gameLoop.play();
+    }
+
+    @FXML
+    void ButtonPause(ActionEvent event) {
+        // Mettre en pause la boucle de jeu
+        this.gameLoop.pause();
+    }
+
+}
 
 

@@ -25,11 +25,6 @@ public abstract class Ennemi {
     private int dgts;
     private int portee;
 
-   /* public Ennemi(double valX, double valY) {
-        x = new SimpleDoubleProperty(valX);
-        y = new SimpleDoubleProperty(valY);
-        terr = new Terrain();
-    }*/
     public Ennemi(double valX, double valY){
             this.dgts = dgts;
             this.portee = portee;
@@ -64,7 +59,6 @@ public abstract class Ennemi {
 
         public void move (Cell cell){
             if (cell != null) {
-                // System.out.println("(X: " + x.getValue() + ", Y: " + y.getValue() + ")");
             }
         }
 
@@ -87,7 +81,6 @@ public abstract class Ennemi {
 
         Cell currentCell = shortestPath.get(i);
         Cell previousCell = i > 0 ? shortestPath.get(i - 1) : null;
-        //  System.out.println("take  (X: " + currentCell.getX() + ", Y: " + currentCell.getY() + ")");
         if (previousCell != null) {
             if (currentCell.getX() != previousCell.getX()) {
 
@@ -110,16 +103,12 @@ public abstract class Ennemi {
             }
         }
 
-
-        // System.out.println("to traslate (X: " + this.getX() + ", Y: " + this.getY() + ")");
         this.move(currentCell);
         i++;
         this.toString();
 
-
-
     }
-        public void attaquerTour () {
+       public void attaquerTour () {
             System.out.println("Je vais attaquer");
         }
 
