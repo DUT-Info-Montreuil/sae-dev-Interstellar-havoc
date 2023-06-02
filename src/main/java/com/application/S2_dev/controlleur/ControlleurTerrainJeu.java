@@ -42,6 +42,14 @@ public class ControlleurTerrainJeu implements Initializable {
     private Label idBobineNikola;
     @FXML
     private Label idBobineOppenheimer;
+    @FXML
+    private Label labelBalliste;
+
+    @FXML
+    private Label labelBehemoth;
+
+    @FXML
+    private Label labelScavenger;
     private Timeline gameLoop;
     private int temps;
     private EnnemiVue ennemiVue;
@@ -49,6 +57,17 @@ public class ControlleurTerrainJeu implements Initializable {
     Terrain terrain;
     Environnement env;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        terrain = new Terrain();
+        terrainVue = new TerrainVue(tilePane, terrain);
+        env  = new Environnement();
+        terrainVue.afficherTerrain();
+        EnnemiVue en = new EnnemiVue(pane, labelScavenger, labelBalliste, labelBehemoth);
+        env.getEnnemis().addListener(en);
+        initAnimation();
+        this.TestClickTourel();
+    }
 
     public void TestClickTourel(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -58,7 +77,7 @@ public class ControlleurTerrainJeu implements Initializable {
                 h ->   {
                     alert.setTitle("Caracteristique de la Bobine Edison");
                     alert.setContentText("Prix : 3000\n" +
-                                    "Puissance : 50 \n" +
+                            "Puissance : 50 \n" +
                             "Pv : 40");
                     alert.setHeaderText("");
                     URL url = Main.class.getResource("fxml/TerrainJeu/tourel1.png");
@@ -70,6 +89,9 @@ public class ControlleurTerrainJeu implements Initializable {
                                     this.gameLoop.pause()
 
                     );
+                    alert.setOnHidden(e -> {
+                        this.gameLoop.play();
+                    });
                     alert.showAndWait();
                 }
 
@@ -87,9 +109,9 @@ public class ControlleurTerrainJeu implements Initializable {
                     alert.setGraphic(imageView);
                     alert.setOnShowing(
                             e ->
-                                this.gameLoop.pause()
+                                    this.gameLoop.pause()
 
-                            );
+                    );
                     alert.setOnHidden(e -> {
                         this.gameLoop.play();
                     });
@@ -115,28 +137,12 @@ public class ControlleurTerrainJeu implements Initializable {
                     alert.setOnHidden(e -> {
                         this.gameLoop.play();
                     });
-                    alert.setOnHidden(e -> {
-                        this.gameLoop.play();
-                    });
                     alert.showAndWait();
                 }
         );
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        terrain = new Terrain();
-        terrainVue = new TerrainVue(tilePane, terrain);
-        env  = new Environnement();
-        terrainVue.afficherTerrain();
-        env.init();
-        for (int i = 0; i < env.getEnnemis().size(); i++) {
-            creerSprite(env.getEnnemis().get(i));
 
-        }
-        initAnimation();
-        this.TestClickTourel();
-    }
     public void initAnimation() {
 
         gameLoop = new Timeline();
@@ -144,7 +150,7 @@ public class ControlleurTerrainJeu implements Initializable {
 
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(
-                Duration.seconds(0.3),
+                Duration.seconds(0.5),
                 ev -> {
                     env.unTour();
                 });
@@ -166,16 +172,26 @@ public class ControlleurTerrainJeu implements Initializable {
         }
     }
 
-    void rafraichirAffichage() {
-        for (Ennemi acteur : env.getEnnemis()) {
-            ImageView sprite = (ImageView) pane.lookup("#"+acteur.getId());
-            if (sprite!= null) {
-                sprite.setTranslateX(acteur.getX());
-                sprite.setTranslateY(acteur.getY());
-            }
-            else{
-                creerSprite(acteur);
-            }
+    @FXML
+    void ButtonInventaire(ActionEvent event) {
+        Parent root;
+        this.gameLoop.play();
+        try {
+            this.gameLoop.pause();
+            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Inventaire/Inventaire.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Inventaire");
+            stage.setScene(new Scene(root, 1000, 600));
+            stage.show();
+            stage.setOnHidden(
+                    e ->
+                            this.gameLoop.play()
+
+            );
+
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -188,7 +204,7 @@ public class ControlleurTerrainJeu implements Initializable {
             stage1.close();
             root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Menu/Menu.fxml"));
             Stage stage = new Stage();
-            stage.setTitle("Tower Defence");
+            stage.setTitle("Menu de jeu");
             stage.setScene(new Scene(root, 1250, 800));
             stage.show();
             //((Node)(event.getSource())).getScene().getWindow().hide();
@@ -196,7 +212,6 @@ public class ControlleurTerrainJeu implements Initializable {
         catch (IOException e) {
             e.printStackTrace();
         }
-
     }
     @FXML
     void ButtonPlay(ActionEvent event) {
@@ -204,6 +219,6 @@ public class ControlleurTerrainJeu implements Initializable {
     }
     @FXML
     void ButtonPause(ActionEvent event) {
-    this.gameLoop.pause();
+        this.gameLoop.pause();
     }
 }

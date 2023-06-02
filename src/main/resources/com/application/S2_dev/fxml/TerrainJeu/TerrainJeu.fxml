@@ -20,11 +20,11 @@
       <AnchorPane prefHeight="108.0" prefWidth="600.0" styleClass="my-anchor-pane" stylesheets="@terrainJeu.css" BorderPane.alignment="CENTER">
          <children>
             <Label layoutX="14.0" layoutY="13.0" prefHeight="72.0" prefWidth="127.0" styleClass="labelHautScavenger" stylesheets="@terrainJeu.css" text="Scavenger" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="1089.0" AnchorPane.topAnchor="13.0" />
-            <Label layoutX="73.0" layoutY="19.0" prefHeight="70.0" prefWidth="8.0" styleClass="labelNombre" stylesheets="@terrainJeu.css" text="0" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="73.0" AnchorPane.rightAnchor="1149.0" AnchorPane.topAnchor="19.0" />
+            <Label fx:id="labelScavenger" layoutX="73.0" layoutY="19.0" prefHeight="70.0" prefWidth="8.0" styleClass="labelNombre" stylesheets="@terrainJeu.css" text="0" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="73.0" AnchorPane.rightAnchor="1149.0" AnchorPane.topAnchor="19.0" />
             <Label layoutX="187.0" layoutY="12.0" prefHeight="73.0" prefWidth="127.0" styleClass="labelHautBehemoth" stylesheets="@terrainJeu.css" text="Behemoth" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="187.0" AnchorPane.rightAnchor="916.0" AnchorPane.topAnchor="12.0" />
-            <Label layoutX="246.0" layoutY="20.0" prefHeight="67.0" prefWidth="9.0" styleClass="labelNombre" stylesheets="@terrainJeu.css" text="0" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="975.0" AnchorPane.topAnchor="20.0" />
+            <Label fx:id="labelBehemoth" layoutX="246.0" layoutY="20.0" prefHeight="67.0" prefWidth="9.0" styleClass="labelNombre" stylesheets="@terrainJeu.css" text="0" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="975.0" AnchorPane.topAnchor="20.0" />
             <Label layoutX="353.0" layoutY="12.0" prefHeight="74.0" prefWidth="128.0" styleClass="labelHautBalliste" stylesheets="@terrainJeu.css" text="Balliste" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="353.0" AnchorPane.rightAnchor="749.0" AnchorPane.topAnchor="12.0" />
-            <Label layoutX="412.0" layoutY="20.0" prefHeight="67.0" prefWidth="10.0" styleClass="labelNombre" stylesheets="@terrainJeu.css" text="0" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="412.0" AnchorPane.rightAnchor="808.0" AnchorPane.topAnchor="20.0" />
+            <Label fx:id="labelBalliste" layoutX="412.0" layoutY="20.0" prefHeight="67.0" prefWidth="10.0" styleClass="labelNombre" stylesheets="@terrainJeu.css" text="0" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="412.0" AnchorPane.rightAnchor="808.0" AnchorPane.topAnchor="20.0" />
             <Label layoutX="523.0" layoutY="11.0" prefHeight="76.0" prefWidth="126.0" styleClass="labelHautCredit" stylesheets="@terrainJeu.css" text="Crédit" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="523.0" AnchorPane.rightAnchor="581.0" AnchorPane.topAnchor="11.0" />
             <Label layoutX="572.0" layoutY="22.0" prefHeight="64.0" prefWidth="8.0" styleClass="labelNombre" stylesheets="@terrainJeu.css" text="0" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="572.0" AnchorPane.rightAnchor="651.0" AnchorPane.topAnchor="22.0" />
             <Label layoutX="688.0" layoutY="12.0" prefHeight="74.0" prefWidth="121.0" styleClass="labelHautVie" stylesheets="@terrainJeu.css" text="Vie" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="688.0" AnchorPane.rightAnchor="421.0" AnchorPane.topAnchor="12.0" />
@@ -57,6 +57,7 @@
             <Label layoutX="22.0" layoutY="74.0" styleClass="labelNombre" text="Bobine Edison" />
             <Label layoutX="179.0" layoutY="74.0" styleClass="labelNombre" text="Bobine Oppenheimer" />
             <Label layoutX="360.0" layoutY="74.0" styleClass="labelNombre" text="Bobine Nikola" />
+            <Button layoutX="1067.0" layoutY="40.0" mnemonicParsing="false" onAction="#ButtonInventaire" prefHeight="31.0" prefWidth="98.0" styleClass="bouton" stylesheets="@terrainJeu.css" text="Inventaire" />
          </children>
       </AnchorPane>
    </bottom>
