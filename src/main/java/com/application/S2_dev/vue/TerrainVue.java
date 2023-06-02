@@ -17,34 +17,34 @@ public class TerrainVue {
     }
 
     public void afficherTerrain(){
-        URL urlImageHerbe = Main.class.getResource("image/map/terrain.png");
+        URL urlImageHerbe = Main.class.getResource("image/map/herbe.jpg");
         Image imageHerbe = new Image(String.valueOf(urlImageHerbe));
 
-        URL urlImageChemin = Main.class.getResource("image/map/chemin.png");
+        URL urlImageChemin = Main.class.getResource("image/map/chemin.jpg");
         Image imageChemin = new Image(String.valueOf(urlImageChemin));
 
-        URL urlImageCheminBloque = Main.class.getResource("image/map/cheminBloque.png");
+        URL urlImageCheminBloque = Main.class.getResource("image/map/troi.jpg");
         Image imageCheminBloque = new Image(String.valueOf(urlImageCheminBloque));
 
-        URL urlBat = Main.class.getResource("image/map/base.png");
+        URL urlBat = Main.class.getResource("image/map/bat.png");
         Image bat = new Image(String.valueOf(urlBat));
 
         for(int i = 0; i<terrain.getTerrain().length; i++) {
             for (int j = 0; j < terrain.getTerrain()[i].length; j++) {
                 switch (terrain.getCase(i,j)) {
-                    case 0:
+                    case GRASS:
                         ImageView im = new ImageView(imageHerbe);
                         tilePane.getChildren().add(im);
                         break;
-                    case 1:
+                    case PATH:
                         ImageView im1 = new ImageView(imageChemin);
                         tilePane.getChildren().add(im1);
                         break;
-                    case 2:
+                    case BLOCKED:
                         ImageView imm = new ImageView(imageCheminBloque);
                         tilePane.getChildren().add(imm);
                         break;
-                    case 3:
+                    case BATS:
                         ImageView im3 = new ImageView(bat);
                         tilePane.getChildren().add(im3);
                         break;

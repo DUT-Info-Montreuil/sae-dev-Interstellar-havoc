@@ -1,27 +1,26 @@
 package com.application.S2_dev.controlleur;
 
 import com.application.S2_dev.Main;
+import com.application.S2_dev.modele.data.TowerType;
 import com.application.S2_dev.modele.ennemis.Ennemi;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
+import com.application.S2_dev.modele.tours.*;
 import com.application.S2_dev.vue.EnnemiVue;
 import com.application.S2_dev.vue.TerrainVue;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
@@ -32,16 +31,22 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ControlleurTerrainJeu implements Initializable {
+    
     @FXML
     TilePane tilePane;
+    
     @FXML
     Pane pane;
+    
     @FXML
     private Label idBobineEdison;
+    
     @FXML
     private Label idBobineNikola;
+    
     @FXML
     private Label idBobineOppenheimer;
+    
     private Timeline gameLoop;
     private int temps;
     private EnnemiVue ennemiVue;
@@ -49,173 +54,161 @@ public class ControlleurTerrainJeu implements Initializable {
     Terrain terrain;
     Environnement env;
 
-    /**
-     * Méthode pour afficher les caractéristiques des bobines
-     * lorsqu'elles sont cliquées.
-     */
+    private TowerType selectedTowerType = null;
+
     public void TestClickTourel(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
-
-        idBobineEdison.setOnMouseClicked(
-                h ->   {
-                    alert.setTitle("Caracteristique de la Bobine Edison");
-                    alert.setContentText("Prix : 3000\n" +
-                                    "Puissance : 50 \n" +
-                            "Pv : 40");
-                    alert.setHeaderText("");
-                    URL url = Main.class.getResource("fxml/TerrainJeu/tourel1.png");
-                    Image image = new Image(String.valueOf(url));
-                    ImageView imageView = new ImageView(image);
-                    alert.setGraphic(imageView);
-                    alert.setOnShowing(
-                            e ->
-                                    this.gameLoop.pause()
-
-                    );
-                    alert.showAndWait();
-                }
-
-        );
-        idBobineOppenheimer.setOnMouseClicked(
-                h ->  {
-                    alert.setTitle("Caracteristique de la Bobine Oppenheimer");
-                    alert.setContentText("Prix : 3000\n" +
-                            "Puissance : 50 \n" +
-                            "Pv : 40");
-                    alert.setHeaderText("");
-                    URL url = Main.class.getResource("fxml/TerrainJeu/tourel2.png");
-                    Image image = new Image(String.valueOf(url));
-                    ImageView imageView = new ImageView(image);
-                    alert.setGraphic(imageView);
-                    alert.setOnShowing(
-                            e ->
-                                this.gameLoop.pause()
-
-                            );
-                    alert.setOnHidden(e -> {
-                        this.gameLoop.play();
-                    });
-                    alert.showAndWait();
-                }
-        );
-        idBobineNikola.setOnMouseClicked(
-                h ->  {
-                    alert.setTitle("Caracteristique de la Bobine Nikola");
-                    alert.setContentText("Prix : 3000\n" +
-                            "Puissance : 50 \n" +
-                            "Pv : 40");
-                    alert.setHeaderText("");
-                    URL url = Main.class.getResource("fxml/TerrainJeu/tourel3.png");
-                    Image image = new Image(String.valueOf(url));
-                    ImageView imageView = new ImageView(image);
-                    alert.setGraphic(imageView);
-                    alert.setOnShowing(
-                            e ->
-                                    this.gameLoop.pause()
-
-                    );
-                    alert.setOnHidden(e -> {
-                        this.gameLoop.play();
-                    });
-                    alert.setOnHidden(e -> {
-                        this.gameLoop.play();
-                    });
-                    alert.showAndWait();
-                }
-        );
+        idBobineEdison.setOnMouseClicked( h -> {
+            double x = h.getX();
+            double y = h.getY();
+            selectedTowerType = TowerType.Edison;
+        });
+        
+        idBobineOppenheimer.setOnMouseClicked( h -> {
+            double x = h.getX();
+            double y = h.getY();
+            selectedTowerType = TowerType.Oppenheimer;
+        });
+        
+        idBobineNikola.setOnMouseClicked( h -> {
+            double x = h.getX();
+            double y = h.getY();
+            selectedTowerType = TowerType.Nikola;
+        });
+        
+        tilePane.setOnMouseClicked(h->{
+            spawnTower(h.getX(), h.getY());
+        });
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Crée une nouvelle instance de terrain et de terrainVue
+        
         terrain = new Terrain();
         terrainVue = new TerrainVue(tilePane, terrain);
-        env = new Environnement();
-
-        // Affiche le terrain
+        env  = new Environnement(pane);
         terrainVue.afficherTerrain();
-
-        // Initialise l'environnement
         env.init();
-
-        // Crée et affiche les sprites des ennemis sur le terrain
+        
         for (int i = 0; i < env.getEnnemis().size(); i++) {
             creerSprite(env.getEnnemis().get(i));
         }
 
-        // Initialise l'animation du jeu
         initAnimation();
-
-        // Associe les actions de clic sur les labels des bobines aux fonctionnalités correspondantes
         this.TestClickTourel();
     }
-
+    
     /**
-     * Initialise l'animation du jeu en utilisant la classe Timeline de JavaFX.
-     * La méthode unTour() de l'environnement est appelée toutes les 0.3 secondes.
+     * game loop
      */
     public void initAnimation() {
         gameLoop = new Timeline();
         temps = 0;
-
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(
-                Duration.seconds(0.3),
-                ev -> {
-                    env.unTour();
-                });
+            Duration.seconds(0.3), ev -> { env.unTour();}
+        );
         gameLoop.getKeyFrames().add(kf);
         gameLoop.play();
     }
+    
+    public void spawnTower(double x, double y) {
+        // Check if the tower can be placed at the specified coordinates
+        if (env.canPlaceTowerAt(x, y)) {
+            
+            Tour tower;
+            
+            // Create the tower object based on the tower type
+            switch (selectedTowerType) {
+                case Nikola:
+                    tower = new NikolaCoil((int)x, (int)y);
+                    break;
+                case Edison:
+                    tower = new EdisonCoil((int)x, (int)y);
+                    break;
+                case Oppenheimer:
+                    tower = new OppenheimerCoil((int)x, (int)y);
+                    break;
+                default:
+                    tower = null;
+                    break;
+            }
 
-    /**
-     * Crée un sprite pour un ennemi donné en utilisant une image spécifique.
-     * Le sprite est ajouté au pane du terrain.
-     * @param e Ennemi à afficher
-     */
-    void creerSprite(Ennemi e) {
-        URL urlEnnemiLent = Main.class.getResource("image/ennemis/Scavenger.png");
-        Image ennemiLent = new Image(String.valueOf(urlEnnemiLent));
-        ImageView ImLent = new ImageView(ennemiLent);
-
-        // Lie les propriétés de translation du sprite aux propriétés de position de l'ennemi
-        ImLent.translateXProperty().bind(e.getXProperty());
-        ImLent.translateYProperty().bind(e.getYProperty());
-
-        // Vérifie si le sprite est valide avant de l'ajouter au pane
-        if (ImLent != null) {
-            ImLent.setId(e.getId());
-            pane.getChildren().add(ImLent);
+            // Add the tower to the terrain and display it on the pane
+            env.addTower(tower);
+            creerSprite(tower);
+            
+        } else {
+            // Tower placement is not allowed at the specified coordinates
+            System.out.println("Tower placement not allowed at coordinates (" + x + ", " + y + ")");
         }
     }
 
-    /**
-     * Met à jour l'affichage des sprites des ennemis sur le terrain.
-     * Cette méthode est appelée à chaque rafraîchissement de l'écran.
-     */
+    void creerSprite(Ennemi e) {
+        URL urlEnnemiLent = Main.class.getResource("image/ennemis/pika.png");
+        Image ennemiLent = new Image(String.valueOf(urlEnnemiLent));
+        ImageView ImLent = new ImageView(ennemiLent);
+
+        ImLent.translateXProperty().bind(e.getXProperty());
+        ImLent.translateYProperty().bind(e.getYProperty());
+
+        if (ImLent != null) {
+            ImLent.setId(e.getId());
+            e.setView(ImLent);
+            pane.getChildren().add(ImLent);
+        }
+    }
+    
+    double[] creerSprite(Tour t) {
+        
+        URL urlTour;
+        
+        switch (t.getType()) {
+            case Nikola:
+                urlTour = Main.class.getResource("image/tour/tourel1.png");
+                break;
+            case Edison:
+                urlTour = Main.class.getResource("image/tour/tourel2.png");
+                break;
+            case Oppenheimer:
+                urlTour = Main.class.getResource("image/tour/tourel3.png");
+                break;
+            default:
+                urlTour = null;
+                break;
+        }
+        
+        Image tour = new Image(String.valueOf(urlTour));
+        ImageView tourView = new ImageView(tour);
+
+        tourView.translateXProperty().bind(t.getXProperty());
+        tourView.translateYProperty().bind(t.getYProperty());
+
+        if (tourView != null) {
+            tourView.setId(t.getId());
+            t.getXProperty().set(t.getX()-(tourView.getImage().getWidth()/2));
+            t.getYProperty().set(t.getY()-(tourView.getImage().getHeight()/2));
+            t.setView(tourView);
+            pane.getChildren().add(tourView);
+        }
+        
+        return new double[]{tourView.getImage().getHeight(), tourView.getImage().getWidth()};
+    }
+
     void rafraichirAffichage() {
         for (Ennemi acteur : env.getEnnemis()) {
-            // Recherche le sprite de l'ennemi dans le pane
-            ImageView sprite = (ImageView) pane.lookup("#" + acteur.getId());
-
-            // Si le sprite existe, met à jour sa position en fonction de l'ennemi
-            if (sprite != null) {
+            ImageView sprite = (ImageView) pane.lookup("#"+acteur.getId());
+            if (sprite!= null) {
                 sprite.setTranslateX(acteur.getX());
                 sprite.setTranslateY(acteur.getY());
             }
-            // Sinon, crée un nouveau sprite pour l'ennemi et l'ajoute au pane
-            else {
+            else{
                 creerSprite(acteur);
             }
         }
     }
 
-    /**
-     * Gère l'événement de clic sur le bouton "Quitter".
-     * Arrête l'animation du jeu, ferme la fenêtre actuelle et ouvre le menu principal.
-     * @param event Événement de clic sur le bouton
-     */
     @FXML
     void ButtonQuitter(ActionEvent event) {
         Parent root;
@@ -223,7 +216,7 @@ public class ControlleurTerrainJeu implements Initializable {
             gameLoop.stop();
             Stage stage1 = (Stage) tilePane.getScene().getWindow();
             stage1.close();
-            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Menu/Menu.fxml"));
+            root = FXMLLoader.load(Main.class.getResource("fxml/Menu/Menu.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Tower Defence");
             stage.setScene(new Scene(root, 1250, 800));
@@ -234,13 +227,5 @@ public class ControlleurTerrainJeu implements Initializable {
             e.printStackTrace();
         }
 
-    }
-    @FXML
-    void ButtonPlay(ActionEvent event) {
-        this.gameLoop.play();
-    }
-    @FXML
-    void ButtonPause(ActionEvent event) {
-    this.gameLoop.pause();
     }
 }

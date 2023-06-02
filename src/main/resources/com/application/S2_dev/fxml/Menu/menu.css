@@ -32,9 +32,6 @@
   -fx-font-size: 24px; /* Taille de police */
   -fx-alignment: center; /* Alignement horizontal et vertical */
 }
-.labelLogo{
-    -fx-graphic: url('logo.png');
-}
 
 
 .label2 {

@@ -1,13 +1,14 @@
+
 package com.application.S2_dev.modele.ennemis;
 
 import com.application.S2_dev.modele.tours.Tour;
 
-public class Balliste extends Ennemi {
+public class Behemoth extends Ennemi {
     
-    private static final int RANGE = 150; // Range of the tower
-    private static final int DAMAGE = 5; // Damage inflicted on towers
+    private static final int RANGE = 100; // Range of the tower
+    private static final int DAMAGE = 25; // Damage inflicted on towers
     
-    public Balliste(int x, int y){
+    public Behemoth(int x, int y){
         super(x, y);
     }
     

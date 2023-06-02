@@ -3,28 +3,30 @@ package com.application.S2_dev.modele.ennemis;
 import com.application.S2_dev.modele.bfs.BFS;
 import com.application.S2_dev.modele.bfs.Cell;
 import com.application.S2_dev.modele.map.Terrain;
+import com.application.S2_dev.modele.tours.Tour;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 import java.util.LinkedList;
+import javafx.scene.image.ImageView;
 
 public abstract class Ennemi {
-
-
     private DoubleProperty x;
     private DoubleProperty y;
     private Terrain terr;
     int i = 0;
-    int pv;
     private String id;
     public static int compteur = 0;
-    public Ennemi() {
-        x = new SimpleDoubleProperty(5);
-        y = new SimpleDoubleProperty(21);
+    private int health;
+    private ImageView view = null;
+    
+    public Ennemi(double valX, double valY) {
+        x = new SimpleDoubleProperty(valX);
+        y = new SimpleDoubleProperty(valY);
         terr = new Terrain();
-        this.pv = 5;
         this.id="E"+compteur;
         compteur++;
+        this.health = 100;
     }
 
     public String getId() {
@@ -52,10 +54,16 @@ public abstract class Ennemi {
            // System.out.println("(X: " + x.getValue() + ", Y: " + y.getValue() + ")");
         }
     }
-    public boolean estVivant() {
-
-        return this.pv>0;
+    
+    public void takeDamage(int damage) {
+        health -= damage;
     }
+    
+    public boolean estVivant() {
+        return health > 0;
+    }
+    
+    public abstract void attack(Tour tour);
 
     public void agit(double tileWidth, double tileHeight){
         int[] start = {1, 0};
@@ -109,6 +117,14 @@ public abstract class Ennemi {
     @Override
     public String toString() {
         return "id "+id;
+    }
+    
+    public void setView(ImageView view) {
+        this.view = view;
+    }
+    
+    public ImageView getView() {
+        return view;
     }
 }
 
