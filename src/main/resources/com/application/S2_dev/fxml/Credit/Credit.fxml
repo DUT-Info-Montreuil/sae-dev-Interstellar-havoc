@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="800.0" prefWidth="1250.0" styleClass="my-anchor-pane" stylesheets="@Credit.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.S2_dev.controlleur.ControlleurCredit">
+   <children>
+      <Label layoutX="8.0" layoutY="7.0" prefHeight="80.0" prefWidth="1232.0" styleClass="titre" text="CREDIT" AnchorPane.bottomAnchor="713.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="7.0" />
+      <Label fx:id="labelCredit" layoutX="8.0" layoutY="93.0" prefHeight="630.0" prefWidth="1232.0" styleClass="labelCosigne" AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="93.0" />
+      <Button layoutX="1117.0" layoutY="751.0" mnemonicParsing="false" onAction="#buttonRetour" prefHeight="35.0" prefWidth="119.0" styleClass="bouton" text="RETOUR" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="1117.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="751.0" />
+   </children>
+</AnchorPane>

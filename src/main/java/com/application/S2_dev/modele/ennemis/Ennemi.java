@@ -3,27 +3,37 @@ package com.application.S2_dev.modele.ennemis;
 import com.application.S2_dev.modele.bfs.BFS;
 import com.application.S2_dev.modele.bfs.Cell;
 import com.application.S2_dev.modele.map.Terrain;
-import com.application.S2_dev.modele.tours.Tour;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 import java.util.LinkedList;
-import javafx.scene.image.ImageView;
 
 public abstract class Ennemi {
+
+
     private DoubleProperty x;
     private DoubleProperty y;
     private Terrain terr;
     int i = 0;
+    private int pv;
     private String id;
     public static int compteur = 0;
     private int health;
     private ImageView view = null;
-    
+
     public Ennemi(double valX, double valY) {
         x = new SimpleDoubleProperty(valX);
         y = new SimpleDoubleProperty(valY);
         terr = new Terrain();
+    private int dgts;
+    private int portee;
+    public Ennemi(int dgts,int portee,int pv) {
+        this.dgts=dgts;
+        this.portee=portee;
+        x = new SimpleDoubleProperty(5);
+        y = new SimpleDoubleProperty(21);
+        terr = new Terrain();//a voir
+        this.pv = pv;
         this.id="E"+compteur;
         compteur++;
         this.health = 100;
@@ -51,18 +61,18 @@ public abstract class Ennemi {
 
     public void move(Cell cell) {
         if (cell != null) {
-           // System.out.println("(X: " + x.getValue() + ", Y: " + y.getValue() + ")");
+            // System.out.println("(X: " + x.getValue() + ", Y: " + y.getValue() + ")");
         }
     }
-    
+
     public void takeDamage(int damage) {
         health -= damage;
     }
-    
+
     public boolean estVivant() {
         return health > 0;
     }
-    
+
     public abstract void attack(Tour tour);
 
     public void agit(double tileWidth, double tileHeight){
@@ -81,7 +91,7 @@ public abstract class Ennemi {
                 if (currentCell.getX() > previousCell.getX()) {
                     this.setY( this.getY() + tileWidth);
                 }else if (currentCell.getX() < previousCell.getX()) {
-                   this.setY(this.getY() - tileWidth);
+                    this.setY(this.getY() - tileWidth);
                 }
             }
             if (currentCell.getY() != previousCell.getY()) {
@@ -92,7 +102,8 @@ public abstract class Ennemi {
                 }
             }
             if (currentCell.getY()==60&&currentCell.getX()==12){
-                System.out.println("JE vais attaquer");
+                attaquerTour();
+
             }
         }
 
@@ -104,6 +115,9 @@ public abstract class Ennemi {
 
 
 
+    }
+    public void attaquerTour(){
+        System.out.println("Je vais attaquer");
     }
 
     public void setX(double x1) {
@@ -118,11 +132,11 @@ public abstract class Ennemi {
     public String toString() {
         return "id "+id;
     }
-    
+
     public void setView(ImageView view) {
         this.view = view;
     }
-    
+
     public ImageView getView() {
         return view;
     }

@@ -11,16 +11,30 @@ import javafx.scene.layout.Pane;
 import java.net.URL;
 
 public class EnnemiVue implements ListChangeListener<Ennemi> {
-    
     private Pane panneau_de_jeu;
     private Label LabelnbVivantScavenger, LabelnbVivantBalliste,  LabelnbVivantBehemoth;
     int nbVivantScavenger = 0, nbVivantBalliste=0, nbVivantBehemoth=0;
+    URL urlScavenger, urlBalliste, urlBehemoth;
+    Image ImageScavenger,ImageBalliste, ImageBehemoth;
 
 
-    public EnnemiVue(Pane pane) {
+    public EnnemiVue(Pane pane, Label labelScavenger, Label labelBalliste, Label labelBehemoth) {
         this.panneau_de_jeu = pane;
+        this.LabelnbVivantScavenger =  labelScavenger;
+        this.LabelnbVivantBalliste = labelBalliste;
+        this.LabelnbVivantBehemoth =  labelBehemoth;
+
+        urlScavenger = Main.class.getResource("image/ennemis/Scavenger.png");
+        ImageScavenger = new javafx.scene.image.Image(String.valueOf(urlScavenger));
+
+        urlBalliste = Main.class.getResource("image/ennemis/Balliste.png");
+        ImageBalliste = new Image(String.valueOf(urlBalliste));
+
+        urlBehemoth = Main.class.getResource("image/ennemis/Behemoth.png");
+        ImageBehemoth = new Image(String.valueOf(urlBehemoth));
+
+
     }
-    
     @Override
     public void onChanged(Change<? extends Ennemi> c) {
         System.out.println("Changement");
@@ -35,7 +49,14 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
 
         for (int i = 0; i < c.getAddedSubList().size(); i++) {
             creerSprite(c.getAddedSubList().get(i));
-            System.out.println("sprite cree");
+            if (c.getAddedSubList().get(i) instanceof Scavenger) {
+                nbVivantScavenger++;
+            } else if (c.getAddedSubList().get(i) instanceof Balliste) {
+                nbVivantBalliste++;
+            }
+            else if(c.getAddedSubList().get(i) instanceof Behemoth){
+                nbVivantBehemoth++;
+            }
 
         }
         LabelnbVivantScavenger.setText(String.valueOf(nbVivantScavenger));
@@ -44,19 +65,45 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
     }
 
     void creerSprite(Ennemi e) {
-        // ImageView scavenger = null;
-        URL urlEnnemiLent = Main.class.getResource("image/pika.png");
-        Image ennemiLent = new Image(String.valueOf(urlEnnemiLent));
-        ImageView ImLent = new ImageView(ennemiLent);
+        ImageView scavenger = null;
+        ImageView balliste = null;
+        ImageView behemoth = null;
+
+
+        if (e instanceof Scavenger) {
+            scavenger = new ImageView(ImageScavenger);
+            scavenger.translateXProperty().bind(e.getXProperty());
+            scavenger.translateYProperty().bind(e.getYProperty());
+
+        } else if (e instanceof Balliste) {
+            balliste = new ImageView(ImageBalliste);
+            balliste.translateXProperty().bind(e.getXProperty());
+            balliste.translateYProperty().bind(e.getYProperty());
+            // System.out.println(balliste.getTranslateX()+" et y "+ balliste.getTranslateY());
 
         ImLent.translateXProperty().bind(e.getXProperty());
         ImLent.translateYProperty().bind(e.getYProperty());
 
+        } else if (e instanceof Behemoth) {
+            behemoth = new ImageView(ImageBehemoth);
+            behemoth.translateXProperty().bind(e.getXProperty());
+            behemoth.translateYProperty().bind(e.getYProperty());
 
         if (ImLent != null) {
             ImLent.setId(e.getId());
             panneau_de_jeu.getChildren().add(ImLent);
         }
-
+        if (scavenger != null) {
+            scavenger.setId(e.getId());
+            panneau_de_jeu.getChildren().add(scavenger);
+        }
+        if (balliste != null) {
+            balliste.setId(e.getId());
+            panneau_de_jeu.getChildren().add(balliste);
+        }
+        if (behemoth != null) {
+            behemoth.setId(e.getId());
+            panneau_de_jeu.getChildren().add(behemoth);
+        }
     }
 }
