@@ -5,8 +5,8 @@ import com.application.S2_dev.modele.tours.Tour;
 // La classe Balliste hérite de la classe Ennemi.
 public class Balliste extends Ennemi {
 
-    private static final int RANGE = 150; // Portée de la tour
-    private static final int DAMAGE = 5; // Dommages infligés aux tours
+    private static final int portee = 150; // Portée de la tour
+    private static final int degats = 5; // Dommages infligés aux tours
 
     // Constructeur de la classe Balliste.
     public Balliste(int x, int y){
@@ -18,7 +18,7 @@ public class Balliste extends Ennemi {
     public void attack(Tour tour) {
         if (isInRange(tour)) {
             // Inflige des dommages à la tour
-            tour.damage(DAMAGE);
+            tour.subirDegats(degats);
         }
     }
 
@@ -26,7 +26,7 @@ public class Balliste extends Ennemi {
     private boolean isInRange(Tour tower) {
         // Vérifie si l'ennemi est dans la portée de tir
         double distance = calculateDistance(tower.getX(), tower.getY());
-        return distance <= RANGE;
+        return distance <= portee;
     }
 
     // Méthode permettant de calculer la distance entre la Balliste et les coordonnées spécifiées.

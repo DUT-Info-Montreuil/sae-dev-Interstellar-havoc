@@ -1,5 +1,7 @@
 package com.application.S2_dev.controlleur;
 
+
+
 import com.application.S2_dev.Main;
 import com.application.S2_dev.modele.data.TowerType;
 import com.application.S2_dev.modele.ennemis.Ennemi;
@@ -94,13 +96,28 @@ public class ControlleurTerrainJeu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Crée une instance de la classe Terrain
         terrain = new Terrain();
+
+        // Crée une instance de la classe TerrainVue en passant le TilePane et le terrain en paramètres
         terrainVue = new TerrainVue(tilePane, terrain);
+
+        // Crée une instance de la classe Environnement en passant le pane en paramètre
         env = new Environnement(pane);
+
+        // Affiche le terrain en utilisant la classe TerrainVue
         terrainVue.afficherTerrain();
+
+        // Crée une instance de la classe EnnemiVue en passant le pane et les labels en paramètres
         EnnemiVue en = new EnnemiVue(pane, labelScavenger, labelBalliste, labelBehemoth);
+
+        // Ajoute un écouteur sur la liste des ennemis dans l'environnement
         env.getEnnemis().addListener(en);
+
+        // Initialise l'animation du jeu
         initAnimation();
+
+        // Appelle la méthode TestClickTourel
         this.TestClickTourel();
     }
 
@@ -108,16 +125,25 @@ public class ControlleurTerrainJeu implements Initializable {
      * Boucle de jeu
      */
     public void initAnimation() {
+        // Crée une nouvelle Timeline pour l'animation
         gameLoop = new Timeline();
         temps = 0;
 
+        // Définit le nombre de répétitions de l'animation (infini dans ce cas)
         gameLoop.setCycleCount(Timeline.INDEFINITE);
+
+        // Crée un KeyFrame avec une durée de 0.5 seconde
         KeyFrame kf = new KeyFrame(
                 Duration.seconds(0.5),
                 ev -> {
+                    // À chaque frame de l'animation, appelle la méthode unTour de l'environnement
                     env.unTour();
                 });
+
+        // Ajoute le KeyFrame à la Timeline
         gameLoop.getKeyFrames().add(kf);
+
+        // Lance l'animation
         gameLoop.play();
     }
 
@@ -177,15 +203,15 @@ public class ControlleurTerrainJeu implements Initializable {
         ImageView tourView = new ImageView(tour);
 
         // Lier les propriétés de translation de la tour aux propriétés de position de la tour
-        tourView.translateXProperty().bind(t.getXProperty());
-        tourView.translateYProperty().bind(t.getYProperty());
+        tourView.translateXProperty().bind(t.getXProprieteX());
+        tourView.translateYProperty().bind(t.getXProprieteY());
 
         // Vérifier si l'objet tourView n'est pas null
         if (tourView != null) {
-            tourView.setId(t.getId());
-            t.getXProperty().set(t.getX() - (tourView.getImage().getWidth() / 2));
-            t.getYProperty().set(t.getY() - (tourView.getImage().getHeight() / 2));
-            t.setView(tourView);
+            tourView.setId(t.getIdentifiant());
+            t.getXProprieteX().set(t.getX() - (tourView.getImage().getWidth() / 2));
+            t.getXProprieteY().set(t.getY() - (tourView.getImage().getHeight() / 2));
+            t.setVue(tourView);
             pane.getChildren().add(tourView);
         }
 
@@ -231,7 +257,6 @@ public class ControlleurTerrainJeu implements Initializable {
             stage.setTitle("Menu de jeu");
             stage.setScene(new Scene(root, 1250, 800));
             stage.show();
-            //((Node)(event.getSource())).getScene().getWindow().hide();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -250,5 +275,4 @@ public class ControlleurTerrainJeu implements Initializable {
     }
 
 }
-
 

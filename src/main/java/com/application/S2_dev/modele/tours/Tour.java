@@ -9,30 +9,30 @@ import javafx.scene.image.ImageView;
 
 public abstract class Tour {
     
-    private String id;
+    private String identifiant;
     private DoubleProperty x;
     private DoubleProperty y;
     private TowerType type;
-    private int health;
-    public ImageView view = null;
+    private int pointDeVie;
+    public ImageView vue = null;
 
     public Tour(double x, double y, TowerType type) {
-        this.id = UUID.randomUUID().toString();
+        this.identifiant = UUID.randomUUID().toString();
         this.x = new SimpleDoubleProperty(x);
         this.y = new SimpleDoubleProperty(y);
         this.type = type;
-        this.health = 100;
+        this.pointDeVie = 100;
     }
 
-    public String getId() {
-        return id;
+    public String getIdentifiant() {
+        return identifiant;
     }
 
-    public DoubleProperty getXProperty() {
+    public DoubleProperty getXProprieteX() {
         return x;
     }
 
-    public DoubleProperty getYProperty() {
+    public DoubleProperty getXProprieteY() {
         return y;
     }
     
@@ -48,21 +48,21 @@ public abstract class Tour {
         return type;
     }
     
-    public abstract void attack(Ennemi e);
+    public abstract void attaquer(Ennemi e);
     
-    public void damage(int value) {
-        health -= value;
+    public void subirDegats(int valeur) {
+        pointDeVie -= valeur;
     }
     
-    public boolean isDestroyed() {
-        return health <= 0;
+    public boolean  estDetruite() {
+        return pointDeVie <= 0;
     }
     
-    public void setView(ImageView view) {
-        this.view = view;
+    public void setVue(ImageView vue) {
+        this.vue = vue;
     }
     
-    public ImageView getView() {
-        return view;
+    public ImageView getVue() {
+        return vue;
     }
 }

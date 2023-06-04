@@ -7,82 +7,85 @@ public class BFS {
 
     }
 
-    public LinkedList<Cell> shortestPath(int[][] matrix, int[] start, int[] end) {
-        int sx = start[0], sy = start[1];
-        int dx = end[0], dy = end[1];
+    public LinkedList<Cellule> plusCourtChemin(int[][] matrice, int[] depart, int[] arrivee) {
+        // Coordonnées de départ et d'arrivée
+        int xDepart = depart[0], yDepart = depart[1];
+        int xArrivee = arrivee[0], yArrivee = arrivee[1];
 
-        if (matrix[sx][sy] != 1 || matrix[dx][dy] != 1) {
-            System.out.println("There is no path.");
+        if (matrice[xDepart][yDepart] != 1 || matrice[xArrivee][yArrivee] != 1) {
+            // S'il n'y a pas de chemin possible, affiche un message et retourne une LinkedList vide
+            System.out.println("Il n'y a pas de chemin possible.");
             return new LinkedList<>();
         }
 
-        // initialisation de le cellule
-        int m = matrix.length;
-        int n = matrix[0].length;
-        Cell[][] cells = new Cell[m][n];
+        // Initialisation des cellules
+        int m = matrice.length;
+        int n = matrice[0].length;
+        Cellule[][] cellules = new Cellule[m][n];
 
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if (matrix[i][j] == 1) {  // Change
-                    cells[i][j] = new Cell(i, j, Integer.MAX_VALUE, null);
+                if (matrice[i][j] == 1) {
+                    cellules[i][j] = new Cellule(i, j, Integer.MAX_VALUE, null);
                 }
             }
         }
 
-        // bfs
-        LinkedList<Cell> queue = new LinkedList<>();
-        Cell src = cells[sx][sy];
-        src.dist = 0;
-        queue.add(src);
-        Cell dest = null;
-        Cell p;
+        // BFS
+        LinkedList<Cellule> file = new LinkedList<>();
+        Cellule departCellule = cellules[xDepart][yDepart];
+        departCellule.distance = 0;
+        file.add(departCellule);
+        Cellule arriveeCellule = null;
+        Cellule celluleCourante;
 
-        while ((p = queue.poll()) != null) {
-            // trouve la destination
-            if (p.x == dx && p.y == dy) {
-                dest = p;
+        while ((celluleCourante = file.poll()) != null) {
+            // Trouve la destination
+            if (celluleCourante.x == xArrivee && celluleCourante.y == yArrivee) {
+                arriveeCellule = celluleCourante;
                 break;
             }
 
-            // bouge en haut
-            visit(cells, queue, p.x - 1, p.y, p);
-            // moving down
-            visit(cells, queue, p.x + 1, p.y, p);
-            // moving left
-            visit(cells, queue, p.x, p.y - 1, p);
-            // moving right
-            visit(cells, queue, p.x, p.y + 1, p);
+            // Déplacement vers le haut
+            visiter(cellules, file, celluleCourante.x - 1, celluleCourante.y, celluleCourante);
+            // Déplacement vers le bas
+            visiter(cellules, file, celluleCourante.x + 1, celluleCourante.y, celluleCourante);
+            // Déplacement vers la gauche
+            visiter(cellules, file, celluleCourante.x, celluleCourante.y - 1, celluleCourante);
+            // Déplacement vers la droite
+            visiter(cellules, file, celluleCourante.x, celluleCourante.y + 1, celluleCourante);
+
         }
 
-        // compose the path if path exists
-        if (dest == null) {
-            System.out.println("There is no path.");
+        // Construit le chemin s'il existe
+        if (arriveeCellule == null) {
+            System.out.println("Il n'y a pas de chemin possible.");
             return new LinkedList<>();
         } else {
-            LinkedList<Cell> path = new LinkedList<>();
-            p = dest;
+            LinkedList<Cellule> chemin = new LinkedList<>();
+            celluleCourante = arriveeCellule;
             do {
-                path.addFirst(p);
-            } while ((p = p.prev) != null);
+                chemin.addFirst(celluleCourante);
+            } while ((celluleCourante = celluleCourante.precedente) != null);
 
-            return path;
+            return chemin;
         }
     }
 
-    private void visit(Cell[][] cells, LinkedList<Cell> queue, int x, int y, Cell parent) {
-        // out of boundary or cell not equals 1
-        if (x < 0 || x >= cells.length || y < 0 || y >= cells[0].length || cells[x][y] == null || (cells[x][y].dist == 2 || cells[x][y].dist == 3) ) {
+    private void visiter(Cellule[][] cellules, LinkedList<Cellule> file, int x, int y, Cellule parent) {
+        // Hors des limites ou cellule différente de 1
+        if (x < 0 || x >= cellules.length || y < 0 || y >= cellules[0].length || cellules[x][y] == null || (cellules[x][y].distance == 2 || cellules[x][y].distance == 3) ) {
             return;
         }
 
-        // update distance and previous node
-        int dist = parent.dist + 1;
-        Cell p = cells[x][y];
+        // Met à jour la distance et le nœud précédent
+        int distance = parent.distance + 1;
+        Cellule p = cellules[x][y];
 
-        if (dist < p.dist) {
-            p.dist = dist;
-            p.prev = parent;
-            queue.add(p);
+        if (distance < p.distance) {
+            p.distance = distance;
+            p.precedente = parent;
+            file.add(p);
         }
     }
 }

@@ -39,14 +39,17 @@ public class ControlleurInventaire implements Initializable {
     private Label labelTour3;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        // Gestion des événements de clic sur les étiquettes
         labelMaintenace.setOnMouseClicked(
                 e -> {
+                    // Chargement de l'image et ajustement de sa taille
                     URL urlImageMaintenance = Main.class.getResource("image/Inventaire/maintenance.png");
                     Image imageMaintenance = new Image(String.valueOf(urlImageMaintenance));
                     ImageView imageViewMaintenance = new ImageView(imageMaintenance);
                     imageViewMaintenance.setFitWidth(200);
                     imageViewMaintenance.setFitHeight(200);
+
+                    // Affichage de l'image et mise à jour de la description
                     labelGrandeImage.setGraphic(imageViewMaintenance);
                     labelDescription.setText("Les bombes sont des dispositifs spéciaux que les joueurs peuvent " +
                             "placer sur le terrain de jeu.\nElles sont généralement équipées de minuteries précises et " +
@@ -57,18 +60,29 @@ public class ControlleurInventaire implements Initializable {
 
         labelMur.setOnMouseClicked(
                 e -> {
+                    // Chargement de l'image "mur.png" depuis les ressources de l'application
                     URL urlImageMur = Main.class.getResource("image/Inventaire/mur.png");
                     Image imageMur = new Image(String.valueOf(urlImageMur));
+
+                    // Création d'un ImageView pour afficher l'image chargée
                     ImageView imageViewMur = new ImageView(imageMur);
                     imageViewMur.setFitWidth(200);
                     imageViewMur.setFitHeight(200);
-                    labelGrandeImage.setGraphic(imageViewMur);labelDescription.setText("Les bombes sont des dispositifs spéciaux que les joueurs peuvent " +
+
+                    // Affichage de l'image dans l'étiquette labelGrandeImage
+                    labelGrandeImage.setGraphic(imageViewMur);
+
+                    // Définition du texte de description de l'image
+                    labelDescription.setText("Les bombes sont des dispositifs spéciaux que les joueurs peuvent " +
                             "placer sur le terrain de jeu.\nElles sont généralement équipées de minuteries précises et " +
                             "d'un pouvoir dévastateur.\nLorsque les ennemis s'approchent de la bombe, elle explose violemment," +
                             " infligeant des dégâts considérables à tout ce qui se trouve à proximité.\n");
                 }
         );
 
+        // Les gestionnaires d'événements pour les autres étiquettes (labelBombe, labelTour1, labelTour2, labelTour3) sont similaires
+        // Ils chargent l'image correspondante, créent un ImageView, affichent l'image dans labelGrandeImage,
+        // et définissent le texte de description de l'image en conséquence.
         labelBombe.setOnMouseClicked(
                 e -> {
                     URL urlImageBombe = Main.class.getResource("image/Inventaire/bombe.png");

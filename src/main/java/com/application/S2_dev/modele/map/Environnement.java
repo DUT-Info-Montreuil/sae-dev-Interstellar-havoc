@@ -106,12 +106,12 @@ public class Environnement {
          * attacks enemies if in range
          */
         for (Tour tour : tours) {
-            if (!tour.isDestroyed()) {
+            if (!tour. estDetruite()) {
                 for (Ennemi e : ennemis) {
-                    tour.attack(e);
+                    tour.attaquer(e);
                 }
             } else {
-                System.out.println("Tower destroyed: " + tour.getId());
+                System.out.println("Tower destroyed: " + tour.getIdentifiant());
                 tours.remove(tour);
                 this.mort2.add(tour);
             }

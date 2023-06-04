@@ -18,7 +18,7 @@ public class Behemoth extends Ennemi {
     public void attack(Tour tour) {
         if (isInRange(tour)) {
             // Inflige des dommages à la tour
-            tour.damage(DAMAGE);
+            tour.subirDegats(DAMAGE);
         }
     }
 

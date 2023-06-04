@@ -69,13 +69,13 @@ public class Terrain {
     public TerrainType getCase1(int i, int j) {
         switch (grid[i][j]) {
             case 0:
-                return TerrainType.GRASS;
+                return TerrainType.herbe;
             case 1:
-                return TerrainType.PATH;
+                return TerrainType.chemin;
             case 2:
-                return TerrainType.BLOCKED;
+                return TerrainType.bloque;
             case 3:
-                return TerrainType.BATS;
+                return TerrainType.Chauve_souris;
             default:
                 return null;
         }

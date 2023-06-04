@@ -20,18 +20,24 @@ public class ControlleurOption implements Initializable {
     @FXML
     private Label label;
 
+    // Méthode appelée lorsqu'on clique sur le bouton de retour
     @FXML
     void actionRetour(ActionEvent event) {
         Parent root;
         try {
+            // Ferme la fenêtre actuelle
             Stage stage1 = (Stage) label.getScene().getWindow();
             stage1.close();
+
+            // Charge le fichier FXML du menu principal
             root = FXMLLoader.load(Main.class.getResource("fxml/Menu/Menu.fxml"));
+
+            // Crée une nouvelle fenêtre pour le menu principal
             Stage stage = new Stage();
             stage.setTitle("Tower Defence");
             stage.setScene(new Scene(root, 1250, 800));
             stage.show();
-            //((Node)(event.getSource())).getScene().getWindow().hide();
+
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -41,6 +47,7 @@ public class ControlleurOption implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Cette méthode est appelée lors de l'initialisation du contrôleur
 
     }
 }

@@ -32,19 +32,19 @@ public class TerrainVue {
         for(int i = 0; i<terrain.getTerrain().length; i++) {
             for (int j = 0; j < terrain.getTerrain()[i].length; j++) {
                 switch (terrain.getCase1(i,j)) {
-                    case GRASS:
+                    case herbe:
                         ImageView im = new ImageView(imageHerbe);
                         tilePane.getChildren().add(im);
                         break;
-                    case PATH:
+                    case chemin:
                         ImageView im1 = new ImageView(imageChemin);
                         tilePane.getChildren().add(im1);
                         break;
-                    case BLOCKED:
+                    case bloque:
                         ImageView imm = new ImageView(imageCheminBloque);
                         tilePane.getChildren().add(imm);
                         break;
-                    case BATS:
+                    case Chauve_souris:
                         ImageView im3 = new ImageView(bat);
                         tilePane.getChildren().add(im3);
                         break;
