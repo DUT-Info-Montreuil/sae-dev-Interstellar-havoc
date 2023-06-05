@@ -28,7 +28,7 @@ public class ControlleurMenu implements Initializable  {
         try {
             Stage stage1 = (Stage) lab.getScene().getWindow();
             stage1.close();
-            root = FXMLLoader.load(Main.class.getResource("/fxml/Option.fxml"));
+            root = FXMLLoader.load(Main.class.getResource("fxml/Option.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Tower Defence");
             stage.setScene(new Scene(root, 1200, 800));

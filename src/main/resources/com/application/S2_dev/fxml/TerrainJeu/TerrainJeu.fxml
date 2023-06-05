@@ -15,43 +15,30 @@
              <TilePane fx:id="tilePane" prefColumns="32" prefRows="32"/>
          </children>
          <children>
-            <Label fx:id="idBobineEdison1" layoutX="580.0" layoutY="0" prefHeight="80.0" prefWidth="151.0" styleClass="labelTour1" stylesheets="@terrainJeu.css" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="1057.0" AnchorPane.topAnchor="0.0" />
-            <Label fx:id="idBobineOppenheimer1" layoutX="750.0" layoutY="-3.0" prefHeight="86.0" prefWidth="189.0" styleClass="labelTour2" stylesheets="@terrainJeu.css" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="199.0" AnchorPane.rightAnchor="842.0" AnchorPane.topAnchor="-3.0" />
-            <Label fx:id="idBobineNikola1" layoutX="925.0" layoutY="3.0" prefHeight="75.0" prefWidth="77.0" stylesheets="@terrainJeu.css" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="368.0" AnchorPane.rightAnchor="785.0" AnchorPane.topAnchor="3.0">
+            <Label layoutX="550.0" layoutY="20.0" styleClass="labelNombre" text="Choose any one of the tower"/>
+            <Label fx:id="idBobineEdison1" layoutX="560.0" layoutY="50" prefHeight="80.0" prefWidth="151.0" styleClass="labelTour1" stylesheets="@terrainJeu.css" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="1057.0" AnchorPane.topAnchor="0.0" />
+            <Label fx:id="idBobineOppenheimer1" layoutX="730.0" layoutY="45.0" prefHeight="86.0" prefWidth="189.0" styleClass="labelTour2" stylesheets="@terrainJeu.css" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="199.0" AnchorPane.rightAnchor="842.0" AnchorPane.topAnchor="-3.0" />
+            <Label fx:id="idBobineNikola1" layoutX="910.0" layoutY="53.0" prefHeight="75.0" prefWidth="77.0" stylesheets="@terrainJeu.css" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="368.0" AnchorPane.rightAnchor="785.0" AnchorPane.topAnchor="3.0">
                <styleClass>
                   <String fx:value="labelTour3" />
                   <String fx:value="labelNombre" />
                </styleClass>
             </Label>
-            <Label layoutX="550.0" layoutY="74.0" styleClass="labelNombre" text="Bobine Edison ($100)"/>
-            <Label layoutX="700.0" layoutY="74.0" styleClass="labelNombre" text="Bobine Oppenheimer ($200)"/>
-            <Label layoutX="900.0" layoutY="74.0" styleClass="labelNombre" text="Bobine Nikola ($150)"/>
-         </children>
-         <children>
-            <Label fx:id="idBobineEdison2" layoutX="580.0" layoutY="103.0" prefHeight="80.0" prefWidth="151.0" styleClass="labelTour1" stylesheets="@terrainJeu.css" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="1057.0" AnchorPane.topAnchor="0.0" />
-            <Label fx:id="idBobineOppenheimer2" layoutX="750.0" layoutY="100.0" prefHeight="86.0" prefWidth="189.0" styleClass="labelTour2" stylesheets="@terrainJeu.css" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="199.0" AnchorPane.rightAnchor="842.0" AnchorPane.topAnchor="-3.0" />
-            <Label fx:id="idBobineNikola2" layoutX="925.0" layoutY="103.0" prefHeight="75.0" prefWidth="77.0" stylesheets="@terrainJeu.css" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="368.0" AnchorPane.rightAnchor="785.0" AnchorPane.topAnchor="3.0">
-               <styleClass>
-                  <String fx:value="labelTour3"/>
-                  <String fx:value="labelNombre"/>
-               </styleClass>
-            </Label>
-            <Label layoutX="550.0" layoutY="174.0" styleClass="labelNombre" text="Bobine Edison ($200)" />
-            <Label layoutX="700.0" layoutY="174.0" styleClass="labelNombre" text="Bobine Oppenheimer ($400)" />
-            <Label layoutX="900.0" layoutY="174.0" styleClass="labelNombre" text="Bobine Nikola ($300)" />
-         </children>
-         <children>
-            <Label fx:id="idBobineEdison3" layoutX="580.0" layoutY="203.0" prefHeight="80.0" prefWidth="151.0" styleClass="labelTour1" stylesheets="@terrainJeu.css" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="1057.0" AnchorPane.topAnchor="0.0" />
-            <Label fx:id="idBobineOppenheimer3" layoutX="750.0" layoutY="200.0" prefHeight="86.0" prefWidth="189.0" styleClass="labelTour2" stylesheets="@terrainJeu.css" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="199.0" AnchorPane.rightAnchor="842.0" AnchorPane.topAnchor="-3.0" />
-            <Label fx:id="idBobineNikola3" layoutX="925.0" layoutY="203.0" prefHeight="75.0" prefWidth="77.0" stylesheets="@terrainJeu.css" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="368.0" AnchorPane.rightAnchor="785.0" AnchorPane.topAnchor="3.0">
-               <styleClass>
-                  <String fx:value="labelTour3" />
-                  <String fx:value="labelNombre" />
-               </styleClass>
-            </Label>
-            <Label layoutX="550.0" layoutY="274.0" styleClass="labelNombre" text="Bobine Edison ($300)" />
-            <Label layoutX="700.0" layoutY="274.0" styleClass="labelNombre" text="Bobine Oppenheimer ($600)" />
-            <Label layoutX="900.0" layoutY="274.0" styleClass="labelNombre" text="Bobine Nikola ($450)" />
+            <Label layoutX="550.0" layoutY="124.0" styleClass="labelNombre" text="Bobine Edison"/>
+            <Label layoutX="700.0" layoutY="124.0" styleClass="labelNombre" text="Bobine Oppenheimer"/>
+            <Label layoutX="900.0" layoutY="124.0" styleClass="labelNombre" text="Bobine Nikola"/>
+            <Label layoutX="550.0" layoutY="144.0" styleClass="labelNombre" text="Level 1 : ($100)"/>
+            <Label layoutX="700.0" layoutY="144.0" styleClass="labelNombre" text="Level 1 : ($100)"/>
+            <Label layoutX="900.0" layoutY="144.0" styleClass="labelNombre" text="Level 1 : ($100)"/>
+            <Label layoutX="550.0" layoutY="164.0" styleClass="labelNombre" text="Level 2 : ($200)"/>
+            <Label layoutX="700.0" layoutY="164.0" styleClass="labelNombre" text="Level 2 : ($200)"/>
+            <Label layoutX="900.0" layoutY="164.0" styleClass="labelNombre" text="Level 2 : ($200)"/>
+            <Label layoutX="550.0" layoutY="184.0" styleClass="labelNombre" text="Level 3 : ($300)"/>
+            <Label layoutX="700.0" layoutY="184.0" styleClass="labelNombre" text="Level 3 : ($300)"/>
+            <Label layoutX="900.0" layoutY="184.0" styleClass="labelNombre" text="Level 3 : ($300)"/>
+            
+            <Label layoutX="550.0" layoutY="224.0" styleClass="labelNombre" text="Selected Tower : "/>
+            <Label fx:id="idSelectedTower" layoutX="660.0" layoutY="224.0" styleClass="labelNombre" text="No Tower Selected"/>
          </children>
       </Pane>
    </center>

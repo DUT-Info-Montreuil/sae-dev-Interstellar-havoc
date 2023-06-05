@@ -43,13 +43,16 @@ public class ControlleurTerrainJeu implements Initializable {
     Pane pane;
     
     @FXML
-    private Label idBobineEdison1, idBobineEdison2, idBobineEdison3;
+    private Label idBobineEdison1;
     
     @FXML
-    private Label idBobineNikola1, idBobineNikola2, idBobineNikola3;
+    private Label idBobineNikola1;
     
     @FXML
-    private Label idBobineOppenheimer1, idBobineOppenheimer2, idBobineOppenheimer3;
+    private Label idBobineOppenheimer1;
+    
+    @FXML
+    private Label idSelectedTower;
     
     @FXML
     private Label scavenger, behemoth, balliste, credit, life;
@@ -62,76 +65,48 @@ public class ControlleurTerrainJeu implements Initializable {
     Environnement env;
 
     private TowerType selectedTowerType = null;
-    private int currentLevel = 1;
     private int money = 500;
     private int timeBeforeNewSpawn = 15;
     private boolean gamePaused = false;
     private int lifeCount = 5;
+    
+    private ImageView levelChooser = null;
+    private Tour clickedTower = null;
 
     public void TestClickTourel(){
         
         idBobineEdison1.setOnMouseClicked( h -> {
-            selectedTowerType = TowerType.Edison;
-            currentLevel = 1;
-        });
-        idBobineEdison2.setOnMouseClicked( h -> {
-            selectedTowerType = TowerType.Edison;
-            currentLevel = 2;
-        });
-        idBobineEdison3.setOnMouseClicked( h -> {
-            selectedTowerType = TowerType.Edison;
-            currentLevel = 3;
+            if (levelChooser == null) {
+                selectedTowerType = TowerType.Edison;
+                idSelectedTower.setText("Edison Coil");
+            }
         });
         
         idBobineOppenheimer1.setOnMouseClicked( h -> {
-            selectedTowerType = TowerType.Oppenheimer;
-            currentLevel = 1;
-        });
-        idBobineOppenheimer2.setOnMouseClicked( h -> {
-            selectedTowerType = TowerType.Oppenheimer;
-            currentLevel = 2;
-        });
-        idBobineOppenheimer3.setOnMouseClicked( h -> {
-            selectedTowerType = TowerType.Oppenheimer;
-            currentLevel = 3;
+            if (levelChooser == null) {
+                selectedTowerType = TowerType.Oppenheimer;
+                idSelectedTower.setText("Oppenheimer Coil");
+            }
         });
         
         idBobineNikola1.setOnMouseClicked( h -> {
-            selectedTowerType = TowerType.Nikola;
-            currentLevel = 1;
-        });
-        idBobineNikola2.setOnMouseClicked( h -> {
-            selectedTowerType = TowerType.Nikola;
-            currentLevel = 2;
-        });
-        idBobineNikola3.setOnMouseClicked( h -> {
-            selectedTowerType = TowerType.Nikola;
-            currentLevel = 3;
+            if (levelChooser == null) {
+                selectedTowerType = TowerType.Nikola;
+                idSelectedTower.setText("Nikola Coil");
+            }
         });
         
         tilePane.setOnMouseClicked(h->{
-            
-            gamePaused = true;
-            
             int[] pos = terrain.getPosInMap((int)h.getX(), (int)h.getY());
             
             for (int i = 0; i < env.getTour().size(); i++) {
                 Tour tour = env.getTour().get(i);
                 if (tour.isInBounds((int) h.getX(), (int) h.getY())) {
-                    int res = JOptionPane.showConfirmDialog(null, "Do you want to remove the tower?");
-                    if (res == 0) {
-                        // remove the tower and get the money back
-                        refundMoney(tour.getPrice());
-                        pane.getChildren().remove(tour.getView());
-                        env.getTour().remove(i);
-                    }
                     return;
                 }
             }
             
-            spawnTower(pos[0], pos[1], currentLevel);
-            
-            gamePaused = false;
+            spawnTower(pos[0], pos[1], 1);
         });
         
         credit.setText(money + "");
@@ -184,6 +159,11 @@ public class ControlleurTerrainJeu implements Initializable {
                         ba++;
                 }
                 
+                if (!env.getTour().contains(clickedTower)) {
+                    pane.getChildren().remove(this.levelChooser);
+                    levelChooser = null;
+                }
+                
                 scavenger.setText(s + "");
                 behemoth.setText(be + "");
                 balliste.setText(ba + "");
@@ -198,6 +178,11 @@ public class ControlleurTerrainJeu implements Initializable {
                 }
                 
                 timeBeforeNewSpawn--;
+                
+                if (lifeVal < 0) {
+                    JOptionPane.showMessageDialog(null, "You lost!");
+                    exit();
+                }
             }
         );
         gameLoop.getKeyFrames().add(kf);
@@ -346,9 +331,94 @@ public class ControlleurTerrainJeu implements Initializable {
             t.setBounds(x, y, width, height);
             t.setView(tourView);
             pane.getChildren().add(tourView);
+            
+            tourView.setOnMouseClicked(h->{
+                clickedTower = t;
+                showLevelChooser();
+                System.out.println("Level chooser shown");
+            });
         }
         
         return new double[]{tourView.getImage().getHeight(), tourView.getImage().getWidth()};
+    }
+    
+    void showLevelChooser() {
+        
+        URL urlChooser = Main.class.getResource("image/tour/level_choose.png");
+        
+        Image levelLent = new Image(String.valueOf(urlChooser));
+        ImageView LCLent = new ImageView(levelLent);
+        
+        LCLent.setX(clickedTower.getX());
+        LCLent.setY(clickedTower.getY());
+
+        if (LCLent != null) {
+            pane.getChildren().add(LCLent);
+            levelChooser = LCLent;
+            
+            levelChooser.setOnMouseClicked(h->{
+                int newX = (int) (h.getX() - levelChooser.getX());
+                int newY = (int) (h.getY() - levelChooser.getY());
+                
+                if (newX > 0 && newX < 16 && newY > 16 && newY < 32) {
+                    // level 1 required
+                    if (env.getTour().contains(clickedTower)) {
+                        
+                        int col = clickedTower.getMapX();
+                        int row = clickedTower.getMapY();
+                        
+                        if (((money + clickedTower.getPrice()) - 100) < 0) {
+                            JOptionPane.showMessageDialog(null, "Not enough money");
+                        } else {
+                            // remove the tower and get the money back
+                            refundMoney(clickedTower.getPrice());
+                            pane.getChildren().remove(clickedTower.getView());
+                            env.getTour().remove(clickedTower);
+                            spawnTower(row, col, 1);
+                        }
+                    }
+                } else if (newX > 64 && newX < 80 && newY > 16 && newY < 32) {
+                    // level 2 required
+                    if (env.getTour().contains(clickedTower)) {
+                        
+                        int col = clickedTower.getMapX();
+                        int row = clickedTower.getMapY();
+                        
+                        if (((money + clickedTower.getPrice()) - 200) < 0) {
+                            JOptionPane.showMessageDialog(null, "Not enough money");
+                        } else {
+                            // remove the tower and get the money back
+                            refundMoney(clickedTower.getPrice());
+                            pane.getChildren().remove(clickedTower.getView());
+                            env.getTour().remove(clickedTower);
+                            spawnTower(row, col, 2);
+                        }
+                    }
+                } else if (newX > 32 && newX < 48 && newY > 64 && newY < 80) {
+                    // level 3 required
+                    if (env.getTour().contains(clickedTower)) {
+                        
+                        int col = clickedTower.getMapX();
+                        int row = clickedTower.getMapY();
+                        
+                        if (((money + clickedTower.getPrice()) - 300) < 0) {
+                            JOptionPane.showMessageDialog(null, "Not enough money");
+                        } else {
+                            // remove the tower and get the money back
+                            refundMoney(clickedTower.getPrice());
+                            pane.getChildren().remove(clickedTower.getView());
+                            env.getTour().remove(clickedTower);
+                            spawnTower(row, col, 3);
+                        }
+                    }
+                }
+                
+                // remove level chooser
+                pane.getChildren().remove(levelChooser);
+                levelChooser = null;
+                return;
+            });
+        }
     }
 
     void rafraichirAffichage() {

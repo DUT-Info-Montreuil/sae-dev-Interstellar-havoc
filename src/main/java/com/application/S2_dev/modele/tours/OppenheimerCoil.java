@@ -12,7 +12,7 @@ public class OppenheimerCoil extends Tour {
     private int cooldownTime = 0;
 
     public OppenheimerCoil(int x, int y, int level) {
-        super(x, y, TowerType.Oppenheimer, level, 200*level);
+        super(x, y, TowerType.Oppenheimer, level, 100*level);
         this.FIRE_RATE = 10 - level;
         this.DAMAGE = 25 + (level*3);
         this.RANGE = 150 + (level*5);

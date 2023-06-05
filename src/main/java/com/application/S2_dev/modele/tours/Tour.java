@@ -18,6 +18,7 @@ public abstract class Tour {
     private int level;
     private int price;
     private int[] bounds;
+    private int mapX, mapY;
 
     public Tour(double x, double y, TowerType type, int level, int price) {
         this.id = UUID.randomUUID().toString();
@@ -28,6 +29,8 @@ public abstract class Tour {
         this.level = level;
         this.price = price;
         this.bounds = new int[4];
+        this.mapX = (int)(x/16);
+        this.mapY = (int)(y/16);
     }
 
     public String getId() {
@@ -102,4 +105,22 @@ public abstract class Tour {
     public boolean matchIndex(int row, int col) {
         return (col*16) == getX() && (row*16) == getY();
     }
+
+    public int getMapX() {
+        return mapX;
+    }
+
+    public void setMapX(int mapX) {
+        this.mapX = mapX;
+    }
+
+    public int getMapY() {
+        return mapY;
+    }
+
+    public void setMapY(int mapY) {
+        this.mapY = mapY;
+    }
+    
+    
 }
