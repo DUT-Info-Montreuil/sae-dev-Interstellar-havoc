@@ -1,28 +1,17 @@
 package com.application.S2_dev.modele.map;
 
-import com.application.S2_dev.Main;
-import com.application.S2_dev.controlleur.ControlleurTerrainJeu;
 import com.application.S2_dev.modele.ennemis.Balliste;
-import com.application.S2_dev.modele.ennemis.Behemoth;
 import com.application.S2_dev.modele.ennemis.Ennemi;
 import com.application.S2_dev.modele.tours.Tour;
-import com.application.S2_dev.modele.ennemis.Scavenger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
-import java.net.URL;
 import java.util.ArrayList;
 import javafx.application.Platform;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
-import java.util.Random;
-//import java.util.random.*;
-
 public class Environnement {
-    Random random = new Random();
+
     Pane pane;
     private int spawnRate;
     private Terrain terr;
@@ -30,10 +19,11 @@ public class Environnement {
     private ArrayList<Tour> mort2;
     private  ObservableList<Ennemi> ennemis;
     private ArrayList<Tour> tours;
-
+    private int reached = 0;
 
     public Environnement(Pane gameLayout) {
         this.mort = new ArrayList<>();
+        this.mort2 = new ArrayList<>();
         this.ennemis = FXCollections.observableArrayList();
         this.tours = new ArrayList<>();
         terr = new Terrain();
@@ -47,105 +37,80 @@ public class Environnement {
     public ArrayList<Ennemi> getMort() {
         return mort;
     }
-
-    public void ajouterVague() {
-        boolean spawnPossible = true;
-        // int compteurSpawnEnnemi = 5;
-        int ennemisMax = 5;
-        int ennemisActuels = ennemis.size();
-
-        if (ennemisActuels >= ennemisMax) {
-            spawnPossible = false;
-        }
-
-        if (spawnPossible) {
-            int ennemisAAjouter =  ennemisMax - ennemisActuels;
-
-           if (ennemisActuels == 0) {
-                Ennemi en = new Balliste(5,21);
-                ennemis.add(en);
-                ennemisAAjouter--;
-            }
-
-            for (int compteur = 0; compteur < ennemisAAjouter; compteur++) {
-                int spawnRate = random.nextInt(150) + 1;
-                switch (spawnRate) {
-                    case 1:
-                        Ennemi en = new Behemoth(5,21);
-                        ennemis.add(en);
-                        break;
-                    case 2:
-                        Ennemi en1 = new Scavenger(5,21);
-                        ennemis.add(en1);
-                        break;
-                    case 3:
-                        Ennemi en2 = new Balliste(5,21);
-                        ennemis.add(en2);
-                        break;
-                }
-            }
-        }
+    
+    public ArrayList<Tour> getTour() {
+        return tours;
     }
+
+    public void ajouter(Ennemi a) {
+        this.ennemis.add(a);
+    }
+
+    public void init() {
+        Ennemi e1 = new Balliste(5, 21);
+        ennemis.add(e1);
+    }
+
     public void unTour() {
-        for(int i = 0; i< ennemis.size(); i++) {
+        
+        for(int i = 0; i < ennemis.size(); i++) {
             Ennemi e = ennemis.get(i);
             e.agit(16, 16);
         }
 
-        for (Ennemi e : ennemis) {
+        for (int i = 0; i < ennemis.size(); i++) {
+            Ennemi e = ennemis.get(i);
             if (!e.estVivant()) {
                 System.out.println("mort de : " + e.getId());
+                ennemis.remove(e);
                 this.mort.add(e);
+            } else if (e.finalDestReached()) {
+                ennemis.remove(e);
+                this.mort.add(e);
+                reached++;
+                System.out.println("Players reached: " + reached);
+            } else {
+                for (Tour t : tours) {
+                    e.attack(t);
+                }
             }
         }
-        for(Ennemi e : mort){
-            ennemis.remove(e);
-        }
-
+        
         /**
          * attacks enemies if in range
          */
-        for (Tour tour : tours) {
-            if (!tour. estDetruite()) {
+        for (int i = 0; i < tours.size(); i++) {
+            Tour tour = tours.get(i);
+            if (!tour.isDestroyed()) {
                 for (Ennemi e : ennemis) {
-                    tour.attaquer(e);
+                    tour.attack(e);
                 }
             } else {
-                System.out.println("Tower destroyed: " + tour.getIdentifiant());
+                System.out.println("Tower destroyed: " + tour.getId());
                 tours.remove(tour);
                 this.mort2.add(tour);
             }
         }
-        ajouterVague();
-
-    }
-    public void unTour1() {
-
-
-        for(int i = 0; i< ennemis.size(); i++) {
-            Ennemi e = ennemis.get(i);
-            e.agit(16, 16);
+        
+        // remove unwanted objects
+        for (Ennemi e : mort) {
+            pane.getChildren().remove(e.getView());
         }
-
-        for (int i = ennemis.size() - 1; i >= 0; i--) {
-            Ennemi en = ennemis.get(i);
-            if (!en.estVivant()) {
-                System.out.println("mort de : " + en);
-                ennemis.remove(i);
-                this.mort.add(en);
-            }
+        
+        for (Tour t : mort2) {
+            pane.getChildren().remove(t.getView());
         }
-        System.out.println("Taille " + ennemis.size());
-        ajouterVague();
-
+        
+        mort.clear();
+        mort2.clear();
     }
-
+    
     public void addTower(Tour tour) {
         tours.add(tour);
     }
-
-    public boolean canPlaceTowerAt(double x, double y) {
-        return true;
+    
+    public int getReachedPlayers() {
+        return reached;
     }
 
 }

@@ -9,30 +9,36 @@ import javafx.scene.image.ImageView;
 
 public abstract class Tour {
     
-    private String identifiant;
+    private String id;
     private DoubleProperty x;
     private DoubleProperty y;
     private TowerType type;
-    private int pointDeVie;
-    public ImageView vue = null;
+    private int health;
+    public ImageView view = null;
+    private int level;
+    private int price;
+    private int[] bounds;
 
-    public Tour(double x, double y, TowerType type) {
-        this.identifiant = UUID.randomUUID().toString();
+    public Tour(double x, double y, TowerType type, int level, int price) {
+        this.id = UUID.randomUUID().toString();
         this.x = new SimpleDoubleProperty(x);
         this.y = new SimpleDoubleProperty(y);
         this.type = type;
-        this.pointDeVie = 100;
+        this.health = 100;
+        this.level = level;
+        this.price = price;
+        this.bounds = new int[4];
     }
 
-    public String getIdentifiant() {
-        return identifiant;
+    public String getId() {
+        return id;
     }
 
-    public DoubleProperty getXProprieteX() {
+    public DoubleProperty getXProperty() {
         return x;
     }
 
-    public DoubleProperty getXProprieteY() {
+    public DoubleProperty getYProperty() {
         return y;
     }
     
@@ -48,21 +54,52 @@ public abstract class Tour {
         return type;
     }
     
-    public abstract void attaquer(Ennemi e);
+    public abstract void attack(Ennemi e);
     
-    public void subirDegats(int valeur) {
-        pointDeVie -= valeur;
+    public void damage(int value) {
+        health -= value;
     }
     
-    public boolean  estDetruite() {
-        return pointDeVie <= 0;
+    public boolean isDestroyed() {
+        return health <= 0;
     }
     
-    public void setVue(ImageView vue) {
-        this.vue = vue;
+    public void setView(ImageView view) {
+        this.view = view;
     }
     
-    public ImageView getVue() {
-        return vue;
+    public ImageView getView() {
+        return view;
+    }
+    
+    public void setLevel(int level) {
+        this.level = level;
+    }
+    
+    public int getLevel () {
+        return level;
+    }
+    
+    public int getPrice() {
+        return price;
+    }
+    
+    public void setPrice(int price) {
+        this.price = price;
+    }
+    
+    public void setBounds(int x, int y, int width, int height) {
+        bounds[0] = x;
+        bounds[1] = y;
+        bounds[2] = width;
+        bounds[3] = height;
+    }
+    
+    public boolean isInBounds(int x, int y) {
+        return x > bounds[0] && x < (bounds[0] + bounds[2]) && y > bounds[1] && y < (bounds[1]+bounds[3]);
+    }
+    
+    public boolean matchIndex(int row, int col) {
+        return (col*16) == getX() && (row*16) == getY();
     }
 }

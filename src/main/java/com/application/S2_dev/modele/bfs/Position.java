@@ -19,19 +19,11 @@ public class Position {
         return y;
     }
 
+    @Override
     public boolean equals(Object o) {
-        // Vérifie si les deux objets sont la même instance dans la mémoire
-        if (this == o)
-            return true;
-
-        // Vérifie si l'objet 'o' est une instance de la classe Position
-        if (!(o instanceof Position))
-            return false;
-
-        // Convertit 'o' en une variable de type Position pour accéder à ses attributs
+        if (this == o) return true;
+        if (!(o instanceof Position)) return false;
         Position position = (Position) o;
-
-        // Compare les attributs 'x' et 'y' de l'objet courant avec ceux de 'position'
         return x == position.x && y == position.y;
     }
 

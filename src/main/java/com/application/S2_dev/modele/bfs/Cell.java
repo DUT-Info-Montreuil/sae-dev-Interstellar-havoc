@@ -1,17 +1,17 @@
 package com.application.S2_dev.modele.bfs;
 
-public class Cellule {
+public class Cell {
 
     int x;
     int y;
-    int distance;  	// Distance
-    Cellule precedente;  // Cellule parente dans le chemin
+    int dist;  	//distance
+    Cell prev;  //parent cell in the path
 
-    Cellule(int x, int y, int distance, Cellule precedente) {
+    Cell(int x, int y, int dist, Cell prev) {
         this.x = x;
         this.y = y;
-        this.distance = distance;
-        this.precedente = precedente;
+        this.dist = dist;
+        this.prev = prev;
     }
 
     @Override

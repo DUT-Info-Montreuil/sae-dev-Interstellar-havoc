@@ -6,30 +6,39 @@ import com.application.S2_dev.modele.ennemis.Ennemi;
 
 public class OppenheimerCoil extends Tour {
     
-    private static final int portee = 150; // Portée de la tour
-    private static final int degats = 25;  // Dégâts infligés aux ennemis
-    private static final int cadence_de_tir = 10; // Cadence de tir de la tour (coups par seconde)
+    private int RANGE = 150; // Range of the tower
+    private int DAMAGE = 25; // Damage inflicted on enemies
+    private int FIRE_RATE = 10; // Firing rate of the tower (shots per second)
+    private int cooldownTime = 0;
 
-    public OppenheimerCoil(int x, int y) {
-        super(x, y, TowerType.Oppenheimer);
+    public OppenheimerCoil(int x, int y, int level) {
+        super(x, y, TowerType.Oppenheimer, level, 200*level);
+        this.FIRE_RATE = 10 - level;
+        this.DAMAGE = 25 + (level*3);
+        this.RANGE = 150 + (level*5);
+        
+        if (FIRE_RATE < 1)
+            FIRE_RATE = 1;
     }
 
     @Override
-    public void attaquer(Ennemi ennemi) {
-        if (estDansPortee(ennemi)) {
-            // Infliger des dégâts à l'ennemi
-            ennemi.subirDegats(degats);
+    public void attack(Ennemi ennemi) {
+        if (isInRange(ennemi) && cooldownTime == 0) {
+            // Inflict damage on the enemy
+            ennemi.takeDamage(DAMAGE);
+            cooldownTime = FIRE_RATE;
         }
+        if (cooldownTime > 0)
+            cooldownTime--;
     }
 
-    private boolean estDansPortee(Ennemi ennemi) {
-        // Vérifier si l'ennemi est dans la portée de la tour
-        double distance = calculerDistance(ennemi.getX(), ennemi.getY());
-        return distance <= portee;
+    private boolean isInRange(Ennemi ennemi) {
+        // Check if the enemy is within the firing range
+        double distance = calculateDistance(ennemi.getX(), ennemi.getY());
+        return distance <= RANGE;
     }
 
-    private double calculerDistance(double x, double y) {
-        // Calculer la distance entre la tour et l'ennemi
+    private double calculateDistance(double x, double y) {
         return Math.sqrt(Math.pow((x-getX()), 2) + Math.pow((y-getY()), 2));
     }
 }
