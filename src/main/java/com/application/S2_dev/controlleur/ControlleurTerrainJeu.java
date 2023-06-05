@@ -2,9 +2,15 @@ package com.application.S2_dev.controlleur;
 
 import com.application.S2_dev.Main;
 import com.application.S2_dev.modele.data.TowerType;
+import com.application.S2_dev.modele.ennemis.Balliste;
+import com.application.S2_dev.modele.ennemis.Behemoth;
 import com.application.S2_dev.modele.ennemis.Ennemi;
+import com.application.S2_dev.modele.ennemis.Scavenger;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
+import com.application.S2_dev.modele.objet.Bombe;
+import com.application.S2_dev.modele.objet.Mur;
+import com.application.S2_dev.modele.objet.Objet;
 import com.application.S2_dev.modele.tours.*;
 import com.application.S2_dev.vue.EnnemiVue;
 import com.application.S2_dev.vue.TerrainVue;
@@ -52,14 +58,95 @@ public class ControlleurTerrainJeu implements Initializable {
 
     @FXML
     private Label labelScavenger;
+    @FXML
+    private Label labelBombe;
+
+    @FXML
+    private Label labelMaintenace;
+
+    @FXML
+    private Label labelMur;
+
     private Timeline gameLoop;
     private int temps;
-    private EnnemiVue ennemiVue;
     TerrainVue terrainVue;
     Terrain terrain;
-    Environnement env;
-
+    Environnement environnement;
     private TowerType selectedTowerType;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        terrain = new Terrain();
+        terrainVue = new TerrainVue(tilePane, terrain);
+        environnement = new Environnement(pane);
+        terrainVue.afficherTerrain();
+        EnnemiVue ennemiVue = new EnnemiVue(pane, labelScavenger, labelBalliste, labelBehemoth);
+        environnement.getEnnemis().addListener(ennemiVue);
+        initAnimation();
+        this.TestClickTourel();
+
+    }
+    @FXML
+    void ButtonInventaire (ActionEvent event){
+        Parent root;
+        this.gameLoop.play();
+        try {
+            this.gameLoop.pause();
+            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Inventaire/Inventaire.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Inventaire");
+            stage.setScene(new Scene(root, 1000, 600));
+            stage.show();
+            stage.setOnHidden(
+                    e ->
+                            this.gameLoop.play()
+
+            );
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void ButtonQuitter (ActionEvent event){
+        Parent root;
+        try {
+            gameLoop.stop();
+            Stage stage1 = (Stage) tilePane.getScene().getWindow();
+            stage1.close();
+            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Menu/Menu.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Menu de jeu");
+            stage.setScene(new Scene(root, 1250, 800));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    void ButtonPlay (ActionEvent event){
+        this.gameLoop.play();
+    }
+    @FXML
+    void ButtonPause (ActionEvent event){
+        this.gameLoop.pause();
+    }
+    public void initAnimation() {
+
+        gameLoop = new Timeline();
+        temps = 0;
+
+        gameLoop.setCycleCount(Timeline.INDEFINITE);
+        KeyFrame kf = new KeyFrame(
+                Duration.seconds(0.5),
+                ev -> {
+                    environnement.unTour();
+                });
+        gameLoop.getKeyFrames().add(kf);
+        gameLoop.play();
+    }
 
     public void TestClickTourel() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -89,41 +176,10 @@ public class ControlleurTerrainJeu implements Initializable {
         });
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        terrain = new Terrain();
-        terrainVue = new TerrainVue(tilePane, terrain);
-        env = new Environnement(pane);
-        terrainVue.afficherTerrain();
-        EnnemiVue en = new EnnemiVue(pane, labelScavenger, labelBalliste, labelBehemoth);
-        env.getEnnemis().addListener(en);
-        initAnimation();
-        this.TestClickTourel();
-
-    }
-
-    /**
-     * game loop
-     */
-    public void initAnimation() {
-
-        gameLoop = new Timeline();
-        temps = 0;
-
-        gameLoop.setCycleCount(Timeline.INDEFINITE);
-        KeyFrame kf = new KeyFrame(
-                Duration.seconds(0.5),
-                ev -> {
-                    env.unTour();
-                });
-        gameLoop.getKeyFrames().add(kf);
-        gameLoop.play();
-    }
 
     public void spawnTower(double x, double y) {
         // Check if the tower can be placed at the specified coordinates
-        if (env.canPlaceTowerAt(x, y)) {
+        if (environnement.canPlaceTowerAt(x, y)) {
 
             Tour tower;
 
@@ -144,26 +200,12 @@ public class ControlleurTerrainJeu implements Initializable {
             }
 
             // Add the tower to the terrain and display it on the pane
-            env.addTower(tower);
+            environnement.addTower(tower);
             creerSprite(tower);
 
         } else {
             // Tower placement is not allowed at the specified coordinates
             System.out.println("Tower placement not allowed at coordinates (" + x + ", " + y + ")");
-        }
-    }
-
-    void creerSprite(Ennemi e) {
-        URL urlEnnemiLent = Main.class.getResource("image/ennemis/Scavenger.png");
-        Image ennemiLent = new Image(String.valueOf(urlEnnemiLent));
-        ImageView ImLent = new ImageView(ennemiLent);
-
-        ImLent.translateXProperty().bind(e.getXProperty());
-        ImLent.translateYProperty().bind(e.getYProperty());
-
-        if (ImLent != null) {
-            ImLent.setId(e.getId());
-            pane.getChildren().add(ImLent);
         }
     }
 
@@ -203,64 +245,6 @@ public class ControlleurTerrainJeu implements Initializable {
         return new double[]{tourView.getImage().getHeight(), tourView.getImage().getWidth()};
     }
 
-    void rafraichirAffichage() {
-        for (Ennemi acteur : env.getEnnemis()) {
-            ImageView sprite = (ImageView) pane.lookup("#" + acteur.getId());
-            if (sprite != null) {
-                sprite.setTranslateX(acteur.getX());
-                sprite.setTranslateY(acteur.getY());
-            } else {
-                creerSprite(acteur);
-            }
-        }
-    }
-            @FXML
-            void ButtonInventaire (ActionEvent event){
-                Parent root;
-                this.gameLoop.play();
-                try {
-                    this.gameLoop.pause();
-                    root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Inventaire/Inventaire.fxml"));
-                    Stage stage = new Stage();
-                    stage.setTitle("Inventaire");
-                    stage.setScene(new Scene(root, 1000, 600));
-                    stage.show();
-                    stage.setOnHidden(
-                            e ->
-                                    this.gameLoop.play()
-
-                    );
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @FXML
-            void ButtonQuitter (ActionEvent event){
-                Parent root;
-                try {
-                    gameLoop.stop();
-                    Stage stage1 = (Stage) tilePane.getScene().getWindow();
-                    stage1.close();
-                    root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Menu/Menu.fxml"));
-                    Stage stage = new Stage();
-                    stage.setTitle("Menu de jeu");
-                    stage.setScene(new Scene(root, 1250, 800));
-                    stage.show();
-                    //((Node)(event.getSource())).getScene().getWindow().hide();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            @FXML
-            void ButtonPlay (ActionEvent event){
-                this.gameLoop.play();
-            }
-            @FXML
-            void ButtonPause (ActionEvent event){
-                this.gameLoop.pause();
-            }
-        }
+}
 
 

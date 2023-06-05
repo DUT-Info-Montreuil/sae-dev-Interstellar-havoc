@@ -5,6 +5,7 @@ import com.application.S2_dev.controlleur.ControlleurTerrainJeu;
 import com.application.S2_dev.modele.ennemis.Balliste;
 import com.application.S2_dev.modele.ennemis.Behemoth;
 import com.application.S2_dev.modele.ennemis.Ennemi;
+import com.application.S2_dev.modele.objet.Objet;
 import com.application.S2_dev.modele.tours.Tour;
 import com.application.S2_dev.modele.ennemis.Scavenger;
 import javafx.collections.FXCollections;
@@ -29,6 +30,7 @@ public class Environnement {
     private ArrayList<Ennemi> mort;
     private ArrayList<Tour> mort2;
     private  ObservableList<Ennemi> ennemis;
+    private  ObservableList<Objet> objets;
     private ArrayList<Tour> tours;
 
 
@@ -119,29 +121,12 @@ public class Environnement {
         ajouterVague();
 
     }
-    public void unTour1() {
-
-
-        for(int i = 0; i< ennemis.size(); i++) {
-            Ennemi e = ennemis.get(i);
-            e.agit(16, 16);
-        }
-
-        for (int i = ennemis.size() - 1; i >= 0; i--) {
-            Ennemi en = ennemis.get(i);
-            if (!en.estVivant()) {
-                System.out.println("mort de : " + en);
-                ennemis.remove(i);
-                this.mort.add(en);
-            }
-        }
-        System.out.println("Taille " + ennemis.size());
-        ajouterVague();
-
-    }
 
     public void addTower(Tour tour) {
         tours.add(tour);
+    }
+    public void ajoutObjet(Objet objet) {
+        objets.add(objet);
     }
 
     public boolean canPlaceTowerAt(double x, double y) {
