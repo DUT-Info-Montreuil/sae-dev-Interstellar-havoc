@@ -16,13 +16,13 @@ public class OppenheimerCoil extends Tour {
 
     @Override
     public void attaquer(Ennemi ennemi) {
-        if (estDansPortee(ennemi)) {
+        if (estAPortee(ennemi)) {
             // Infliger des dégâts à l'ennemi
             ennemi.subirDegats(degats);
         }
     }
 
-    private boolean estDansPortee(Ennemi ennemi) {
+    private boolean estAPortee(Ennemi ennemi) {
         // Vérifier si l'ennemi est dans la portée de la tour
         double distance = calculerDistance(ennemi.getX(), ennemi.getY());
         return distance <= portee;

@@ -10,27 +10,21 @@ public class Balliste extends Ennemi {
 
     // Constructeur de la classe Balliste.
     public Balliste(int x, int y){
-        super(x, y);
+        super(x, y,50);
     }
 
     // Méthode d'attaque de la Balliste sur une tour spécifiée.
     @Override
-    public void attack(Tour tour) {
-        if (isInRange(tour)) {
+    public void attaquerTour(Tour tour) {
+        if (estAPortee(tour)) {
             // Inflige des dommages à la tour
             tour.subirDegats(degats);
         }
     }
 
-    // Méthode permettant de vérifier si la tour spécifiée est dans la portée de la Balliste.
-    private boolean isInRange(Tour tower) {
-        // Vérifie si l'ennemi est dans la portée de tir
-        double distance = calculateDistance(tower.getX(), tower.getY());
-        return distance <= portee;
-    }
 
-    // Méthode permettant de calculer la distance entre la Balliste et les coordonnées spécifiées.
-    private double calculateDistance(double x, double y) {
-        return Math.sqrt(Math.pow((x-getX()), 2) + Math.pow((y-getY()), 2));
-    }
+
+
+
+
 }

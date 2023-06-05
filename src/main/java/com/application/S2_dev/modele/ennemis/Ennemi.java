@@ -40,11 +40,11 @@ public abstract class Ennemi {
     private int dgts;
     private int portee;
 
-    public Ennemi(double valX, double valY){
+    public Ennemi(double valX, double valY,int dgts){
             this.dgts = dgts;
             this.portee = portee;
-        x = new SimpleDoubleProperty(valX);
-        y = new SimpleDoubleProperty(valY);
+            x = new SimpleDoubleProperty(valX);
+            y = new SimpleDoubleProperty(valY);
             terr = new Terrain();//a voir
             this.pv = pv;
             this.id = "E" + compteur;
@@ -85,7 +85,7 @@ public abstract class Ennemi {
             return health > 0;
         }
 
-        public abstract void attack (Tour tour);
+
 
     public void agit(double tileWidth, double tileHeight) {
         int[] start = {1, 0};
@@ -124,9 +124,7 @@ public abstract class Ennemi {
                 }
             }
             // Vérifie si l'ennemi est arrivé à la position finale (cellule de coordonnées [12, 60])
-            if (currentCellule.getY() == 60 && currentCellule.getX() == 12) {
-                attaquerTour(); // Appelle la méthode pour attaquer la tour
-            }
+
         }
 
         this.move(currentCellule); // Appelle la méthode de déplacement de l'ennemi
@@ -134,8 +132,11 @@ public abstract class Ennemi {
         this.toString(); // Appelle la méthode toString() pour afficher l'identifiant de l'ennemi
     }
 
-    public void attaquerTour () {
-            System.out.println("Je vais attaquer");
+    public void attaquerTour (Tour tour) {
+        if (estAPortee(tour)) {
+            // Inflige des dommages à la tour
+            tour.subirDegats(dgts);
+        }
         }
 
         public void setX ( double x1){
@@ -158,6 +159,18 @@ public abstract class Ennemi {
         public ImageView getView() {
             return view;
         }
+
+
+        // Méthode permettant de vérifier si la tour spécifiée est dans la portée de la Balliste.
+    public boolean estAPortee(Tour tower) {
+        // Vérifie si l'ennemi est dans la portée de tir
+        double distance = calculerDistance(tower.getX(), tower.getY());
+        return distance <= portee;
+    }
+    // Méthode permettant de calculer la distance entre la Balliste et les coordonnées spécifiées.
+    public double calculerDistance(double x, double y) {
+        return Math.sqrt(Math.pow((x-getX()), 2) + Math.pow((y-getY()), 2));
+    }
     }
 
 
