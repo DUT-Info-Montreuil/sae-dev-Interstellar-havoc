@@ -13,6 +13,7 @@ import com.application.S2_dev.modele.objet.Mur;
 import com.application.S2_dev.modele.objet.Objet;
 import com.application.S2_dev.modele.tours.*;
 import com.application.S2_dev.vue.EnnemiVue;
+import com.application.S2_dev.vue.ObjetVue;
 import com.application.S2_dev.vue.TerrainVue;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -73,6 +74,7 @@ public class ControlleurTerrainJeu implements Initializable {
     Terrain terrain;
     Environnement environnement;
     private TowerType selectedTowerType;
+    private Objet objet;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -85,6 +87,11 @@ public class ControlleurTerrainJeu implements Initializable {
         environnement.getEnnemis().addListener(ennemiVue);
         initAnimation();
         this.TestClickTourel();
+       // this.AjoutObjet();
+
+        ObjetVue objetVue = new ObjetVue(pane, environnement, labelBombe, labelMur);
+        environnement.getObjets().addListener(objetVue);
+        objetVue.AjoutObjet();
 
     }
     @FXML
@@ -108,6 +115,7 @@ public class ControlleurTerrainJeu implements Initializable {
             e.printStackTrace();
         }
     }
+
 
     @FXML
     void ButtonQuitter (ActionEvent event){
@@ -184,7 +192,7 @@ public class ControlleurTerrainJeu implements Initializable {
             Tour tower;
 
             // Create the tower object based on the tower type
-            switch (selectedTowerType) {
+          /*  switch (selectedTowerType) {
                 case Nikola:
                     tower = new NikolaCoil((int) x, (int) y);
                     break;
@@ -205,7 +213,7 @@ public class ControlleurTerrainJeu implements Initializable {
 
         } else {
             // Tower placement is not allowed at the specified coordinates
-            System.out.println("Tower placement not allowed at coordinates (" + x + ", " + y + ")");
+            System.out.println("Tower placement not allowed at coordinates (" + x + ", " + y + ")");*/
         }
     }
 

@@ -81,6 +81,11 @@ public class Terrain {
         }
     }
 
+    public void modifCase(int i, int j, int val){
+            this.grid[i][j] = val;
+
+    }
+//casser mur, calcul du bfs, et chemin le plus court appeler tant que le terrain il change pas
 
 }
 

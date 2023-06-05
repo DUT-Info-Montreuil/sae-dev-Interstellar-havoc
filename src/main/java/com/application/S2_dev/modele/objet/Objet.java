@@ -17,6 +17,10 @@ public abstract class Objet {
         compteur++;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public DoubleProperty getXProperty () {
         return x;
     }
@@ -31,6 +35,14 @@ public abstract class Objet {
 
     public double getY () {
         return y.getValue();
+    }
+
+    public void setX(double x) {
+        this.x.set(x);
+    }
+
+    public void setY(double y) {
+        this.y.set(y);
     }
 
     public boolean estVivant () {

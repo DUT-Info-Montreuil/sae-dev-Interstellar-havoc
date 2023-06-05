@@ -5,6 +5,7 @@ import com.application.S2_dev.controlleur.ControlleurTerrainJeu;
 import com.application.S2_dev.modele.ennemis.Balliste;
 import com.application.S2_dev.modele.ennemis.Behemoth;
 import com.application.S2_dev.modele.ennemis.Ennemi;
+import com.application.S2_dev.modele.objet.Bombe;
 import com.application.S2_dev.modele.objet.Objet;
 import com.application.S2_dev.modele.tours.Tour;
 import com.application.S2_dev.modele.ennemis.Scavenger;
@@ -40,14 +41,11 @@ public class Environnement {
         this.tours = new ArrayList<>();
         terr = new Terrain();
         this.pane = gameLayout;
+        this.objets = FXCollections.observableArrayList();
     }
 
     public ObservableList<Ennemi> getEnnemis() {
         return ennemis;
-    }
-
-    public ArrayList<Ennemi> getMort() {
-        return mort;
     }
 
     public void ajouterVague() {
@@ -92,16 +90,13 @@ public class Environnement {
         for(int i = 0; i< ennemis.size(); i++) {
             Ennemi e = ennemis.get(i);
             e.agit(16, 16);
-        }
 
+        }
         for (Ennemi e : ennemis) {
             if (!e.estVivant()) {
                 System.out.println("mort de : " + e.getId());
-                this.mort.add(e);
+                ennemis.remove(e);
             }
-        }
-        for(Ennemi e : mort){
-            ennemis.remove(e);
         }
 
         /**
@@ -120,6 +115,10 @@ public class Environnement {
         }
         ajouterVague();
 
+    }
+
+    public ObservableList<Objet> getObjets() {
+        return objets;
     }
 
     public void addTower(Tour tour) {
