@@ -1,6 +1,7 @@
 package com.application.S2_dev.controlleur;
 
 import com.application.S2_dev.Main;
+import com.application.S2_dev.modele.data.TerrainType;
 import com.application.S2_dev.modele.data.TowerType;
 import com.application.S2_dev.modele.ennemis.Balliste;
 import com.application.S2_dev.modele.ennemis.Behemoth;
@@ -15,6 +16,7 @@ import com.application.S2_dev.modele.tours.*;
 import com.application.S2_dev.vue.EnnemiVue;
 import com.application.S2_dev.vue.ObjetVue;
 import com.application.S2_dev.vue.TerrainVue;
+import com.application.S2_dev.vue.TourVue;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -36,6 +38,7 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -53,6 +56,8 @@ public class ControlleurTerrainJeu implements Initializable {
     private Label idBobineOppenheimer;
     @FXML
     private Label labelBalliste;
+    @FXML
+    private Label idSelectedTower;
 
     @FXML
     private Label labelBehemoth;
@@ -68,13 +73,20 @@ public class ControlleurTerrainJeu implements Initializable {
     @FXML
     private Label labelMur;
 
+    @FXML
+    private Label labelCredit;
+
+    @FXML
+    private Label labelLife;
     private Timeline gameLoop;
     private int temps;
     TerrainVue terrainVue;
     Terrain terrain;
     Environnement environnement;
-    private TowerType selectedTowerType;
+
+
     private Objet objet;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -85,13 +97,13 @@ public class ControlleurTerrainJeu implements Initializable {
         terrainVue.afficherTerrain();
         EnnemiVue ennemiVue = new EnnemiVue(pane, labelScavenger, labelBalliste, labelBehemoth);
         environnement.getEnnemis().addListener(ennemiVue);
-        initAnimation();
-        this.TestClickTourel();
-       // this.AjoutObjet();
-
-        ObjetVue objetVue = new ObjetVue(pane, environnement, labelBombe, labelMur);
+        ObjetVue objetVue = new ObjetVue(pane,environnement, labelBombe,labelMur,terrain);
         environnement.getObjets().addListener(objetVue);
         objetVue.AjoutObjet();
+        TourVue tourVue = new TourVue(environnement,tilePane,terrain,pane,idBobineEdison,idBobineOppenheimer,idBobineNikola,labelCredit, labelLife, idSelectedTower);
+        tourVue.lancerTourVue();
+        initAnimation();
+        tourVue.TestClickTourel();
 
     }
     @FXML
@@ -154,103 +166,6 @@ public class ControlleurTerrainJeu implements Initializable {
                 });
         gameLoop.getKeyFrames().add(kf);
         gameLoop.play();
-    }
-
-    public void TestClickTourel() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-
-        idBobineEdison.setOnMouseClicked(h -> {
-            double x = h.getX();
-            double y = h.getY();
-            selectedTowerType = TowerType.Edison;
-        });
-
-        idBobineOppenheimer.setOnMouseClicked(h -> {
-            System.out.println("je clique");
-            double x = h.getX();
-            double y = h.getY();
-            selectedTowerType = TowerType.Oppenheimer;
-            System.out.println(" selectedTowerType" + selectedTowerType);
-        });
-
-        idBobineNikola.setOnMouseClicked(h -> {
-            double x = h.getX();
-            double y = h.getY();
-            selectedTowerType = TowerType.Nikola;
-        });
-
-        tilePane.setOnMouseClicked(h -> {
-            spawnTower(h.getX(), h.getY());
-        });
-    }
-
-
-    public void spawnTower(double x, double y) {
-        // Check if the tower can be placed at the specified coordinates
-        if (environnement.canPlaceTowerAt(x, y)) {
-
-            Tour tower;
-
-            // Create the tower object based on the tower type
-          /*  switch (selectedTowerType) {
-                case Nikola:
-                    tower = new NikolaCoil((int) x, (int) y);
-                    break;
-                case Edison:
-                    tower = new EdisonCoil((int) x, (int) y);
-                    break;
-                case Oppenheimer:
-                    tower = new OppenheimerCoil((int) x, (int) y);
-                    break;
-                default:
-                    tower = null;
-                    break;
-            }
-
-            // Add the tower to the terrain and display it on the pane
-            environnement.addTower(tower);
-            creerSprite(tower);
-
-        } else {
-            // Tower placement is not allowed at the specified coordinates
-            System.out.println("Tower placement not allowed at coordinates (" + x + ", " + y + ")");*/
-        }
-    }
-
-    double[] creerSprite(Tour t) {
-
-        URL urlTour;
-
-        switch (t.getType()) {
-            case Nikola:
-                urlTour = Main.class.getResource("image/tour/bobineNicolas.png");
-                break;
-            case Edison:
-                urlTour = Main.class.getResource("image/tour/bobineEdison.png");
-                break;
-            case Oppenheimer:
-                urlTour = Main.class.getResource("image/tour/bobineOppenheimer.png");
-                break;
-            default:
-                urlTour = null;
-                break;
-        }
-
-        Image tour = new Image(String.valueOf(urlTour));
-        ImageView tourView = new ImageView(tour);
-
-        tourView.translateXProperty().bind(t.getXProperty());
-        tourView.translateYProperty().bind(t.getYProperty());
-
-        if (tourView != null) {
-            tourView.setId(t.getId());
-            t.getXProperty().set(t.getX() - (tourView.getImage().getWidth() / 2));
-            t.getYProperty().set(t.getY() - (tourView.getImage().getHeight() / 2));
-            t.setView(tourView);
-            pane.getChildren().add(tourView);
-        }
-
-        return new double[]{tourView.getImage().getHeight(), tourView.getImage().getWidth()};
     }
 
 }

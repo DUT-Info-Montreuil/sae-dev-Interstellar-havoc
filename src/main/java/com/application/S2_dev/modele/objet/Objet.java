@@ -13,7 +13,7 @@ public abstract class Objet {
     public Objet(){
         this.x = new SimpleDoubleProperty();
         this.y = new SimpleDoubleProperty();
-        this.id = "E" + compteur;
+        this.id = "O" + compteur;
         compteur++;
     }
 

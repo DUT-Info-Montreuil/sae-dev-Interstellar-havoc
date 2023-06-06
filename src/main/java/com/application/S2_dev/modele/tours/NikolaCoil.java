@@ -5,21 +5,31 @@ import com.application.S2_dev.modele.data.TowerType;
 import com.application.S2_dev.modele.ennemis.Ennemi;
 
 public class NikolaCoil extends Tour {
-    
-    private static final int RANGE = 50; // Range of the tower
-    private static final int DAMAGE = 10; // Damage inflicted on enemies
-    private static final int FIRE_RATE = 2; // Firing rate of the tower (shots per second)
 
-    public NikolaCoil(int x, int y) {
-        super(x, y, TowerType.Nikola);
+    private int RANGE = 50; // Range of the tower
+    private int DAMAGE = 10; // Damage inflicted on enemies
+    private int FIRE_RATE = 2; // Firing rate of the tower (shots per second)
+    private int cooldownTime = 0;
+
+    public NikolaCoil(int x, int y, int level) {
+        super(x, y, TowerType.Nikola, level, 100*level);
+        this.FIRE_RATE = 2 - level;
+        this.DAMAGE = 10 + (level*3);
+        this.RANGE = 50 + (level*5);
+
+        if (FIRE_RATE < 1)
+            FIRE_RATE = 1;
     }
-    
+
     @Override
     public void attack(Ennemi ennemi) {
-        if (isInRange(ennemi)) {
+        if (isInRange(ennemi) && cooldownTime == 0) {
             // Inflict damage on the enemy
             ennemi.takeDamage(DAMAGE);
+            cooldownTime = FIRE_RATE;
         }
+        if (cooldownTime > 0)
+            cooldownTime--;
     }
 
     private boolean isInRange(Ennemi ennemi) {

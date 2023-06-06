@@ -5,14 +5,20 @@ import com.application.S2_dev.modele.data.TowerType;
 import com.application.S2_dev.modele.ennemis.Ennemi;
 
 public class EdisonCoil extends Tour {
-    private static final int RANGE = 50; // Range of the tower
-    private static final int DAMAGE = 25; // Damage inflicted on enemies
-    private static final int FIRE_RATE = 6; // Firing rate of the tower (shots per second)
-    
+
+    private int RANGE; // Range of the tower
+    private int DAMAGE; // Damage inflicted on enemies
+    private int FIRE_RATE; // Firing rate of the tower (shots per second)s
     private int cooldownTime = 0;
 
-    public EdisonCoil(int x, int y) {
-        super(x, y, TowerType.Edison);
+    public EdisonCoil(int x, int y, int level) {
+        super(x, y, TowerType.Edison, level, 100*level);
+        this.FIRE_RATE = 6 - level;
+        this.DAMAGE = 25 + (level*3);
+        this.RANGE = 50 + (level*5);
+
+        if (FIRE_RATE < 1)
+            FIRE_RATE = 1;
     }
 
     @Override

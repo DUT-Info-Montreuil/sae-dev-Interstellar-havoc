@@ -22,8 +22,10 @@ public abstract class Ennemi {
     public static int compteur = 0;
     private int health;
     private ImageView view = null;
+    private BFS bfs;
     private static final int RANGE = 20;
     private static final int DAMAGE = 25;
+    private LinkedList<Cell> shortestPath;
 
     public Ennemi(double valX, double valY){
         this.x = new SimpleDoubleProperty(valX);
@@ -32,6 +34,10 @@ public abstract class Ennemi {
         this.id = "E" + compteur;
         compteur++;
         this.health = 100;
+        int[] start = {1, 0};
+        int[] end = {27, 29};
+        bfs = new BFS();
+        shortestPath = bfs.shortestPath(terr.getTerrain(), start, end);
     }
 
         public String getId () {
@@ -74,7 +80,6 @@ public abstract class Ennemi {
         int[] start = {1, 0};
         int[] end = {12, 60};
 
-        BFS bfs = new BFS();
         LinkedList<Cell> shortestPath = bfs.shortestPath(terr.getTerrain(), start, end);
 
         Cell currentCell = shortestPath.get(i);
@@ -101,9 +106,6 @@ public abstract class Ennemi {
 
             }
         }
-
-
-        // System.out.println("to traslate (X: " + this.getX() + ", Y: " + this.getY() + ")");
         this.move(currentCell);
         i++;
         this.toString();
@@ -111,7 +113,16 @@ public abstract class Ennemi {
 
 
     }
-        public void attaquerTour () {
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public void attaquerTour () {
             System.out.println("Je vais attaquer");
         }
 
@@ -150,6 +161,9 @@ public abstract class Ennemi {
         public ImageView getView() {
             return view;
         }
+    public boolean finalDestReached() {
+        return i >= this.shortestPath.size();
+    }
     }
 
 

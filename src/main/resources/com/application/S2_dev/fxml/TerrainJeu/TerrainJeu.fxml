@@ -26,9 +26,9 @@
             <Label layoutX="353.0" layoutY="12.0" prefHeight="74.0" prefWidth="128.0" styleClass="labelHautBalliste" stylesheets="@terrainJeu.css" text="Balliste" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="353.0" AnchorPane.rightAnchor="749.0" AnchorPane.topAnchor="12.0" />
             <Label fx:id="labelBalliste" layoutX="412.0" layoutY="20.0" prefHeight="67.0" prefWidth="10.0" styleClass="labelNombre" stylesheets="@terrainJeu.css" text="0" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="412.0" AnchorPane.rightAnchor="808.0" AnchorPane.topAnchor="20.0" />
             <Label layoutX="523.0" layoutY="11.0" prefHeight="76.0" prefWidth="126.0" styleClass="labelHautCredit" stylesheets="@terrainJeu.css" text="Crédit" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="523.0" AnchorPane.rightAnchor="581.0" AnchorPane.topAnchor="11.0" />
-            <Label layoutX="572.0" layoutY="22.0" prefHeight="64.0" prefWidth="8.0" styleClass="labelNombre" stylesheets="@terrainJeu.css" text="0" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="572.0" AnchorPane.rightAnchor="651.0" AnchorPane.topAnchor="22.0" />
+            <Label fx:id="labelCredit" layoutX="572.0" layoutY="22.0" prefHeight="64.0" prefWidth="8.0" styleClass="labelNombre" stylesheets="@terrainJeu.css" text="0" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="572.0" AnchorPane.rightAnchor="651.0" AnchorPane.topAnchor="22.0" />
             <Label layoutX="688.0" layoutY="12.0" prefHeight="74.0" prefWidth="121.0" styleClass="labelHautVie" stylesheets="@terrainJeu.css" text="Vie" AnchorPane.bottomAnchor="23.0" AnchorPane.leftAnchor="688.0" AnchorPane.rightAnchor="421.0" AnchorPane.topAnchor="12.0" />
-            <Label layoutX="744.0" layoutY="18.0" prefHeight="72.0" prefWidth="7.0" styleClass="labelNombre" stylesheets="@terrainJeu.css" text="0" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="744.0" AnchorPane.rightAnchor="477.0" AnchorPane.topAnchor="18.0" />
+            <Label fx:id="labelLife" layoutX="744.0" layoutY="18.0" prefHeight="72.0" prefWidth="7.0" styleClass="labelNombre" stylesheets="@terrainJeu.css" text="0" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="744.0" AnchorPane.rightAnchor="477.0" AnchorPane.topAnchor="18.0" />
             <Button layoutX="837.0" layoutY="41.0" mnemonicParsing="false" onAction="#ButtonPause" prefHeight="32.0" prefWidth="98.0" styleClass="bouton" stylesheets="@terrainJeu.css" text="Pause" AnchorPane.bottomAnchor="41.0" AnchorPane.leftAnchor="837.0" AnchorPane.rightAnchor="295.0" AnchorPane.topAnchor="41.0" />
             <Button layoutX="1096.0" layoutY="42.0" mnemonicParsing="false" onAction="#ButtonQuitter" prefHeight="31.0" prefWidth="98.0" styleClass="bouton" stylesheets="@terrainJeu.css" text="Quitter" AnchorPane.bottomAnchor="42.0" AnchorPane.leftAnchor="1096.0" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="42.0" />
             <Button layoutX="967.0" layoutY="41.0" mnemonicParsing="false" onAction="#ButtonPlay" prefHeight="30.0" prefWidth="99.0" styleClass="bouton" stylesheets="@terrainJeu.css" text="Play" AnchorPane.bottomAnchor="42.0" AnchorPane.leftAnchor="967.0" AnchorPane.rightAnchor="164.0" AnchorPane.topAnchor="41.0" />
@@ -58,6 +58,7 @@
             <Label layoutX="258.0" layoutY="74.0" styleClass="labelNombre" text="Bobine Oppenheimer" />
             <Label layoutX="31.0" layoutY="74.0" styleClass="labelNombre" text="Bobine Nikola" />
             <Button layoutX="1067.0" layoutY="40.0" mnemonicParsing="false" onAction="#ButtonInventaire" prefHeight="31.0" prefWidth="98.0" styleClass="bouton" stylesheets="@terrainJeu.css" text="Inventaire" />
+            <Label fx:id="idSelectedTower" layoutX="532.0" layoutY="56.0" text="No Tower Selected" />
          </children>
       </AnchorPane>
    </bottom>

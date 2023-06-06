@@ -4,7 +4,7 @@ import com.application.S2_dev.modele.ennemis.Ennemi;
 
 public class Bombe extends Objet {
 
-    private static final int DEGAT = 5;
+    private static final int DEGAT = 100;
     private static final int PORTE = 50;
     public Bombe(){
         super();
@@ -13,7 +13,7 @@ public class Bombe extends Objet {
 
     public void degat(Ennemi ennemi){
         if (isInRange(ennemi)) {
-            ennemi.takeDamage(DEGAT);
+            ennemi.setHealth(0);
             this.pv = 0;
         }
 

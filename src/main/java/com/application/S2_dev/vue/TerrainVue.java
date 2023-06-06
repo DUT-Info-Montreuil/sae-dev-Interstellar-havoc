@@ -29,24 +29,38 @@ public class TerrainVue {
         URL urlBat = Main.class.getResource("image/map/base.png");
         Image bat = new Image(String.valueOf(urlBat));
 
+        URL urlBlockage = Main.class.getResource("image/map/blockage.jpg");
+        Image block = new Image(String.valueOf(urlBlockage));
+
+        URL urlTowerBase = Main.class.getResource("image/map/tour.png");
+        Image base = new Image(String.valueOf(urlTowerBase));
+
         for(int i = 0; i<terrain.getTerrain().length; i++) {
             for (int j = 0; j < terrain.getTerrain()[i].length; j++) {
                 switch (terrain.getCase1(i,j)) {
-                    case GRASS:
+                    case 0:
                         ImageView im = new ImageView(imageHerbe);
                         tilePane.getChildren().add(im);
                         break;
-                    case PATH:
+                    case 1:
                         ImageView im1 = new ImageView(imageChemin);
                         tilePane.getChildren().add(im1);
                         break;
-                    case BLOCKED:
+                    case 2:
                         ImageView imm = new ImageView(imageCheminBloque);
                         tilePane.getChildren().add(imm);
                         break;
-                    case BATS:
+                    case 3:
                         ImageView im3 = new ImageView(bat);
                         tilePane.getChildren().add(im3);
+                        break;
+                    case 4:
+                        ImageView im4 = new ImageView(block);
+                        tilePane.getChildren().add(im4);
+                        break;
+                    case 5:
+                        ImageView im5 = new ImageView(base);
+                        tilePane.getChildren().add(im5);
                         break;
                 }
             }
