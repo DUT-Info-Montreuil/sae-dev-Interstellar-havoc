@@ -71,14 +71,10 @@ public abstract class Ennemi {
         public abstract void attack (Tour tour);
 
     public void agit(double tileWidth, double tileHeight){
-        int[] start = {1, 0};
-        int[] end = {12, 60};
+        LinkedList<Cell> cheminPlusCourt = terr.getCheminPlusCourt();
 
-        BFS bfs = new BFS();
-        LinkedList<Cell> shortestPath = bfs.shortestPath(terr.getTerrain(), start, end);
-
-        Cell currentCell = shortestPath.get(i);
-        Cell previousCell = i > 0 ? shortestPath.get(i - 1) : null;
+        Cell currentCell = cheminPlusCourt.get(i);
+        Cell previousCell = i > 0 ? cheminPlusCourt.get(i - 1) : null;
         //  System.out.println("take  (X: " + currentCell.getX() + ", Y: " + currentCell.getY() + ")");
         if (previousCell != null) {
             if (currentCell.getX() != previousCell.getX()) {

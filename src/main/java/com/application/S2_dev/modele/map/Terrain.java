@@ -1,21 +1,23 @@
 package com.application.S2_dev.modele.map;
 
+import com.application.S2_dev.modele.bfs.BFS;
+import com.application.S2_dev.modele.bfs.Cell;
 import com.application.S2_dev.modele.data.TerrainType;
-import com.application.S2_dev.modele.data.TowerType;
-import com.application.S2_dev.modele.tours.Tour;
 import javafx.beans.property.IntegerProperty;
 
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 public class Terrain {
 
     private ArrayList<IntegerProperty> posX = new ArrayList<>();
     private ArrayList<IntegerProperty> posY = new ArrayList<>();
-    private int[][] grid ;
+    private int[][] grid;
+    private LinkedList<Cell>cheminPlusCourt;
 
     public Terrain() {
+
         grid = new int[][]{
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 {1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -59,9 +61,36 @@ public class Terrain {
 
 
 
-    public int[][] getTerrain() {
-       return grid;
+
+
+
+    LinkedList<Cell> calculerCheminPlusCourt() {
+        int[] start = {1, 0};
+        int[] end = {12, 60};
+
+        BFS bfs = new BFS();
+        cheminPlusCourt= bfs.shortestPath(grid, start, end);
+        return cheminPlusCourt;
     }
+
+    public LinkedList<Cell> getCheminPlusCourt() {
+        if (cheminPlusCourt==null){
+            return cheminPlusCourt=calculerCheminPlusCourt();
+        }
+        return cheminPlusCourt;
+    }
+
+    public void setCheminNull(LinkedList<Cell> cheminPlusCourt) {
+        this.cheminPlusCourt = null;
+    }
+
+
+
+
+    public int[][] getTerrain() {
+        return grid;
+    }
+
     public int getCase(int i, int j) {
         return grid[i][j];
     }
@@ -80,9 +109,18 @@ public class Terrain {
                 return null;
         }
     }
+//Mon idée pour cette méthode c'est que l'on récupère la case ou à était placé le Mur afin de recalculer le Bfs pour que les ennemis viennent le casser. A étudier...
+    public Object placementMur(int i, int j) {
+        if (grid[i][j] == 1) {
+            grid[i][j] = 2;
+            setCheminNull(cheminPlusCourt);
+            return TerrainType.BLOCKED;//il faut raffraichir l'image dans la vue;
+        }
+        return null ;
 
 
+
+    }
 }
-
 
 

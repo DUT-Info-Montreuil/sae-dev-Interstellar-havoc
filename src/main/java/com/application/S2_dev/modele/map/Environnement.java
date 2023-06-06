@@ -2,6 +2,7 @@ package com.application.S2_dev.modele.map;
 
 import com.application.S2_dev.Main;
 import com.application.S2_dev.controlleur.ControlleurTerrainJeu;
+import com.application.S2_dev.modele.bfs.Cell;
 import com.application.S2_dev.modele.ennemis.Balliste;
 import com.application.S2_dev.modele.ennemis.Behemoth;
 import com.application.S2_dev.modele.ennemis.Ennemi;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import javafx.application.Platform;
 
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
+import java.util.LinkedList;
 import java.util.Random;
 //import java.util.random.*;
 
@@ -32,6 +34,7 @@ public class Environnement {
     private  ObservableList<Ennemi> ennemis;
     private  ObservableList<Objet> objets;
     private ArrayList<Tour> tours;
+    private LinkedList<Cell>cheminPlusCourt;
 
 
     public Environnement(Pane gameLayout) {
