@@ -1,5 +1,6 @@
 package com.application.S2_dev.modele.bfs;
 
+
 import java.util.*;
 
 public class BFS {

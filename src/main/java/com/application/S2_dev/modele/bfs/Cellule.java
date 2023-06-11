@@ -1,5 +1,4 @@
 package com.application.S2_dev.modele.bfs;
-
 public class Cellule {
 
     int x;

@@ -25,7 +25,7 @@ public class TerrainVue {
 
         URL urlImageCheminBloque = Main.class.getResource("image/map/cheminBloque.png");
         Image imageCheminBloque = new Image(String.valueOf(urlImageCheminBloque));
-        
+
         URL urlTowerBase = Main.class.getResource("image/map/base.png");
         Image base = new Image(String.valueOf(urlTowerBase));
 

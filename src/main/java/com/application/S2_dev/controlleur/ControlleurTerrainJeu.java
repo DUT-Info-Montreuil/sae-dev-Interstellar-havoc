@@ -40,36 +40,36 @@ import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
 public class ControlleurTerrainJeu implements Initializable {    @FXML
-    
-    TilePane tilePane;
-    
+
+TilePane tilePane;
+
     @FXML
     Pane pane;
-    
+
     @FXML
     private Label idBobineEdison;
-    
+
     @FXML
     private Label idBobineNikola;
-    
+
     @FXML
     private Label idBobineOppenheimer;
-    
+
     @FXML
     private Label labelScavenger;
-    
+
     @FXML
     private Label labelBehemoth;
-    
+
     @FXML
     private Label labelBalliste;
-    
+
     @FXML
     private Label labelCredit;
-    
+
     @FXML
     private Label labelVie;
-    
+
     private Timeline gameLoop;
     private int temps;
     private EnnemiVue ennemiVue;
@@ -501,7 +501,7 @@ public class ControlleurTerrainJeu implements Initializable {    @FXML
     void ButtonQuitter(ActionEvent event) {
         exit();
     }
-    
+
     public void exit() {
         Parent root;
         try {
@@ -530,7 +530,7 @@ public class ControlleurTerrainJeu implements Initializable {    @FXML
         // Mettre en pause la boucle de jeu
         this.gameLoop.pause();
     }
-    
+
     public boolean peutPlacerTourA(int ligne, int cologne) {
         if (terrain.getCase(ligne, cologne) == TerrainType.base_tourelle)
             return true;

@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane;
 import java.net.URL;
 
 public class EnnemiVue implements ListChangeListener<Ennemi> {
-    
+
     private Pane panneau_de_jeu;
     private Label LabelnbVivantScavenger, LabelnbVivantBalliste,  LabelnbVivantBehemoth;
     int nbVivantScavenger = 0, nbVivantBalliste=0, nbVivantBehemoth=0;
@@ -20,7 +20,7 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
     public EnnemiVue(Pane pane) {
         this.panneau_de_jeu = pane;
     }
-    
+
     @Override
     public void onChanged(Change<? extends Ennemi> c) {
         System.out.println("Changement");

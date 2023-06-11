@@ -50,7 +50,7 @@ public class ControlleurConsigne implements Initializable {
         try {
             Stage stage1 = (Stage) labelConsigne.getScene().getWindow();
             stage1.close();
-            root = FXMLLoader.load(Main.class.getResource("fxml/Menu/Menu.fxml"));
+            root = FXMLLoader.load(Main.class.getResource("/fxml/Menu/Menu.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Menu de jeu");
             stage.setScene(new Scene(root, 1250, 800));
