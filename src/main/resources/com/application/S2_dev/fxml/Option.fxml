@@ -29,7 +29,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Label fx:id="label" layoutX="148.0" layoutY="25.0" prefHeight="375.0" prefWidth="600.0" stylesheets="@option.css" text="balablalblalalalalalalalalal" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+      <Label fx:id="label" layoutX="148.0" layoutY="25.0" prefHeight="375.0" prefWidth="600.0" stylesheets="@menu.css" text="balablalblalalalalalalalalal" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
          <styleClass>
             <String fx:value="my-anchor-pane2" />
             <String fx:value="label3" />
