@@ -6,158 +6,149 @@ import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.modele.tours.Tour;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.scene.image.ImageView;
 
 import java.util.LinkedList;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public abstract class Ennemi {
 
+    private DoubleProperty x; // Position X de l'ennemi
+    private DoubleProperty y; // Position Y de l'ennemi
+    private Terrain terrain; // Terrain sur lequel évolue l'ennemi
+    private int i = 0; // Index de la cellule dans le chemin le plus court
+    private String id; // Identifiant de l'ennemi
+    public static int compteur = 0; // Compteur d'ennemis pour générer l'identifiant unique
+    private int vie; // Points de vie de l'ennemi
+    private ImageView vue = null; // Vue de l'ennemi (utilisée pour l'affichage graphique)
+    private Image imagePrincipale = null, imageSecondaire = null; // Images de l'ennemi (utilisées pour l'affichage graphique)
+    private BFS bfs; // Algorithme de recherche du plus court chemin
+    private LinkedList<Cellule> plusCourtChemin; // Plus court chemin vers la destination
 
-    // Propriétés pour les coordonnées x et y
-    private DoubleProperty x;
-    private DoubleProperty y;
-
-    // Objet Terrain pour le déplacement
-    private Terrain terr;
-
-    // Indice de la cellule actuelle dans le chemin
-    int i = 0;
-
-    // Points de vie de l'ennemi
-    private int pv;
-
-    // Identifiant de l'ennemi
-    private String id;
-
-    // Compteur pour générer l'identifiant
-    public static int compteur = 0;
-
-    // Santé de l'ennemi
-    private int health;
-    private ImageView view = null;
-
-    // Dommages et portée de l'ennemi
-    private int dgts;
-    private int portee;
-
-    public Ennemi(double valX, double valY){
-            this.dgts = dgts;
-            this.portee = portee;
+    public Ennemi(double valX, double valY) {
         x = new SimpleDoubleProperty(valX);
         y = new SimpleDoubleProperty(valY);
-            terr = new Terrain();//a voir
-            this.pv = pv;
-            this.id = "E" + compteur;
-            compteur++;
-            this.health = 100;
+        terrain = new Terrain();
+        this.id = "E" + compteur;
+        compteur++;
+        this.vie = 100;
+        int[] depart = {1, 0};
+        int[] fin = {12, 60};
+        bfs = new BFS();
+        plusCourtChemin = bfs.plusCourtChemin(terrain.getTerrain(), depart, fin);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public DoubleProperty getXProperty() {
+        return x;
+    }
+
+    public DoubleProperty getYProperty() {
+        return y;
+    }
+
+    public double getX() {
+        return x.getValue();
+    }
+
+    public double getY() {
+        return y.getValue();
+    }
+
+    public void deplacer(Cellule cellule) {
+        if (cellule != null) {
+            // Effectuer l'action de déplacement vers la cellule donnée
+        }
+    }
+
+    public void subirDegats(int degats) {
+        vie -= degats;
+    }
+
+    public boolean estVivant() {
+        return vie > 0;
+    }
+    public abstract void attaquerTour(Tour tour);
+
+    public void agir(double largeurCase, double hauteurCase) {
+        if (i >= plusCourtChemin.size())
+            return;
+
+        Cellule celluleCourante = null;
+        Cellule cellulePrecedente = null;
+
+        try {
+            celluleCourante = plusCourtChemin.get(i);
+            cellulePrecedente = i > 0 ? plusCourtChemin.get(i - 1) : null;
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
         }
 
-        public String getId () {
-            return id;
-        }
-
-        public DoubleProperty getXProperty () {
-            return x;
-        }
-
-        public DoubleProperty getYProperty () {
-            return y;
-        }
-
-        public double getX () {
-            return x.getValue();
-        }
-
-        public double getY () {
-            return y.getValue();
-        }
-
-        public void move (Cellule cellule){
-            if (cellule != null) {
-            }
-        }
-
-        public void subirDegats ( int damage){
-            health -= damage;
-        }
-
-        public boolean estVivant () {
-            return health > 0;
-        }
-
-        public abstract void attack (Tour tour);
-
-    public void agit(double tileWidth, double tileHeight) {
-        int[] start = {1, 0};
-        int[] end = {12, 60};
-
-        BFS bfs = new BFS();
-        LinkedList<Cellule> shortestPath = bfs.plusCourtChemin(terr.getTerrain(), start, end);
-
-        Cellule currentCellule = shortestPath.get(i);
-        Cellule previousCellule = i > 0 ? shortestPath.get(i - 1) : null;
-        if (previousCellule != null) {
-            // Vérifie si la position x de la cellule courante est différente de la position x de la cellule précédente
-            if (currentCellule.getX() != previousCellule.getX()) {
-                // Si la position x de la cellule courante est supérieure à la position x de la cellule précédente,
-                // déplace l'ennemi vers le bas (augmentation de la coordonnée y)
-                if (currentCellule.getX() > previousCellule.getX()) {
-                    this.setY(this.getY() + tileWidth);
-                }
-                // Si la position x de la cellule courante est inférieure à la position x de la cellule précédente,
-                // déplace l'ennemi vers le haut (diminution de la coordonnée y)
-                else if (currentCellule.getX() < previousCellule.getX()) {
-                    this.setY(this.getY() - tileWidth);
-                }
-            }
-            // Vérifie si la position y de la cellule courante est différente de la position y de la cellule précédente
-            if (currentCellule.getY() != previousCellule.getY()) {
-                // Si la position y de la cellule courante est supérieure à la position y de la cellule précédente,
-                // déplace l'ennemi vers la droite (augmentation de la coordonnée x)
-                if (currentCellule.getY() > previousCellule.getY()) {
-                    this.setX(this.getX() + tileWidth);
-                }
-                // Si la position y de la cellule courante est inférieure à la position y de la cellule précédente,
-                // déplace l'ennemi vers la gauche (diminution de la coordonnée x)
-                else if (currentCellule.getY() < previousCellule.getY()) {
-                    this.setX(this.getX() - tileWidth);
+        if (cellulePrecedente != null) {
+            if (celluleCourante.getX() != cellulePrecedente.getX()) {
+                if (celluleCourante.getX() > cellulePrecedente.getX()) {
+                    this.setY(this.getY() + largeurCase);
+                } else if (celluleCourante.getX() < cellulePrecedente.getX()) {
+                    this.setY(this.getY() - largeurCase);
                 }
             }
-            // Vérifie si l'ennemi est arrivé à la position finale (cellule de coordonnées [12, 60])
-            if (currentCellule.getY() == 60 && currentCellule.getX() == 12) {
-                attaquerTour(); // Appelle la méthode pour attaquer la tour
+            if (celluleCourante.getY() != cellulePrecedente.getY()) {
+                if (celluleCourante.getY() > cellulePrecedente.getY()) {
+                    this.setX(this.getX() + hauteurCase);
+                } else if (celluleCourante.getY() < cellulePrecedente.getY()) {
+                    this.setX(this.getX() - hauteurCase);
+                }
             }
         }
 
-        this.move(currentCellule); // Appelle la méthode de déplacement de l'ennemi
+        this.deplacer(celluleCourante);
         i++;
-        this.toString(); // Appelle la méthode toString() pour afficher l'identifiant de l'ennemi
+        this.toString();
     }
 
-    public void attaquerTour () {
-            System.out.println("Je vais attaquer");
-        }
-
-        public void setX ( double x1){
-            this.x.setValue(x1);
-        }
-
-        public void setY ( double y1){
-            this.y.setValue(y1);
-        }
-
-        @Override
-        public String toString () {
-            return "id " + id;
-        }
-
-        public void setView (ImageView view){
-            this.view = view;
-        }
-
-        public ImageView getView() {
-            return view;
-        }
+    public void setX(double x1) {
+        this.x.setValue(x1);
     }
 
+    public void setY(double y1) {
+        this.y.setValue(y1);
+    }
+
+    @Override
+    public String toString() {
+        return "id " + id;
+    }
+
+    public void setVue(ImageView vue) {
+        this.vue = vue;
+        this.imagePrincipale = vue.getImage();
+    }
+
+    public ImageView getVue() {
+        return vue;
+    }
+
+    public void ajouterImageSecondaire(Image imageSecondaire) {
+        this.imageSecondaire = imageSecondaire;
+    }
+
+    /**
+     * Bascule entre l'image principale et l'image secondaire
+     * @param val true si vous souhaitez changer l'image pour l'image secondaire
+     */
+    public void basculerVersVueSecondaire(boolean val) {
+        if (val)
+            vue.setImage(imageSecondaire);
+        else
+            vue.setImage(imagePrincipale);
+    }
+
+    public boolean destinationFinaleAtteinte() {
+        return i >= this.plusCourtChemin.size();
+    }
+
+}
 

@@ -25,28 +25,28 @@ public class TerrainVue {
 
         URL urlImageCheminBloque = Main.class.getResource("image/map/cheminBloque.png");
         Image imageCheminBloque = new Image(String.valueOf(urlImageCheminBloque));
-
-        URL urlBat = Main.class.getResource("image/map/base.png");
-        Image bat = new Image(String.valueOf(urlBat));
+        
+        URL urlTowerBase = Main.class.getResource("image/map/base.png");
+        Image base = new Image(String.valueOf(urlTowerBase));
 
         for(int i = 0; i<terrain.getTerrain().length; i++) {
             for (int j = 0; j < terrain.getTerrain()[i].length; j++) {
-                switch (terrain.getCase1(i,j)) {
-                    case herbe:
-                        ImageView im = new ImageView(imageHerbe);
-                        tilePane.getChildren().add(im);
-                        break;
-                    case chemin:
-                        ImageView im1 = new ImageView(imageChemin);
+                switch (terrain.getCase(i,j)) {
+                    case terrain:
+                        ImageView im1 = new ImageView(imageHerbe);
                         tilePane.getChildren().add(im1);
                         break;
-                    case bloque:
-                        ImageView imm = new ImageView(imageCheminBloque);
-                        tilePane.getChildren().add(imm);
+                    case chemin:
+                        ImageView im2 = new ImageView(imageChemin);
+                        tilePane.getChildren().add(im2);
                         break;
-                    case Chauve_souris:
-                        ImageView im3 = new ImageView(bat);
+                    case cheminBloque:
+                        ImageView im3 = new ImageView(imageCheminBloque);
                         tilePane.getChildren().add(im3);
+                        break;
+                    case base_tourelle:
+                        ImageView im4 = new ImageView(base);
+                        tilePane.getChildren().add(im4);
                         break;
                 }
             }

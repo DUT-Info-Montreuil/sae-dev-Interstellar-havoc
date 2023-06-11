@@ -25,14 +25,9 @@ public class ControlleurMenu implements Initializable  {
     void ButtonConsigne(ActionEvent event) {
         Parent root;
         try {
-            // Fermer la fenêtre actuelle
             Stage stage1 = (Stage) lab.getScene().getWindow();
             stage1.close();
-
-            // Charger le fichier FXML de Consigne
-            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Consigne/Consigne.fxml"));
-
-            // Créer une nouvelle fenêtre pour afficher la Consigne
+            root = FXMLLoader.load(Main.class.getResource("fxml/Consigne/Consigne.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Consigne du jeu");
             stage.setScene(new Scene(root, 1250, 800));
@@ -47,14 +42,9 @@ public class ControlleurMenu implements Initializable  {
     void ButtonCredit(ActionEvent event) {
         Parent root;
         try {
-            // Fermer la fenêtre actuelle
             Stage stage1 = (Stage) lab.getScene().getWindow();
             stage1.close();
-
-            // Charger le fichier FXML de Credit
-            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Credit/Credit.fxml"));
-
-            // Créer une nouvelle fenêtre pour afficher le Credit
+            root = FXMLLoader.load(Main.class.getResource("fxml/Credit/Credit.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Credit");
             stage.setScene(new Scene(root, 1250, 800));
@@ -68,14 +58,9 @@ public class ControlleurMenu implements Initializable  {
     void ButtonNiveau(ActionEvent event) {
         Parent root;
         try {
-            // Fermer la fenêtre actuelle
             Stage stage1 = (Stage) lab.getScene().getWindow();
             stage1.close();
-
-            // Charger le fichier FXML de Option
-            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Niveau/Option.fxml"));
-
-            // Créer une nouvelle fenêtre pour afficher le Niveau de jeu
+            root = FXMLLoader.load(Main.class.getResource("fxml/Niveau/Option.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Niveau de jeu");
             stage.setScene(new Scene(root, 1250, 800));
@@ -88,7 +73,6 @@ public class ControlleurMenu implements Initializable  {
 
     @FXML
     void actionQuit(ActionEvent event) {
-        // Fermer la fenêtre
         Stage stage = (Stage) lab.getScene().getWindow();
         stage.close();
     }
@@ -96,14 +80,9 @@ public class ControlleurMenu implements Initializable  {
     void ButtonPlay(ActionEvent event) {
             Parent root;
             try {
-                // Fermer la fenêtre actuelle
                 Stage stage1 = (Stage) lab.getScene().getWindow();
                 stage1.close();
-
-                // Charger le fichier FXML de TerrainJeu
-                root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/TerrainJeu/TerrainJeu.fxml"));
-
-                // Créer une nouvelle fenêtre pour afficher le Terrain de jeu
+                root = FXMLLoader.load(Main.class.getResource("fxml/TerrainJeu/TerrainJeu.fxml"));
                 Stage stage = new Stage();
                 stage.setTitle("Interstellar Havoc: Infinite Frontiers");
                 stage.setScene(new Scene(root, 1250, 800));

@@ -20,7 +20,6 @@ public class ControlleurConsigne implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Initialise le texte de la consigne lorsque le contrôleur est chargé
         labelConsigne.setText("Bienvenue dans notre Tower Defense à thème spatial ! Votre mission consiste à défendre la base contre les vagues d'ennemis qui approchent. Voici votre consigne :\n" +
                 "\n" +
                 "Vous devez protégez la base en empêchant les ennemis d'atteindre son emplacement. Assurez-vous que la base ne subisse aucun dommage.\n" +
@@ -49,29 +48,18 @@ public class ControlleurConsigne implements Initializable {
     void ButtonRetour(ActionEvent event) {
         Parent root;
         try {
-            // Ferme la fenêtre actuelle
             Stage stage1 = (Stage) labelConsigne.getScene().getWindow();
             stage1.close();
-
-            // Charge le fichier FXML du menu principal
-            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Menu/Menu.fxml"));
-
-            // Crée une nouvelle fenêtre pour le menu principal
+            root = FXMLLoader.load(Main.class.getResource("fxml/Menu/Menu.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Menu de jeu");
-
-            // Définit la scène du menu principal avec une taille de 1250x800 pixels
             stage.setScene(new Scene(root, 1250, 800));
-
-            // Affiche la fenêtre du menu principal
             stage.show();
-
-            // Cache la fenêtre actuelle (décommentez cette ligne si nécessaire)
-            // ((Node)(event.getSource())).getScene().getWindow().hide();
+            //((Node)(event.getSource())).getScene().getWindow().hide();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-    }
 
+    }
 }

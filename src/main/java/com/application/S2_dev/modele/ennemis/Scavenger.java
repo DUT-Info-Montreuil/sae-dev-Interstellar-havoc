@@ -4,29 +4,29 @@ import com.application.S2_dev.modele.tours.Tour;
 
 public class Scavenger extends Ennemi {
 
-    private static final int RANGE = 50; // Portée de la tour
-    private static final int DAMAGE = 5; // Dommages infligés aux tours
+    private static final int portee = 50; // Portée de la tour
+    private static final int degats = 5; // Dommages infligés aux tours
 
-    public Scavenger(int x, int y) {
+    public Scavenger(int x, int y){
         super(x, y);
     }
 
     @Override
-    public void attack(Tour tour) {
-        if (isInRange(tour)) {
-            // Inflige des dommages à la tour
-            tour.subirDegats(DAMAGE);
+    public void attaquerTour(Tour tour) {
+        if (estDansPortée(tour)) {
+            // Infliger des dégâts à la tour
+            tour.infligerDegats(degats);
         }
     }
 
-    private boolean isInRange(Tour tower) {
-        // Vérifie si l'ennemi est dans la portée de tir
-        double distance = calculateDistance(tower.getX(), tower.getY());
-        return distance <= RANGE;
+    private boolean estDansPortée(Tour tour) {
+        // Vérifier si l'ennemi est à portée de tir
+        double distance = calculerDistance(tour.getX(), tour.getY());
+        return distance <= portee;
     }
 
-    private double calculateDistance(double x, double y) {
-        // Calcule la distance entre l'ennemi et les coordonnées (x, y)
+    private double calculerDistance(double x, double y) {
+        // Calculer la distance entre l'ennemi et une position donnée
         return Math.sqrt(Math.pow((x - getX()), 2) + Math.pow((y - getY()), 2));
     }
 }

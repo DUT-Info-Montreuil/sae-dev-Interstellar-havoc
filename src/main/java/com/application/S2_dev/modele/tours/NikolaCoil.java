@@ -1,35 +1,33 @@
-
 package com.application.S2_dev.modele.tours;
 
 import com.application.S2_dev.modele.data.TowerType;
 import com.application.S2_dev.modele.ennemis.Ennemi;
 
 public class NikolaCoil extends Tour {
-    
-    private static final int portee = 50; // Portée de la tour
-    private static final int degats = 10; // Dégâts infligés aux ennemis
-    private static final int cadence_de_tir = 2; // Cadence de tir de la tour (coups par seconde)
 
-    public NikolaCoil(int x, int y) {
-        super(x, y, TowerType.Nikola);
+    private int DEGATS = 10; // Dommages infligés aux ennemis
+    private int TAUX_TIR = 2; // Taux de tir de la tour (coups par seconde)
+    private int tempsRecharge = 0;
+
+    public NikolaCoil(int x, int y, int niveau) {
+
+        super("NikolaCoil", x, y, TowerType.Nikola, niveau, 100 * niveau, 50 + (niveau * 5));
+
+        this.TAUX_TIR = 2 - niveau;
+        this.DEGATS = 10 + (niveau * 3);
+
+        if (TAUX_TIR < 1)
+            TAUX_TIR = 1;
     }
-    
+
     @Override
-    public void attaquer(Ennemi ennemi) {
-        if (estDansPortee(ennemi)) {
-            // Infliger des dégâts à l'ennemi
-            ennemi.subirDegats(degats);
+    public void attaquerTour(Ennemi ennemi) {
+        if (tempsRecharge == 0) {
+            // Inflige des dommages à l'ennemi
+            ennemi.subirDegats(DEGATS);
+            tempsRecharge = TAUX_TIR;
         }
-    }
-
-    private boolean estDansPortee(Ennemi ennemi) {
-        // Vérifier si l'ennemi est dans la portée de la tour
-        double distance = calculerDistance(ennemi.getX(), ennemi.getY());
-        return distance <= portee;
-    }
-
-    private double calculerDistance(double x, double y) {
-        // Calculer la distance entre la tour et l'ennemi
-        return Math.sqrt(Math.pow((x-getX()), 2) + Math.pow((y-getY()), 2));
+        if (tempsRecharge > 0)
+            tempsRecharge--;
     }
 }

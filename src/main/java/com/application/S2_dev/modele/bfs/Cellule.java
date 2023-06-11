@@ -4,10 +4,10 @@ public class Cellule {
 
     int x;
     int y;
-    int distance;  	// Distance
-    Cellule precedente;  // Cellule parente dans le chemin
+    int distance;  	// distance
+    Cellule precedente;  // cellule parent dans le chemin
 
-    Cellule(int x, int y, int distance, Cellule precedente) {
+    public Cellule(int x, int y, int distance, Cellule precedente) {
         this.x = x;
         this.y = y;
         this.distance = distance;
@@ -19,10 +19,20 @@ public class Cellule {
         return "(" + x + "," + y + ")";
     }
 
+    /**
+     * Retourne la coordonnée X de la cellule.
+     *
+     * @return la coordonnée X
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Retourne la coordonnée Y de la cellule.
+     *
+     * @return la coordonnée Y
+     */
     public int getY() {
         return y;
     }
