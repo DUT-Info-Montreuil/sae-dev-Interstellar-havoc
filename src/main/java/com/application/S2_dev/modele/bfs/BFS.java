@@ -3,9 +3,10 @@ package com.application.S2_dev.modele.bfs;
 import java.util.*;
 
 public class BFS {
+
     public BFS() {
-        //
     }
+
 
     public LinkedList<Cell> shortestPath(int[][] matrix, int[] start, int[] end) {
         int sx = start[0], sy = start[1];
@@ -13,7 +14,7 @@ public class BFS {
 
         //System.out.println("m "+matrix[sx][sy]+" ,m2 "+matrix[dx][dy]);
         // if start or end value is 0, return empty path
-        if (matrix[sx][sy] != 1 || matrix[dx][dy] != 1) {
+        if (matrix[sx][sy] != 1 || matrix[dx][dy] != 1 ) {
             System.out.println("There is no path.");
             return new LinkedList<>();
         }
@@ -25,7 +26,7 @@ public class BFS {
 
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if (matrix[i][j] == 1) {  // Change here
+                if (matrix[i][j] == 1 || matrix [i][j] == 2) {  // Change here
                     cells[i][j] = new Cell(i, j, Integer.MAX_VALUE, null);
                 }
             }
@@ -87,4 +88,7 @@ public class BFS {
             queue.add(p);
         }
     }
+
+
+
 }

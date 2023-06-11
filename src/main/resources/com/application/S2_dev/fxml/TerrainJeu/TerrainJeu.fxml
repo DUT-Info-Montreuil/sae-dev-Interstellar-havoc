@@ -41,6 +41,7 @@
             <Label fx:id="labelBombe" layoutX="76.0" layoutY="285.0" prefHeight="61.0" prefWidth="66.0" styleClass="labelBombe" AnchorPane.bottomAnchor="242.0" AnchorPane.leftAnchor="76.0" AnchorPane.rightAnchor="76.0" AnchorPane.topAnchor="285.0" />
             <Label fx:id="labelMur" layoutX="74.0" layoutY="377.0" prefHeight="77.0" prefWidth="70.0" styleClass="labelMur" AnchorPane.bottomAnchor="134.0" AnchorPane.leftAnchor="74.0" AnchorPane.rightAnchor="74.0" AnchorPane.topAnchor="377.0" />
             <Label fx:id="labelMaintenace" layoutX="76.0" layoutY="494.0" prefHeight="60.0" prefWidth="66.0" styleClass="labelMaintenance" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="76.0" AnchorPane.rightAnchor="76.0" AnchorPane.topAnchor="494.0" />
+            <Label fx:id="LabelHydrogene" layoutX="69.0" layoutY="152.0" prefHeight="70.0" prefWidth="79.0" styleClass="labelHydrogene" AnchorPane.bottomAnchor="366.0" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="152.0" />
          </children>
       </AnchorPane>
    </right>

@@ -91,6 +91,9 @@
 .labelBombe{
     -fx-graphic: url('bombe.png');
 }
+.labelHydrogene{
+    -fx-graphic: url('hydrogene.png');
+}
 .labelMur{
     -fx-graphic: url('mur.png');
 }

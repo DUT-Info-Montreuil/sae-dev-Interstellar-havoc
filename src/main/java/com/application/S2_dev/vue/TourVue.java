@@ -9,42 +9,33 @@ import com.application.S2_dev.modele.ennemis.Ennemi;
 import com.application.S2_dev.modele.ennemis.Scavenger;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
+import com.application.S2_dev.modele.tours.Tour;
 import com.application.S2_dev.modele.tours.EdisonCoil;
 import com.application.S2_dev.modele.tours.NikolaCoil;
 import com.application.S2_dev.modele.tours.OppenheimerCoil;
-import com.application.S2_dev.modele.tours.Tour;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
-import javafx.util.Duration;
-
 import javax.swing.*;
 import java.net.URL;
 
-public class TourVue {
-    Environnement environnement;
-    Label idBobineEdison;
-    Label idBobineOppenheimer;
-    Label idBobineNikola;
-    Label labelCredit;
-    Label labelLife;
-    Label idSelectedTower;
-    TilePane tilePane;
-    Terrain terrain;
+public class TourVue implements ListChangeListener<Tour> {
+    private Environnement environnement;
+    Pane pane;
+    private TilePane tilePane;
+    private Terrain terrain;
+    private Label idBobineEdison, idBobineOppenheimer, idBobineNikola;
+    private Label idSelectedTower, labelCredit;
     private TowerType selectedTowerType;
     private int timeBeforeNewSpawn = 15;
-    private int lifeCount = 5;
     private Tour clickedTower = null;
     private ImageView levelChooser = null;
+    private int money ;
 
-    private int money = 500;
-    Pane pane;
-    public TourVue(Environnement environnement, TilePane tilePane, Terrain terrain , Pane pane, Label idBobineEdison, Label idBobineOppenheimer, Label idBobineNikola, Label labelCredit, Label labelLife, Label idSelectedTower){
+    public TourVue(Environnement environnement, TilePane tilePane, Terrain terrain , Pane pane, Label idBobineEdison, Label idBobineOppenheimer, Label idBobineNikola, Label labelCredit, Label idSelectedTower){
         this.environnement = environnement;
         this.tilePane = tilePane;
         this.terrain = terrain;
@@ -52,19 +43,31 @@ public class TourVue {
         this.idBobineEdison = idBobineEdison;
         this.idBobineNikola = idBobineNikola;
         this.idBobineOppenheimer = idBobineOppenheimer;
+        /*Integer.parseInt(labelCredit.getText()).addListener((observableValue, oldValue, nouvelleValeur) -> {
+            this.labelLife.setText(String.valueOf(nouvelleValeur));*/
+        this.money = Integer.parseInt(labelCredit.getText());
         this.labelCredit = labelCredit;
-        this.labelLife = labelLife;
         this.idSelectedTower = idSelectedTower;
-
+    }
+    @Override
+    public void onChanged(Change<? extends Tour> c) {
+        while (c.next()) {
+            System.out.println("les ajouts Tour: " + c.getAddedSubList());
+            System.out.println("les suppressions Tour: " + c.getRemoved());
+        }
+        for(int i =0; i<c.getAddedSubList().size();i++){
+            subtractMoney(c.getAddedSubList().get(i).getPrice());
+        }
+        for (int i = 0; i < c.getRemoved().size(); i++) {
+            ImageView sprite = (ImageView) pane.lookup("#" + c.getRemoved().get(i).getId());
+            pane.getChildren().remove(sprite);
+        }
     }
     public void lancerTourVue() {
-
         final int ennemiSquadSize = environnement.getEnnemis().size();
 
-        environnement.unTour();
-
-        if (environnement.getEnnemis().size() < ennemiSquadSize)
-            addMoney(100);
+       // if (environnement.getEnnemis().size() < ennemiSquadSize)
+            //addMoney(100);
 
         int s = 0, be = 0, ba = 0;
         for (Ennemi e : environnement.getEnnemis()) {
@@ -80,13 +83,6 @@ public class TourVue {
             pane.getChildren().remove(this.levelChooser);
             levelChooser = null;
         }
-
-       /* labelScavenger.setText(s + "");
-        labelBehemoth.setText(be + "");
-        labelBalliste.setText(ba + "");*/
-
-        int lifeVal = lifeCount - environnement.getReachedPlayers();
-        labelLife.setText(lifeVal + "");
 
         if (timeBeforeNewSpawn == 0) {
            // spawnEnnemi();
@@ -134,7 +130,7 @@ public class TourVue {
             spawnTower(pos[0], pos[1], 1);
         });
 
-        labelCredit.setText(money + "");
+       // labelCredit.setText(money + "");
     }
     void showLevelChooser() {
 
@@ -220,7 +216,6 @@ public class TourVue {
 
             Tour tower;
 
-            // Create the tower object based on the tower type
             switch (selectedTowerType) {
                 case Nikola:
                     tower = new NikolaCoil((int)col*16, (int)row*16, level);
@@ -236,14 +231,14 @@ public class TourVue {
             }
 
             if (money < tower.getPrice()) {
-                JOptionPane.showMessageDialog(null, "Not enough money!");
+                JOptionPane.showMessageDialog(null, "Pas assez d'argent !");
                 return;
             }
 
             // Add the tower to the terrain and display it on the pane
             environnement.addTower(tower);
             creerSprite(tower);
-            subtractMoney(tower.getPrice());
+           // subtractMoney(tower.getPrice());
         } else {
             // Tower placement is not allowed at the specified coordinates
             System.out.println("Tower placement not allowed at coordinates (" + row + ", " + col + ")");
@@ -255,10 +250,10 @@ public class TourVue {
 
         switch (t.getType()) {
             case Nikola:
-                urlTour = Main.class.getResource("image/tour/bobineEdison.png");
+                urlTour = Main.class.getResource("image/tour/bobineNicolas.png");
                 break;
             case Edison:
-                urlTour = Main.class.getResource("image/tour/bobineNicolas.png");
+                urlTour = Main.class.getResource("image/tour/bobineEdison.png");
                 break;
             case Oppenheimer:
                 urlTour = Main.class.getResource("image/tour/bobineOppenheimer.png");
@@ -302,14 +297,14 @@ public class TourVue {
     }
     void refundMoney(int value) {
         money += value;
-        labelCredit.setText(money + "");
+        labelCredit.setText(String.valueOf(money));
     }
-    void addMoney(int value) {
+    /*void addMoney(int value) {
         money += value;
-        labelCredit.setText(money + "");
-    }
+        labelCredit.setText(String.valueOf(money));
+    }*/
     void subtractMoney(int value) {
         money -= value;
-        labelCredit.setText(money + "");
+        labelCredit.setText(String.valueOf(money));
     }
 }

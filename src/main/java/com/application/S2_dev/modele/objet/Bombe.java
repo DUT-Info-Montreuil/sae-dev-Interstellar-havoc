@@ -1,31 +1,31 @@
 package com.application.S2_dev.modele.objet;
 
 import com.application.S2_dev.modele.ennemis.Ennemi;
+import com.application.S2_dev.modele.map.Environnement;
+import com.application.S2_dev.modele.map.Terrain;
 
 public class Bombe extends Objet {
 
-    private static final int DEGAT = 100;
-    private static final int PORTE = 50;
-    public Bombe(){
-        super();
-        this.pv = 10;
-    }
+    private int PORTE = 20;
+    public Bombe(Environnement environnement, Terrain terrain){
 
-    public void degat(Ennemi ennemi){
-        if (isInRange(ennemi)) {
-            ennemi.setHealth(0);
-            this.pv = 0;
+        super(environnement, terrain);
+        this.prix = 50;
+    }
+    @Override
+    public void agit() {
+        for(int i =0; i<environnement.getEnnemis().size();i++) {
+            if (ennemisProximite(environnement.getEnnemis().get(i))) {
+                environnement.getEnnemis().get(i).meur();
+                this.pv = 0;
+            }
         }
-
     }
-    private double calculateDistance(double x, double y) {
+    private double calculaterDistance(double x, double y) {
         return Math.sqrt(Math.pow((x-getX()), 2) + Math.pow((y-getY()), 2));
     }
-
-    private boolean isInRange(Ennemi ennemi) {
-        double distance = calculateDistance(ennemi.getX(), ennemi.getY());
+    private boolean ennemisProximite(Ennemi ennemi) {
+        double distance = calculaterDistance(ennemi.getX(), ennemi.getY());
         return distance <= PORTE;
     }
-
-
 }

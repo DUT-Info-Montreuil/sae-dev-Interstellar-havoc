@@ -1,32 +1,35 @@
 package com.application.S2_dev.modele.objet;
 
+import com.application.S2_dev.modele.map.Environnement;
+import com.application.S2_dev.modele.map.Terrain;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 public abstract class Objet {
-    private DoubleProperty x;
-    private DoubleProperty y;
+    Environnement environnement;
+    public static Terrain terrain;
+    private DoubleProperty x, y;
     public int pv;
     private String id;
     public static int compteur = 0;
+    public static int prix;
 
-    public Objet(){
+    public Objet(Environnement environnement, Terrain terrain){
+        this.environnement = environnement;
+        this.terrain = terrain;
         this.x = new SimpleDoubleProperty();
         this.y = new SimpleDoubleProperty();
-        this.id = "O" + compteur;
+        this.id = "Ob" + compteur;
         compteur++;
+        this.pv = 20;
+    }
+
+    public int getPv() {
+        return pv;
     }
 
     public String getId() {
         return id;
-    }
-
-    public DoubleProperty getXProperty () {
-        return x;
-    }
-
-    public DoubleProperty getYProperty () {
-        return y;
     }
 
     public double getX () {
@@ -48,11 +51,13 @@ public abstract class Objet {
     public boolean estVivant () {
         return pv > 0;
     }
-
+    public abstract void agit();
+    public int getPrix() {
+        return prix;
+    }
     @Override
     public String toString () {
         return "id " + id;
     }
-
 
 }

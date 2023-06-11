@@ -1,15 +1,20 @@
 
 package com.application.S2_dev.modele.ennemis;
 
+import com.application.S2_dev.modele.bfs.Cell;
+import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.modele.tours.Tour;
 
+import java.util.LinkedList;
+
 public class Behemoth extends Ennemi {
-    
+
+    Terrain terrain;
     private static final int RANGE = 100; // Range of the tower
     private static final int DAMAGE = 25; // Damage inflicted on towers
     
-    public Behemoth(int x, int y){
-        super(x, y);
+    public Behemoth(int x, int y, Terrain terrain){
+        super(x, y, terrain);
     }
     
     @Override

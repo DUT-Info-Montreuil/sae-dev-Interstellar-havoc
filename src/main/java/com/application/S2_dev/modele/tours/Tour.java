@@ -2,13 +2,11 @@ package com.application.S2_dev.modele.tours;
 
 import com.application.S2_dev.modele.data.TowerType;
 import com.application.S2_dev.modele.ennemis.Ennemi;
-import java.util.UUID;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.image.ImageView;
 
 public abstract class Tour {
-
     private String id;
     private DoubleProperty x;
     private DoubleProperty y;
@@ -19,9 +17,10 @@ public abstract class Tour {
     private int price;
     private int[] bounds;
     private int mapX, mapY;
+    public static int compteur = 0;
 
     public Tour(double x, double y, TowerType type, int level, int price) {
-        this.id = UUID.randomUUID().toString();
+        this.id = "T" + compteur;
         this.x = new SimpleDoubleProperty(x);
         this.y = new SimpleDoubleProperty(y);
         this.type = type;
@@ -58,6 +57,9 @@ public abstract class Tour {
     }
 
     public abstract void attack(Ennemi e);
+    public void meur(){
+        this.health = 0;
+    }
 
     public void damage(int value) {
         health -= value;
@@ -120,6 +122,10 @@ public abstract class Tour {
 
     public void setMapY(int mapY) {
         this.mapY = mapY;
+    }
+    @Override
+    public String toString () {
+        return "id " + id;
     }
 
 

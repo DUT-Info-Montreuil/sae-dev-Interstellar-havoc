@@ -1,6 +1,7 @@
 
 package com.application.S2_dev.modele.ennemis;
 
+import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.modele.tours.Tour;
 
 public class Scavenger extends Ennemi {
@@ -8,8 +9,8 @@ public class Scavenger extends Ennemi {
     private static final int RANGE = 50; // Range of the tower
     private static final int DAMAGE = 5; // Damage inflicted on towers
     
-    public Scavenger(int x, int y){
-        super(x, y);
+    public Scavenger(int x, int y, Terrain terrain){
+        super(x, y, terrain);
     }
     
     @Override
