@@ -1,0 +1,72 @@
+.my-anchor-pane {
+    -fx-background-color: radial-gradient(center 50% 50%, radius 100%, #000019, #400040);
+}
+
+.labelBombe{
+    -fx-graphic: url('bombe.png');
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 16px; /* Rayon de courbure des coins */
+}
+.labelMur{
+    -fx-graphic: url('mur.png');
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 16px; /* Rayon de courbure des coins */
+}
+.labelMaintenance{
+    -fx-graphic: url('maintenance.png');
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 16px; /* Rayon de courbure des coins */
+}
+.labelTour1{
+    -fx-graphic: url('tourel1.png');
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 16px; /* Rayon de courbure des coins */
+}
+.labelTour2{
+    -fx-graphic: url('tourel2.png');
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 16px; /* Rayon de courbure des coins */
+}
+.labelTour3{
+    -fx-graphic: url('tourel3.png');
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 16px; /* Rayon de courbure des coins */
+}
+.labelContour{
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 16px; /* Rayon de courbure des coins */
+    -fx-text-fill: white;
+    -fx-font-style: italic;
+    -fx-font-family: "UniversFont";
+    -fx-alignment: center;
+    -fx-font-size: 10pt;
+}
+.labelTitre{
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 16px; /* Rayon de courbure des coins */
+    -fx-text-fill: white;
+    -fx-font-style: italic;
+    -fx-font-family: "UniversFont";
+    -fx-alignment: center;
+    -fx-font-size: 25pt;
+}
+
+
+
+
