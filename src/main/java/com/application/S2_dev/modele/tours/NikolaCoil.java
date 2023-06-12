@@ -12,7 +12,7 @@ public class NikolaCoil extends Tour {
     private int cooldownTime = 0;
 
     public NikolaCoil(int x, int y, int level) {
-        super(x, y, TowerType.Nikola, level, 100*level);
+        super(x, y, TowerType.Nikola, level,200, 100*level);
         this.FIRE_RATE = 2 - level;
         this.DAMAGE = 10 + (level*3);
         this.RANGE = 50 + (level*5);
@@ -31,6 +31,13 @@ public class NikolaCoil extends Tour {
         if (cooldownTime > 0)
             cooldownTime--;
     }
+
+    @Override
+    public boolean estEndommager(){
+        return this.getHealth()<200;
+    }
+    @Override
+    public void setHealth(){this.health=200;}
 
     private boolean isInRange(Ennemi ennemi) {
         // Check if the enemy is within the firing range

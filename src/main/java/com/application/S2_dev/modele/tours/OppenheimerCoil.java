@@ -12,7 +12,7 @@ public class OppenheimerCoil extends Tour {
     private int cooldownTime = 0;
 
     public OppenheimerCoil(int x, int y, int level) {
-        super(x, y, TowerType.Oppenheimer, level, 100*level);
+        super(x, y, TowerType.Oppenheimer, level,300,100*level);
         this.FIRE_RATE = 10 - level;
         this.DAMAGE = 25 + (level*3);
         this.RANGE = 150 + (level*5);
@@ -32,6 +32,13 @@ public class OppenheimerCoil extends Tour {
             cooldownTime--;
     }
 
+    @Override
+    public void setHealth(){this.health=300;}
+
+    @Override
+    public boolean estEndommager(){
+        return this.getHealth()<300;
+    }
     private boolean isInRange(Ennemi ennemi) {
         // Check if the enemy is within the firing range
         double distance = calculateDistance(ennemi.getX(), ennemi.getY());

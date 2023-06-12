@@ -12,7 +12,7 @@ public class EdisonCoil extends Tour {
     private int cooldownTime = 0;
 
     public EdisonCoil(int x, int y, int level) {
-        super(x, y, TowerType.Edison, level, 100*level);
+        super(x, y, TowerType.Edison, level,100,100*level);
         this.FIRE_RATE = 6 - level;
         this.DAMAGE = 25 + (level*3);
         this.RANGE = 50 + (level*5);
@@ -31,6 +31,12 @@ public class EdisonCoil extends Tour {
         if (cooldownTime > 0)
             cooldownTime--;
     }
+    @Override
+    public boolean estEndommager(){
+        return this.getHealth()<100;
+    }
+    @Override
+    public void setHealth(){this.health=100;}
 
     private boolean isInRange(Ennemi ennemi) {
         // Check if the enemy is within the firing range

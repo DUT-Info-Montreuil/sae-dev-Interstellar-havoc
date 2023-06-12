@@ -11,7 +11,7 @@ public abstract class Tour {
     private DoubleProperty x;
     private DoubleProperty y;
     private TowerType type;
-    private int health;
+    int health;
     public ImageView view = null;
     private int level;
     private int price;
@@ -19,12 +19,12 @@ public abstract class Tour {
     private int mapX, mapY;
     public static int compteur = 0;
 
-    public Tour(double x, double y, TowerType type, int level, int price) {
+    public Tour(double x, double y, TowerType type, int level,int pv, int price) {
         this.id = "T" + compteur;
         this.x = new SimpleDoubleProperty(x);
         this.y = new SimpleDoubleProperty(y);
         this.type = type;
-        this.health = 100;
+        this.health = pv;
         this.level = level;
         this.price = price;
         this.bounds = new int[4];
@@ -88,6 +88,8 @@ public abstract class Tour {
     public int getPrice() {
         return price;
     }
+    public int getHealth(){return health;}
+
 
     public void setPrice(int price) {
         this.price = price;
@@ -123,10 +125,14 @@ public abstract class Tour {
     public void setMapY(int mapY) {
         this.mapY = mapY;
     }
+    public void setHealth(){this.health=100;}
     @Override
     public String toString () {
         return "id " + id;
     }
 
 
+    public boolean estEndommager() {
+        return this.health<100;
+    }
 }
