@@ -21,7 +21,6 @@ public abstract class Ennemi {
     private String id;
     public static int compteur = 0;
     private int health;
-    private ImageView view = null;
     private static final int RANGE = 20;
     private static final int DAMAGE = 25;
 
@@ -139,13 +138,7 @@ public abstract class Ennemi {
             return "id " + id;
         }
 
-        public void setView (ImageView view){
-            this.view = view;
-        }
 
-        public ImageView getView() {
-            return view;
-        }
     }
 
 

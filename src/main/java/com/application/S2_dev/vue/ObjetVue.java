@@ -3,6 +3,7 @@ package com.application.S2_dev.vue;
 import com.application.S2_dev.modele.ennemis.Ennemi;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.objet.Bombe;
+import com.application.S2_dev.modele.objet.Maintenance;
 import com.application.S2_dev.modele.objet.Mur;
 import com.application.S2_dev.modele.objet.Objet;
 import javafx.collections.ListChangeListener;
@@ -12,6 +13,7 @@ import javafx.scene.image.ImageView;
 public class ObjetVue implements ListChangeListener<Objet> {
     private Label labelBombe;
     private Label labelMur;
+    private Label labelMaintenance;
     private Environnement environnement;
     private Objet objet;
 
@@ -35,6 +37,11 @@ public class ObjetVue implements ListChangeListener<Objet> {
         labelMur.setOnMouseClicked( h -> {
             objet = new Mur();
         });
+        labelMaintenance.setOnMouseClicked( h -> {
+            System.out.println("AHAHAHAH");
+            Maintenance.reparer();
+        }) ;
+
     }
 
    /* void creerObjet(Objet o) {

@@ -128,6 +128,11 @@ public class Environnement {
     public void addTower(Tour tour) {
         tours.add(tour);
     }
+
+    public ArrayList<Tour> getTours() {
+        return tours;
+    }
+
     public void ajoutObjet(Objet objet) {
         objets.add(objet);
     }

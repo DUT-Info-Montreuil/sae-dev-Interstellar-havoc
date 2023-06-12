@@ -13,6 +13,7 @@ import com.application.S2_dev.modele.objet.Mur;
 import com.application.S2_dev.modele.objet.Objet;
 import com.application.S2_dev.modele.tours.*;
 import com.application.S2_dev.vue.EnnemiVue;
+import com.application.S2_dev.vue.SoundPlayer;
 import com.application.S2_dev.vue.TerrainVue;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -66,6 +67,7 @@ public class ControlleurTerrainJeu implements Initializable {
 
     @FXML
     private Label labelMur;
+
 
     private Timeline gameLoop;
     private int temps;
@@ -186,13 +188,13 @@ public class ControlleurTerrainJeu implements Initializable {
             // Create the tower object based on the tower type
             switch (selectedTowerType) {
                 case Nikola:
-                    tower = new NikolaCoil((int) x, (int) y);
+                    tower = new NikolaCoil((int) x, (int) y,1);
                     break;
                 case Edison:
-                    tower = new EdisonCoil((int) x, (int) y);
+                    tower = new EdisonCoil((int) x, (int) y,1);
                     break;
                 case Oppenheimer:
-                    tower = new OppenheimerCoil((int) x, (int) y);
+                    tower = new OppenheimerCoil((int) x, (int) y,1);
                     break;
                 default:
                     tower = null;
