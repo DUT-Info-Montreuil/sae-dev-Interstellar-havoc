@@ -1,5 +1,6 @@
 package com.application.S2_dev.modele.map;
 
+import com.application.S2_dev.Parametre;
 import com.application.S2_dev.modele.ennemis.*;
 import com.application.S2_dev.modele.tours.Tour;
 import java.util.ArrayList;
@@ -11,7 +12,6 @@ import javafx.scene.layout.Pane;
 public class Environnement {
 
     Pane pane;
-    private int tauxApparition;
     private Terrain terrain;
     private ArrayList<Ennemi> ennemisElimines;
     private ArrayList<Tour> toursEliminees;
@@ -32,9 +32,6 @@ public class Environnement {
         return ennemis;
     }
 
-    public ArrayList<Ennemi> getennemisElimines() {
-        return ennemisElimines;
-    }
 
     public ArrayList<Tour> getTour() {
         return tours;
@@ -54,7 +51,7 @@ public class Environnement {
 
         for(int i = 0; i < ennemis.size(); i++) {
             Ennemi ennemi = ennemis.get(i);
-            ennemi.agir(16, 16);
+            ennemi.agir(Parametre.largeurCase, Parametre.hauteurCase);
         }
 
         for (int i = 0; i < ennemis.size(); i++) {
@@ -78,6 +75,7 @@ public class Environnement {
         /**
          * Attaque les ennemis s'ils sont à portée
          */
+
         for (int i = 0; i < tours.size(); i++) {
             Tour tour = tours.get(i);
             if (!tour.estDetruite()) {
@@ -87,8 +85,9 @@ public class Environnement {
                     // Remarque : l'attaque est basée sur le taux de tir de la tour
                     tour.attaquerTour(e);
                 }
+                System.out.println(tours);
             } else {
-                System.out.println("Tour détruite : " + tour.getId());
+                System.out.println("Tour détruite : " + tour.getNom());
                 tours.remove(tour);
                 this.toursEliminees.add(tour);
             }

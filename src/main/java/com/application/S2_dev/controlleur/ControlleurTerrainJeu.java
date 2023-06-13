@@ -1,6 +1,7 @@
 package com.application.S2_dev.controlleur;
 
 import com.application.S2_dev.Main;
+import com.application.S2_dev.Parametre;
 import com.application.S2_dev.modele.data.TerrainType;
 import com.application.S2_dev.modele.data.TowerType;
 import com.application.S2_dev.modele.ennemis.Balliste;
@@ -15,33 +16,29 @@ import com.application.S2_dev.vue.TerrainVue;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
-public class ControlleurTerrainJeu implements Initializable {    @FXML
 
-TilePane tilePane;
+public class ControlleurTerrainJeu implements Initializable {
+
+    @FXML
+    TilePane tilePane;
 
     @FXML
     Pane pane;
@@ -78,11 +75,9 @@ TilePane tilePane;
     Environnement env;
 
     private TowerType selectedTowerType = null; // Type de tour sélectionné
-    private int argent = 500; // Quantité d'argent du joueur
-    private int tempsAvantNouveauSpawn = 15; // Temps avant l'apparition d'un nouvel ennemi
-    private boolean jeuEnPause = false; // Indicateur de jeu en pause
-    private int nombreVies = 5; // Nombre de vies du joueur
 
+    private int tempsAvantNouveauSpawn = 10; // Temps avant l'apparition d'un nouvel ennemi
+    private boolean jeuEnPause = false; // Indicateur de jeu en pause
     private ImageView niveauChoisi = null; // Image affichée pour le niveau sélectionné
     private Tour tourCliquee = null; // Tour sélectionnée par le joueur
 
@@ -121,7 +116,7 @@ TilePane tilePane;
             placerTour(pos[0], pos[1], 1); // Placement d'une tour à la position spécifiée
         });
 
-        labelCredit.setText(argent + ""); // Affichage de la quantité d'argent du joueur
+        labelCredit.setText(Parametre.argentDebutJoueur+ ""); // Affichage de la quantité d'Parametre.argentDebutJoueurdu joueur
     }
 
 
@@ -149,6 +144,8 @@ TilePane tilePane;
      */
     public void initAnimation() {
         gameLoop = new Timeline();
+        Timeline time= new Timeline();
+        time.setCycleCount(16);
         temps = 0;
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(
@@ -164,14 +161,14 @@ TilePane tilePane;
             if (env.getEnnemis().size() < ennemiSquadSize)
                 ajouterArgent(100);
 
-            int s = 0, be = 0, ba = 0;
+            int Scavenger = 0, Behemoth = 0, Balliste = 0;
             for (Ennemi e : env.getEnnemis()) {
                 if (e instanceof Scavenger)
-                    s++;
+                    Scavenger++;
                 else if (e instanceof Behemoth)
-                    be++;
+                    Behemoth++;
                 else if (e instanceof Balliste)
-                    ba++;
+                    Balliste++;
             }
 
             if (!env.getTour().contains(tourCliquee)) {
@@ -179,11 +176,11 @@ TilePane tilePane;
                 niveauChoisi = null;
             }
 
-            labelScavenger.setText(s + "");
-            labelBehemoth.setText(be + "");
-            labelBalliste.setText(ba + "");
+            labelScavenger.setText(Scavenger + "");
+            labelBehemoth.setText(Behemoth + "");
+            labelBalliste.setText(Balliste + "");
 
-            int valeurVie = nombreVies - env.getJoueursAtteints();
+            int valeurVie = Parametre.nombreVies - env.getJoueursAtteints();
             labelVie.setText(valeurVie + "");
 
             if (tempsAvantNouveauSpawn == 0) {
@@ -257,8 +254,8 @@ TilePane tilePane;
                     return;
             }
 
-            if (argent < tour.getPrix()) {
-                JOptionPane.showMessageDialog(null, "Pas assez d'argent !");
+            if (Parametre.argentDebutJoueur< tour.getPrix()) {
+                JOptionPane.showMessageDialog(null, "Pas assez d'Parametre.argentDebutJoueur!");
                 return;
             }
 
@@ -274,18 +271,18 @@ TilePane tilePane;
 
 
     void soustraireArgent(int valeur) {
-        argent -= valeur; // Soustrait la valeur donnée à la variable argent
-        labelCredit.setText(argent + ""); // Met à jour le texte de l'étiquette pour afficher la nouvelle valeur de l'argent
+        Parametre.argentDebutJoueur-= valeur; // Soustrait la valeur donnée à la variable argent
+        labelCredit.setText(Parametre.argentDebutJoueur+ ""); // Met à jour le texte de l'étiquette pour afficher la nouvelle valeur de l'argent
     }
 
     void rembourserArgent(int valeur) {
-        argent += valeur; // Ajoute la valeur donnée à la variable argent
-        labelCredit.setText(argent + ""); // Met à jour le texte de l'étiquette pour afficher la nouvelle valeur de l'argent
+        Parametre.argentDebutJoueur+= valeur; // Ajoute la valeur donnée à la variable argent
+        labelCredit.setText(Parametre.argentDebutJoueur+ ""); // Met à jour le texte de l'étiquette pour afficher la nouvelle valeur de l'argent
     }
 
     void ajouterArgent(int valeur) {
-        argent += valeur; // Ajoute la valeur donnée à la variable argent
-        labelCredit.setText(argent + ""); // Met à jour le texte de l'étiquette pour afficher la nouvelle valeur de l'argent
+        Parametre.argentDebutJoueur+= valeur; // Ajoute la valeur donnée à la variable argent
+        labelCredit.setText(Parametre.argentDebutJoueur+ ""); // Met à jour le texte de l'étiquette pour afficher la nouvelle valeur de l'argent
     }
 
 
@@ -410,7 +407,7 @@ TilePane tilePane;
                         int cologne = tourCliquee.getXCarte();
                         int ligne = tourCliquee.getYCarte();
 
-                        if (((argent + tourCliquee.getPrix()) - 100) < 0) {
+                        if (((Parametre.argentDebutJoueur+ tourCliquee.getPrix()) - 100) < 0) {
                             JOptionPane.showMessageDialog(null, "Pas assez d'argent");
                         } else {
                             // Supprime la tour et rembourse l'argent
@@ -426,7 +423,7 @@ TilePane tilePane;
                         int cologne = tourCliquee.getXCarte();
                         int ligne = tourCliquee.getYCarte();
 
-                        if (((argent + tourCliquee.getPrix()) - 200) < 0) {
+                        if (((Parametre.argentDebutJoueur+ tourCliquee.getPrix()) - 200) < 0) {
                             JOptionPane.showMessageDialog(null, "Pas assez d'argent");
                         } else {
                             // Supprime la tour et rembourse l'argent
@@ -442,7 +439,7 @@ TilePane tilePane;
                         int cologne = tourCliquee.getXCarte();
                         int ligne = tourCliquee.getYCarte();
 
-                        if (((argent + tourCliquee.getPrix()) - 300) < 0) {
+                        if (((Parametre.argentDebutJoueur + tourCliquee.getPrix()) - 300) < 0) {
                             JOptionPane.showMessageDialog(null, "Pas assez d'argent");
                         } else {
                             // Supprime la tour et rembourse l'argent

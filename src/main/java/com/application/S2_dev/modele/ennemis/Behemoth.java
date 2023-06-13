@@ -4,11 +4,10 @@ import com.application.S2_dev.modele.tours.Tour;
 
 public class Behemoth extends Ennemi {
 
-    private static final int portee = 100; // Portée de la tour
-    private static final int degats = 25; // Dommages infligés aux tours
-
     public Behemoth(int x, int y){
         super(x, y);
+        this.portee=100; // Portée de la tour
+        this.degats=25; // Dommages infligés aux tours
     }
 
     @Override
@@ -18,15 +17,10 @@ public class Behemoth extends Ennemi {
             tour.infligerDegats(degats);
         }
     }
-
-    private boolean estDansPortee(Tour tour) {
+    @Override
+    public boolean estDansPortee(Tour tour) {
         // Vérifier si l'ennemi est à portée de tir
         double distance = calculerDistance(tour.getX(), tour.getY());
         return distance <= portee;
-    }
-
-    private double calculerDistance(double x, double y) {
-        // Calculer la distance entre l'ennemi et une position donnée
-        return Math.sqrt(Math.pow((x - getX()), 2) + Math.pow((y - getY()), 2));
     }
 }

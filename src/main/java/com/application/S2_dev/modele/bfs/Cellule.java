@@ -1,38 +1,38 @@
 package com.application.S2_dev.modele.bfs;
 public class Cellule {
 
-    int x;
-    int y;
+    int i;
+    int j;
     int distance;  	// distance
     Cellule precedente;  // cellule parent dans le chemin
 
-    public Cellule(int x, int y, int distance, Cellule precedente) {
-        this.x = x;
-        this.y = y;
+    public Cellule(int i, int j, int distance, Cellule precedente) {
+        this.i = i;
+        this.j = j;
         this.distance = distance;
         this.precedente = precedente;
     }
 
     @Override
     public String toString() {
-        return "(" + x + "," + y + ")";
+        return "(" + i + "," + j + ")";
     }
 
     /**
-     * Retourne la coordonnée X de la cellule.
+     * Retourne la coordonnée i de la cellule.
      *
-     * @return la coordonnée X
+     * @return la coordonnée i
      */
-    public int getX() {
-        return x;
+    public int getI() {
+        return i;
     }
 
     /**
-     * Retourne la coordonnée Y de la cellule.
+     * Retourne la coordonnée j de la cellule.
      *
-     * @return la coordonnée Y
+     * @return la coordonnée j
      */
-    public int getY() {
-        return y;
+    public int getJ() {
+        return j;
     }
 }

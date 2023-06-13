@@ -1,13 +1,10 @@
 package com.application.S2_dev.modele.ennemis;
 
-import com.application.S2_dev.modele.bfs.BFS;
 import com.application.S2_dev.modele.bfs.Cellule;
 import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.modele.tours.Tour;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-
-import java.util.LinkedList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -22,9 +19,8 @@ public abstract class Ennemi {
     private int vie; // Points de vie de l'ennemi
     private ImageView vue = null; // Vue de l'ennemi (utilisée pour l'affichage graphique)
     private Image imagePrincipale = null, imageSecondaire = null; // Images de l'ennemi (utilisées pour l'affichage graphique)
-    private BFS bfs; // Algorithme de recherche du plus court chemin
-    private LinkedList<Cellule> plusCourtChemin; // Plus court chemin vers la destination
-
+    protected int degats;
+    protected int portee;
     public Ennemi(double valX, double valY) {
         x = new SimpleDoubleProperty(valX);
         y = new SimpleDoubleProperty(valY);
@@ -32,10 +28,6 @@ public abstract class Ennemi {
         this.id = "E" + compteur;
         compteur++;
         this.vie = 100;
-        int[] depart = {1, 0};
-        int[] fin = {12, 60};
-        bfs = new BFS();
-        plusCourtChemin = bfs.plusCourtChemin(terrain.getTerrain(), depart, fin);
     }
 
     public String getId() {
@@ -45,7 +37,6 @@ public abstract class Ennemi {
     public DoubleProperty getXProperty() {
         return x;
     }
-
     public DoubleProperty getYProperty() {
         return y;
     }
@@ -58,12 +49,6 @@ public abstract class Ennemi {
         return y.getValue();
     }
 
-    public void deplacer(Cellule cellule) {
-        if (cellule != null) {
-            // Effectuer l'action de déplacement vers la cellule donnée
-        }
-    }
-
     public void subirDegats(int degats) {
         vie -= degats;
     }
@@ -72,39 +57,26 @@ public abstract class Ennemi {
         return vie > 0;
     }
     public abstract void attaquerTour(Tour tour);
+    public abstract boolean estDansPortee(Tour tour);
 
     public void agir(double largeurCase, double hauteurCase) {
-        if (i >= plusCourtChemin.size())
-            return;
-
         Cellule celluleCourante = null;
-        Cellule cellulePrecedente = null;
+        Cellule celluleSuivante = null;
+        celluleCourante = terrain.getPlusCourtChemin().get(i);
+        celluleSuivante = i > 0 ? terrain.getPlusCourtChemin().get(i - 1) : null;
 
-        try {
-            celluleCourante = plusCourtChemin.get(i);
-            cellulePrecedente = i > 0 ? plusCourtChemin.get(i - 1) : null;
-        } catch (Exception e) {
-            System.out.println(e.getStackTrace());
-        }
+        if (celluleSuivante != null) {
+            int diffX = celluleCourante.getI() - celluleSuivante.getI();
+            int diffY = celluleCourante.getJ() - celluleSuivante.getJ();
 
-        if (cellulePrecedente != null) {
-            if (celluleCourante.getX() != cellulePrecedente.getX()) {
-                if (celluleCourante.getX() > cellulePrecedente.getX()) {
-                    this.setY(this.getY() + largeurCase);
-                } else if (celluleCourante.getX() < cellulePrecedente.getX()) {
-                    this.setY(this.getY() - largeurCase);
-                }
+            if (diffX != 0) {
+                this.setY(this.getY() + (diffX > 0 ? largeurCase : -largeurCase));
             }
-            if (celluleCourante.getY() != cellulePrecedente.getY()) {
-                if (celluleCourante.getY() > cellulePrecedente.getY()) {
-                    this.setX(this.getX() + hauteurCase);
-                } else if (celluleCourante.getY() < cellulePrecedente.getY()) {
-                    this.setX(this.getX() - hauteurCase);
-                }
-            }
-        }
 
-        this.deplacer(celluleCourante);
+            if (diffY != 0) {
+                this.setX(this.getX() + (diffY > 0 ? hauteurCase : -hauteurCase));
+            }
+    }
         i++;
         this.toString();
     }
@@ -147,7 +119,12 @@ public abstract class Ennemi {
     }
 
     public boolean destinationFinaleAtteinte() {
-        return i >= this.plusCourtChemin.size();
+        return i >= this.terrain.getPlusCourtChemin().size();
+    }
+
+    protected double calculerDistance(double x, double y) {
+        // Calculer la distance entre l'ennemi et une position donnée
+        return Math.sqrt(Math.pow((x - getX()), 2) + Math.pow((y - getY()), 2));
     }
 
 }

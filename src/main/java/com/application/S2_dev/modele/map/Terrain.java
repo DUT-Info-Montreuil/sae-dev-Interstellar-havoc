@@ -1,5 +1,7 @@
 package com.application.S2_dev.modele.map;
 
+import com.application.S2_dev.modele.bfs.BFS;
+import com.application.S2_dev.modele.bfs.Cellule;
 import com.application.S2_dev.modele.data.TerrainType;
 import com.application.S2_dev.modele.data.TowerType;
 import com.application.S2_dev.modele.tours.Tour;
@@ -7,13 +9,14 @@ import javafx.beans.property.IntegerProperty;
 
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Terrain {
 
-    private ArrayList<IntegerProperty> posX = new ArrayList<>();
-    private ArrayList<IntegerProperty> posY = new ArrayList<>();
     private int[][] terrain;
+    private BFS bfs;
+
 
 
     public Terrain() {
@@ -55,6 +58,9 @@ public class Terrain {
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
         };
+        int[] depart = {1, 0};
+        int[] fin = {12, 60};
+        bfs=new BFS(terrain, depart, fin);
     }
 
     public int[][] getTerrain() {
@@ -74,6 +80,10 @@ public class Terrain {
             default:
                 return null;
         }
+    }
+
+    public LinkedList<Cellule> getPlusCourtChemin() {
+        return bfs.getPlusCourtChemin();
     }
 
     public int[] getPosDansCarte(int x, int y) {

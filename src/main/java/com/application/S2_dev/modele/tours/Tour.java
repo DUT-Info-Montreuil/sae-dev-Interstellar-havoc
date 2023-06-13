@@ -76,10 +76,6 @@ public abstract class Tour {
         return x > limites[0] && x < (limites[0] + limites[2]) && y > limites[1] && y < (limites[1] + limites[3]);
     }
 
-    public boolean correspondIndice(int ligne, int colonne) {
-        return (colonne*16) == getX() && (ligne*16) == getY();
-    }
-
     /**
      * Vérifie si l'ennemi donné est dans la portée de la tour
      * @param ennemi Objet Ennemi
@@ -94,38 +90,19 @@ public abstract class Tour {
     private double calculerDistance(double xVal, double yVal) {
         return Math.sqrt(Math.pow((xVal-getX()), 2) + Math.pow((yVal-getY()), 2));
     }
+
     /********************** Getter/Setter **********************/
 
     public String getNom() {
         return nom;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
     public int getXCarte() {
         return xCarte;
     }
 
-    public void setXCarte(int xCarte) {
-        this.xCarte = xCarte;
-    }
-
     public int getYCarte() {
         return yCarte;
-    }
-
-    public void setYCarte(int yCarte) {
-        this.yCarte = yCarte;
-    }
-
-    public int getPortee() {
-        return portee;
-    }
-
-    public void setPortee(int portee) {
-        this.portee = portee;
     }
 
     public void setVue(ImageView vue) {
@@ -136,20 +113,12 @@ public abstract class Tour {
         return vue;
     }
 
-    public void setNiveau(int niveau) {
-        this.niveau = niveau;
-    }
-
     public int getNiveau() {
         return niveau;
     }
 
     public int getPrix() {
         return prix - (100 - vie);
-    }
-
-    public void setPrix(int prix) {
-        this.prix = prix;
     }
 
     public void setLimites(int x, int y, int largeur, int hauteur) {
