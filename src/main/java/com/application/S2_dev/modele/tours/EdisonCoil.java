@@ -1,39 +1,34 @@
-
 package com.application.S2_dev.modele.tours;
 
 import com.application.S2_dev.modele.data.TowerType;
 import com.application.S2_dev.modele.ennemis.Ennemi;
 
 public class EdisonCoil extends Tour {
-    private static final int portee = 50; // Portée de la tour
-    private static final int degats = 25; // Dégâts infligés aux ennemis
-    private static final int  cadence_de_tir = 6; // Cadence de tir de la tour (coups par seconde)
 
-    private int tempsRecharge = 0; // Temps de recharge restant avant le prochain tir
+    private int degats; // Dommages infligés aux ennemis
+    private int taux_tir; // Taux de tir de la tour (coups par seconde)
+    private int tempsRecharge = 0;
 
-    public EdisonCoil(int x, int y) {
-        super(x, y, TowerType.Edison);
+    public EdisonCoil(int x, int y, int niveau) {
+
+        super("EdisonCoil", x, y, TowerType.Edison, niveau, 100 * niveau, 50 + (niveau * 5));
+
+        this.taux_tir = 6 - niveau;
+        this.degats = 25 + (niveau * 3);
+
+        if (taux_tir < 1)
+            taux_tir = 1;
     }
 
     @Override
-    public void attaquer(Ennemi ennemi) {
-        if (estDansPortee(ennemi) && tempsRecharge == 0) {
-            // Infliger des dégâts à l'ennemi
+    public void attaquerTour(Ennemi ennemi) {
+        // Le temps de recharge fait attaquer la tour les ennemis en fonction de son taux de tir
+        if (tempsRecharge == 0) {
+            // Inflige des dommages à l'ennemi
             ennemi.subirDegats(degats);
-            tempsRecharge = cadence_de_tir;
+            tempsRecharge = taux_tir;
         }
         if (tempsRecharge > 0)
             tempsRecharge--;
-    }
-
-    private boolean estDansPortee(Ennemi ennemi) {
-        // Vérifier si l'ennemi est dans la portée de la tour
-        double distance = calculerDistance(ennemi.getX(), ennemi.getY());
-        return distance <= portee;
-    }
-
-    private double calculerDistance(double x, double y) {
-        // Calculer la distance entre la tour et l'ennemi
-        return Math.sqrt(Math.pow((x-getX()), 2) + Math.pow((y-getY()), 2));
     }
 }

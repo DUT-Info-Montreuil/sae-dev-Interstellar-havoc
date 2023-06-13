@@ -10,22 +10,23 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-
 import java.net.URL;
 
 public class EnnemiVue implements ListChangeListener<Ennemi> {
     private Pane panneau_de_jeu;
-    private Label LabelnbVivantScavenger, LabelnbVivantBalliste,  LabelnbVivantBehemoth;
-    int nbVivantScavenger = 0, nbVivantBalliste=0, nbVivantBehemoth=0;
-    URL urlScavenger, urlBalliste, urlBehemoth;
-    Image ImageScavenger,ImageBalliste, ImageBehemoth;
+    private Label LabelnbVivantScavenger, LabelnbVivantBalliste,  LabelnbVivantBehemoth, Credit;
+    int nbVivantScavenger = 0, nbVivantBalliste=0, nbVivantBehemoth=0, money;
+    private URL urlScavenger, urlBalliste, urlBehemoth;
+    private Image ImageScavenger,ImageBalliste, ImageBehemoth;
 
-
-    public EnnemiVue(Pane pane, Label labelScavenger, Label labelBalliste, Label labelBehemoth) {
+    public EnnemiVue(Pane pane, Label labelScavenger, Label labelBalliste, Label labelBehemoth, Label Credit) {
         this.panneau_de_jeu = pane;
         this.LabelnbVivantScavenger =  labelScavenger;
         this.LabelnbVivantBalliste = labelBalliste;
         this.LabelnbVivantBehemoth =  labelBehemoth;
+        this.Credit = Credit;
+        this.money = Integer.parseInt(Credit.getText());
+
 
         urlScavenger = Main.class.getResource("image/ennemis/Scavenger.png");
         ImageScavenger = new javafx.scene.image.Image(String.valueOf(urlScavenger));
@@ -35,26 +36,26 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
 
         urlBehemoth = Main.class.getResource("image/ennemis/Behemoth.png");
         ImageBehemoth = new Image(String.valueOf(urlBehemoth));
-
-
     }
     @Override
     public void onChanged(Change<? extends Ennemi> c) {
-        System.out.println("Changement");
         while (c.next()) {
-            System.out.println("les ajouts : " + c.getAddedSubList());
-            System.out.println("les suppressions : " + c.getRemoved());
+            System.out.println("les ajouts Ennemis : " + c.getAddedSubList());
+            System.out.println("les suppressions Ennemis: " + c.getRemoved());
         }
         for (int i = 0; i < c.getRemoved().size(); i++) {
             ImageView sprite = (ImageView) panneau_de_jeu.lookup("#" + c.getRemoved().get(i).getId());
             panneau_de_jeu.getChildren().remove(sprite);
             if (c.getRemoved().get(i) instanceof Scavenger) {
                 nbVivantScavenger--;
+                addMoney(100);
             } else if (c.getRemoved().get(i) instanceof Balliste) {
                 nbVivantBalliste--;
+                addMoney(50);
             }
             else if(c.getRemoved().get(i) instanceof Behemoth){
                 nbVivantBehemoth--;
+                addMoney(50);
             }
 
         }
@@ -91,8 +92,6 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
             balliste = new ImageView(ImageBalliste);
             balliste.translateXProperty().bind(e.getXProperty());
             balliste.translateYProperty().bind(e.getYProperty());
-            // System.out.println(balliste.getTranslateX()+" et y "+ balliste.getTranslateY());
-
 
         } else if (e instanceof Behemoth) {
             behemoth = new ImageView(ImageBehemoth);
@@ -112,5 +111,9 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
             behemoth.setId(e.getId());
             panneau_de_jeu.getChildren().add(behemoth);
         }
+    }
+    void addMoney(int value) {
+        money += value;
+        Credit.setText(String.valueOf(money));
     }
 }

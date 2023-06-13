@@ -23,22 +23,22 @@
     -fx-border-radius: 10px;
     -fx-background-radius: 16px; /* Rayon de courbure des coins */
 }
-.labelTour1{
-    -fx-graphic: url('tourel1.png');
+.labelTourNikola{
+    -fx-graphic: url('Nikola.png');
     -fx-border-color: white;
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
     -fx-background-radius: 16px; /* Rayon de courbure des coins */
 }
-.labelTour2{
-    -fx-graphic: url('tourel2.png');
+.labelTourEdison{
+    -fx-graphic: url('Edison.png');
     -fx-border-color: white;
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
     -fx-background-radius: 16px; /* Rayon de courbure des coins */
 }
-.labelTour3{
-    -fx-graphic: url('tourel3.png');
+.labelTourppenheimer{
+    -fx-graphic: url('Oppenheimer.png');
     -fx-border-color: white;
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
