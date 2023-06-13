@@ -1,6 +1,7 @@
 package com.application.S2_dev.vue;
 
 import com.application.S2_dev.Main;
+import com.application.S2_dev.Parametre;
 import com.application.S2_dev.modele.data.TerrainType;
 import com.application.S2_dev.modele.data.TowerType;
 import com.application.S2_dev.modele.ennemis.Balliste;
@@ -13,17 +14,21 @@ import com.application.S2_dev.modele.tours.Tour;
 import com.application.S2_dev.modele.tours.EdisonCoil;
 import com.application.S2_dev.modele.tours.NikolaCoil;
 import com.application.S2_dev.modele.tours.OppenheimerCoil;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
+import javafx.util.Duration;
+
 import javax.swing.*;
 import java.net.URL;
 
 public class TourVue implements ListChangeListener<Tour> {
-    private Environnement environnement;
+    private Environnement env;
     Pane pane;
     private TilePane tilePane;
     private Terrain terrain;
@@ -34,17 +39,20 @@ public class TourVue implements ListChangeListener<Tour> {
     private Tour clickedTower = null;
     private ImageView levelChooser = null;
     private int money ;
+    private int temps;
+    private int tempsAvantNouveauSpawn = 10; // Temps avant l'apparition d'un nouvel ennemi
+    private boolean jeuEnPause = false; // Indicateur de jeu en pause
+    private ImageView niveauChoisi = null; // Image affichée pour le niveau sélectionné
+    private Tour tourCliquee = null; // Tour sélectionnée par le joueur
 
     public TourVue(Environnement environnement, TilePane tilePane, Terrain terrain , Pane pane, Label idBobineEdison, Label idBobineOppenheimer, Label idBobineNikola, Label labelCredit, Label idSelectedTower){
-        this.environnement = environnement;
+        this.env = environnement;
         this.tilePane = tilePane;
         this.terrain = terrain;
         this.pane = pane;
         this.idBobineEdison = idBobineEdison;
         this.idBobineNikola = idBobineNikola;
         this.idBobineOppenheimer = idBobineOppenheimer;
-        /*Integer.parseInt(labelCredit.getText()).addListener((observableValue, oldValue, nouvelleValeur) -> {
-            this.labelLife.setText(String.valueOf(nouvelleValeur));*/
         this.money = Integer.parseInt(labelCredit.getText());
         this.labelCredit = labelCredit;
         this.idSelectedTower = idSelectedTower;
@@ -56,7 +64,7 @@ public class TourVue implements ListChangeListener<Tour> {
             System.out.println("les suppressions Tour: " + c.getRemoved());
         }
         for(int i =0; i<c.getAddedSubList().size();i++){
-            subtractMoney(c.getAddedSubList().get(i).getPrice());
+           // soustraireArgent(c.getAddedSubList().get(i).getPrix());
         }
         for (int i = 0; i < c.getRemoved().size(); i++) {
             ImageView sprite = (ImageView) pane.lookup("#" + c.getRemoved().get(i).getId());
@@ -64,191 +72,144 @@ public class TourVue implements ListChangeListener<Tour> {
         }
     }
     public void lancerTourVue() {
-        final int ennemiSquadSize = environnement.getEnnemis().size();
+        temps = 0;
 
-       // if (environnement.getEnnemis().size() < ennemiSquadSize)
-            //addMoney(100);
-
-        int s = 0, be = 0, ba = 0;
-        for (Ennemi e : environnement.getEnnemis()) {
-            if (e instanceof Scavenger)
-                s++;
-            else if (e instanceof Behemoth)
-                be++;
-            else if (e instanceof Balliste)
-                ba++;
-        }
-
-        if (!environnement.getTour().contains(clickedTower)) {
-            pane.getChildren().remove(this.levelChooser);
-            levelChooser = null;
-        }
-
-        if (timeBeforeNewSpawn == 0) {
-           // spawnEnnemi();
-            timeBeforeNewSpawn = 15;
-            return;
-        }
-
-        timeBeforeNewSpawn--;
-
-    }
-
-
-    public void TestClickTourel(){
-        idBobineEdison.setOnMouseClicked( h -> {
-            if (levelChooser == null) {
-                selectedTowerType = TowerType.Edison;
-                 idSelectedTower.setText("Edison Coil");
-            }
-        });
-
-        idBobineOppenheimer.setOnMouseClicked( h -> {
-            if (levelChooser == null) {
-                selectedTowerType = TowerType.Oppenheimer;
-                   idSelectedTower.setText("Oppenheimer Coil");
-            }
-        });
-
-        idBobineNikola.setOnMouseClicked( h -> {
-            if (levelChooser == null) {
-                selectedTowerType = TowerType.Nikola;
-                 idSelectedTower.setText("Nikola Coil");
-            }
-        });
-
-        tilePane.setOnMouseClicked(h->{
-            int[] pos = terrain.getPosInMap((int)h.getX(), (int)h.getY());
-
-            for (int i = 0; i < environnement.getTour().size(); i++) {
-                Tour tour = environnement.getTour().get(i);
-                if (tour.isInBounds((int) h.getX(), (int) h.getY())) {
-                    return;
-                }
-            }
-
-            spawnTower(pos[0], pos[1], 1);
-        });
-
-       // labelCredit.setText(money + "");
-    }
-    void showLevelChooser() {
-
-        URL urlChooser = Main.class.getResource("/image/tour/level_choose.png");
-
-        Image levelLent = new Image(String.valueOf(urlChooser));
-        ImageView LCLent = new ImageView(levelLent);
-
-        LCLent.setX(clickedTower.getX());
-        LCLent.setY(clickedTower.getY());
-
-        if (LCLent != null) {
-            pane.getChildren().add(LCLent);
-            levelChooser = LCLent;
-
-            levelChooser.setOnMouseClicked(h->{
-                int newX = (int) (h.getX() - levelChooser.getX());
-                int newY = (int) (h.getY() - levelChooser.getY());
-
-                if (newX > 0 && newX < 16 && newY > 16 && newY < 32) {
-                    // level 1 required
-                    if (environnement.getTour().contains(clickedTower)) {
-
-                        int col = clickedTower.getMapX();
-                        int row = clickedTower.getMapY();
-
-                        if (((money + clickedTower.getPrice()) - 100) < 0) {
-                            JOptionPane.showMessageDialog(null, "Not enough money");
-                        } else {
-                            // remove the tower and get the money back
-                            refundMoney(clickedTower.getPrice());
-                            pane.getChildren().remove(clickedTower.getView());
-                            environnement.getTour().remove(clickedTower);
-                            spawnTower(row, col, 1);
-                        }
-                    }
-                } else if (newX > 64 && newX < 80 && newY > 16 && newY < 32) {
-                    // level 2 required
-                    if (environnement.getTour().contains(clickedTower)) {
-
-                        int col = clickedTower.getMapX();
-                        int row = clickedTower.getMapY();
-
-                        if (((money + clickedTower.getPrice()) - 200) < 0) {
-                            JOptionPane.showMessageDialog(null, "Not enough money");
-                        } else {
-                            // remove the tower and get the money back
-                            refundMoney(clickedTower.getPrice());
-                            pane.getChildren().remove(clickedTower.getView());
-                            environnement.getTour().remove(clickedTower);
-                            spawnTower(row, col, 2);
-                        }
-                    }
-                } else if (newX > 32 && newX < 48 && newY > 64 && newY < 80) {
-                    // level 3 required
-                    if (environnement.getTour().contains(clickedTower)) {
-
-                        int col = clickedTower.getMapX();
-                        int row = clickedTower.getMapY();
-
-                        if (((money + clickedTower.getPrice()) - 300) < 0) {
-                            JOptionPane.showMessageDialog(null, "Not enough money");
-                        } else {
-                            // remove the tower and get the money back
-                            refundMoney(clickedTower.getPrice());
-                            pane.getChildren().remove(clickedTower.getView());
-                            environnement.getTour().remove(clickedTower);
-                            spawnTower(row, col, 3);
-                        }
-                    }
-                }
-
-                // remove level chooser
-                pane.getChildren().remove(levelChooser);
-                levelChooser = null;
+            if (jeuEnPause)
                 return;
-            });
-        }
+
+            final int ennemiSquadSize = env.getEnnemis().size();
+
+            env.unTour();
+
+            if (env.getEnnemis().size() < ennemiSquadSize)
+                ajouterArgent(100);
+
+            int Scavenger = 0, Behemoth = 0, Balliste = 0;
+            for (Ennemi e : env.getEnnemis()) {
+                if (e instanceof Scavenger)
+                    Scavenger++;
+                else if (e instanceof Behemoth)
+                    Behemoth++;
+                else if (e instanceof Balliste)
+                    Balliste++;
+            }
+
+            if (!env.getTour().contains(tourCliquee)) {
+                pane.getChildren().remove(this.niveauChoisi);
+                niveauChoisi = null;
+            }
+
+            if (tempsAvantNouveauSpawn == 0) {
+                //spawnEnnemi();
+                tempsAvantNouveauSpawn = 15;
+                return;
+            }
+
+            tempsAvantNouveauSpawn--;
+
+
     }
-    public void spawnTower(int row, int col, int level) {
-        // Check if the tower can be placed at the specified coordinates
-        if (canPlaceTowerAt(row, col)) {
 
-            Tour tower;
+    public void TestClickTourel() {
 
+        // Gestion des clics sur les images des tours
+        idBobineEdison.setOnMouseClicked(h -> {
+            if (niveauChoisi == null) {
+                selectedTowerType = TowerType.Edison; // Tour Edison sélectionnée
+            }
+        });
+
+        idBobineOppenheimer.setOnMouseClicked(h -> {
+            if (niveauChoisi == null) {
+                selectedTowerType = TowerType.Oppenheimer; // Tour Oppenheimer sélectionnée
+            }
+        });
+
+        idBobineNikola.setOnMouseClicked(h -> {
+            if (niveauChoisi == null) {
+                selectedTowerType = TowerType.Nikola; // Tour Nikola sélectionnée
+            }
+        });
+
+        tilePane.setOnMouseClicked(h -> {
+            int[] pos = terrain.getPosDansCarte((int) h.getX(), (int) h.getY());
+
+            // Vérification si une tour est présente aux coordonnées du clic
+            for (int i = 0; i < env.getTour().size(); i++) {
+                Tour tour = env.getTour().get(i);
+                if (tour.estDansLimites((int) h.getX(), (int) h.getY())) {
+                    return; // Sortie de la fonction si une tour est présente
+                }
+            }
+
+            placerTour(pos[0], pos[1], 1); // Placement d'une tour à la position spécifiée
+        });
+
+        labelCredit.setText(Parametre.argentDebutJoueur+ ""); // Affichage de la quantité d'Parametre.argentDebutJoueurdu joueur
+    }
+    /**
+     * Place une tour sur la carte
+     * @param ligne Position de ligne dans la carte en tuiles
+     * @param cologne Position de cologneonne dans la carte en tuiles
+     * @param level Niveau de la tour
+     */
+    public void placerTour(int ligne, int cologne, int level) {
+        // Vérifier si la tour peut être placée aux coordonnées spécifiées
+        if (peutPlacerTourA(ligne, cologne)) {
+
+            Tour tour;
+
+            // Créer l'objet tour en fonction du type de tour
             switch (selectedTowerType) {
                 case Nikola:
-                    tower = new NikolaCoil((int)col*16, (int)row*16, level);
+                    tour = new NikolaCoil((int)cologne*16, (int)ligne*16, level);
                     break;
                 case Edison:
-                    tower = new EdisonCoil((int)col*16, (int)row*16, level);
+                    tour = new EdisonCoil((int)cologne*16, (int)ligne*16, level);
                     break;
                 case Oppenheimer:
-                    tower = new OppenheimerCoil((int)col*16, (int)row*16, level);
+                    tour = new OppenheimerCoil((int)cologne*16, (int)ligne*16, level);
                     break;
                 default:
                     return;
             }
 
-            if (money < tower.getPrice()) {
-                JOptionPane.showMessageDialog(null, "Pas assez d'argent !");
+            if (Parametre.argentDebutJoueur< tour.getPrix()) {
+                JOptionPane.showMessageDialog(null, "Pas assez d'Parametre.argentDebutJoueur!");
                 return;
             }
 
-            // Add the tower to the terrain and display it on the pane
-            environnement.addTower(tower);
-            creerSprite(tower);
-           // subtractMoney(tower.getPrice());
+            // Ajouter la tour au terrain et l'afficher sur le panneau
+            env.addTower(tour);
+            creerSprite(tour);
+            env.ajouterTour(tour);
+            soustraireArgent(tour.getPrix());
         } else {
-            // Tower placement is not allowed at the specified coordinates
-            System.out.println("Tower placement not allowed at coordinates (" + row + ", " + col + ")");
+            // Placement de la tour non autorisé aux coordonnées spécifiées
+            System.out.println("Placement de la tour non autorisé aux coordonnées (" + ligne + ", " + cologne + ")");
         }
     }
-    double[] creerSprite(Tour t) {
+    void soustraireArgent(int valeur) {
+        Parametre.argentDebutJoueur-= valeur; // Soustrait la valeur donnée à la variable argent
+        labelCredit.setText(Parametre.argentDebutJoueur+ ""); // Met à jour le texte de l'étiquette pour afficher la nouvelle valeur de l'argent
+    }
 
+    void rembourserArgent(int valeur) {
+        Parametre.argentDebutJoueur+= valeur; // Ajoute la valeur donnée à la variable argent
+        labelCredit.setText(Parametre.argentDebutJoueur+ ""); // Met à jour le texte de l'étiquette pour afficher la nouvelle valeur de l'argent
+    }
+
+    void ajouterArgent(int valeur) {
+        Parametre.argentDebutJoueur+= valeur; // Ajoute la valeur donnée à la variable argent
+        labelCredit.setText(Parametre.argentDebutJoueur+ ""); // Met à jour le texte de l'étiquette pour afficher la nouvelle valeur de l'argent
+    }
+
+    double[] creerSprite(Tour tour) {
+        // URL de l'image de la tour
         URL urlTour;
 
-        switch (t.getType()) {
+        // Sélectionne l'URL de l'image en fonction du type de tour
+        switch (tour.getType()) {
             case Nikola:
                 urlTour = Main.class.getResource("image/tour/bobineNicolas.png");
                 break;
@@ -263,48 +224,139 @@ public class TourVue implements ListChangeListener<Tour> {
                 break;
         }
 
-        Image tour = new Image(String.valueOf(urlTour));
-        ImageView tourView = new ImageView(tour);
+        // Charge l'image de la tour
+        Image imageTour = new Image(String.valueOf(urlTour));
+        ImageView vueTour = new ImageView(imageTour);
 
-        tourView.translateXProperty().bind(t.getXProperty());
-        tourView.translateYProperty().bind(t.getYProperty());
+        // Lie les propriétés de translation de la tour aux propriétés de translation de la tour
+        vueTour.translateXProperty().bind(tour.getXProperty());
+        vueTour.translateYProperty().bind(tour.getYProperty());
 
-        if (tourView != null) {
-            tourView.setId(t.getId());
-            int width = (int) tourView.getImage().getWidth();
-            int height = (int) tourView.getImage().getHeight();
-            int x = (int) (t.getX()-(width/2));
-            int y = (int) (t.getY()-(height/2));
-            t.getXProperty().set(x);
-            t.getYProperty().set(y);
-            t.setBounds(x, y, width, height);
-            t.setView(tourView);
-            pane.getChildren().add(tourView);
+        // Vérifie si l'ImageView est valide
+        if (vueTour != null) {
+            vueTour.setId(tour.getId());
+            int largeur = (int) vueTour.getImage().getWidth();
+            int hauteur = (int) vueTour.getImage().getHeight();
+            int x = (int) (tour.getX() - (largeur / 2));
+            int y = (int) (tour.getY() - (hauteur / 2));
+            tour.getXProperty().set(x);
+            tour.getYProperty().set(y);
+            tour.setLimites(x, y, largeur, hauteur);
+            tour.setVue(vueTour);
+            pane.getChildren().add(vueTour);
 
-            tourView.setOnMouseClicked(h->{
-                clickedTower = t;
-                showLevelChooser();
-                System.out.println("Level chooser shown");
+            // Définit le gestionnaire d'événements sur le clic de l'ImageView de la tour
+            vueTour.setOnMouseClicked(h -> {
+                if (niveauChoisi == null) {
+                    tourCliquee = tour;
+                    showniveauChoisi();
+                    System.out.println("Niveau du choix affiché");
+                }
             });
+
+            JOptionPane.showMessageDialog(null, "Tour de niveau " + tour.getNiveau() + " " + tour.getNom() + " placée");
         }
 
-        return new double[]{tourView.getImage().getHeight(), tourView.getImage().getWidth()};
+        // Retourne les dimensions de l'image de la tour
+        return new double[]{vueTour.getImage().getHeight(), vueTour.getImage().getWidth()};
     }
-    public boolean canPlaceTowerAt(int row, int col) {
-        if (terrain.getCase(row, col) == TerrainType.TOWER_BASE)
+    void showniveauChoisi() {
+        // URL de l'image du niveau choisi
+        URL urlChoixNiveau = Main.class.getResource("image/tour/level_choose.png");
+
+        // Charge l'image du niveau choisi
+        Image imageNiveau = new Image(String.valueOf(urlChoixNiveau));
+        ImageView vueNiveau = new ImageView(imageNiveau);
+
+        // Positionne l'image du niveau choisi aux coordonnées de la tour sélectionnée
+        vueNiveau.setX(tourCliquee.getX());
+        vueNiveau.setY(tourCliquee.getY());
+
+        // Vérifie si l'ImageView est valide
+        if (vueNiveau != null) {
+            pane.getChildren().add(vueNiveau); // Ajoute l'image du niveau choisi à la scène
+            niveauChoisi = vueNiveau; // Assigne l'image du niveau choisi à la variable niveauChoisi
+
+            niveauChoisi.setOnMouseClicked(h -> {
+                int newX = (int) (h.getX() - niveauChoisi.getX());
+                int newY = (int) (h.getY() - niveauChoisi.getY());
+
+                // Vérifie les coordonnées du clic pour déterminer l'action correspondante
+                if (newX > 0 && newX < 16 && newY > 16 && newY < 32) {
+                    // Niveau 1 requis
+                    if (env.getTour().contains(tourCliquee)) {
+                        int cologne = tourCliquee.getXCarte();
+                        int ligne = tourCliquee.getYCarte();
+
+                        if (((Parametre.argentDebutJoueur+ tourCliquee.getPrix()) - 100) < 0) {
+                            JOptionPane.showMessageDialog(null, "Pas assez d'argent");
+                        } else {
+                            // Supprime la tour et rembourse l'argent
+                            rembourserArgent(tourCliquee.getPrix());
+                            pane.getChildren().remove(tourCliquee.getVue());
+                            env.getTour().remove(tourCliquee);
+                            placerTour(ligne, cologne, 1);
+                        }
+                    }
+                } else if (newX > 64 && newX < 80 && newY > 16 && newY < 32) {
+                    // Niveau 2 requis
+                    if (env.getTour().contains(tourCliquee)) {
+                        int cologne = tourCliquee.getXCarte();
+                        int ligne = tourCliquee.getYCarte();
+
+                        if (((Parametre.argentDebutJoueur+ tourCliquee.getPrix()) - 200) < 0) {
+                            JOptionPane.showMessageDialog(null, "Pas assez d'argent");
+                        } else {
+                            // Supprime la tour et rembourse l'argent
+                            rembourserArgent(tourCliquee.getPrix());
+                            pane.getChildren().remove(tourCliquee.getVue());
+                            env.getTour().remove(tourCliquee);
+                            placerTour(ligne, cologne, 2);
+                        }
+                    }
+                }else if (newX > 32 && newX < 48 && newY > 64 && newY < 80) {
+                    // Niveau 3 requis
+                    if (env.getTour().contains(tourCliquee)) {
+                        int cologne = tourCliquee.getXCarte();
+                        int ligne = tourCliquee.getYCarte();
+
+                        if (((Parametre.argentDebutJoueur + tourCliquee.getPrix()) - 300) < 0) {
+                            JOptionPane.showMessageDialog(null, "Pas assez d'argent");
+                        } else {
+                            // Supprime la tour et rembourse l'argent
+                            rembourserArgent(tourCliquee.getPrix());
+                            pane.getChildren().remove(tourCliquee.getVue());
+                            env.getTour().remove(tourCliquee);
+                            placerTour(ligne, cologne, 3);
+                        }
+                    }
+                } else if (newX > 32 && newX < 48 && newY > 32 && newY < 48) {
+                    // Supprimer la tour
+                    if (env.getTour().contains(tourCliquee)) {
+                        int cologne = tourCliquee.getXCarte();
+                        int ligne = tourCliquee.getYCarte();
+
+                        // Supprime la tour et rembourse l'argent
+                        rembourserArgent(tourCliquee.getPrix());
+                        pane.getChildren().remove(tourCliquee.getVue());
+                        env.getTour().remove(tourCliquee);
+                    }
+                }
+
+                // Supprime l'image du niveau choisi
+                pane.getChildren().remove(niveauChoisi);
+                niveauChoisi = null;
+                return;
+
+            });
+        }
+    }
+
+    public boolean peutPlacerTourA(int ligne, int cologne) {
+        if (terrain.getCase(ligne, cologne) == TerrainType.base_tourelle)
             return true;
         else return false;
     }
-    void refundMoney(int value) {
-        money += value;
-        labelCredit.setText(String.valueOf(money));
-    }
-    /*void addMoney(int value) {
-        money += value;
-        labelCredit.setText(String.valueOf(money));
-    }*/
-    void subtractMoney(int value) {
-        money -= value;
-        labelCredit.setText(String.valueOf(money));
-    }
+
+
 }

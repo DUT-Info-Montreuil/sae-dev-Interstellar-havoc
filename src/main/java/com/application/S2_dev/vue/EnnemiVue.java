@@ -13,14 +13,11 @@ import javafx.scene.layout.Pane;
 import java.net.URL;
 
 public class EnnemiVue implements ListChangeListener<Ennemi> {
-
     private Pane panneau_de_jeu;
-    private Label LabelnbVivantScavenger, LabelnbVivantBalliste,  LabelnbVivantBehemoth;
-    int nbVivantScavenger = 0, nbVivantBalliste=0, nbVivantBehemoth=0;
-    URL urlScavenger, urlBalliste, urlBehemoth;
-    Image ImageScavenger,ImageBalliste, ImageBehemoth;
-    int money;
-    Label Credit;
+    private Label LabelnbVivantScavenger, LabelnbVivantBalliste,  LabelnbVivantBehemoth, Credit;
+    int nbVivantScavenger = 0, nbVivantBalliste=0, nbVivantBehemoth=0, money;
+    private URL urlScavenger, urlBalliste, urlBehemoth;
+    private Image ImageScavenger,ImageBalliste, ImageBehemoth;
 
     public EnnemiVue(Pane pane, Label labelScavenger, Label labelBalliste, Label labelBehemoth, Label Credit) {
         this.panneau_de_jeu = pane;

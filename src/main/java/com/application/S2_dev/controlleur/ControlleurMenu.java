@@ -78,20 +78,20 @@ public class ControlleurMenu implements Initializable  {
     }
     @FXML
     void ButtonPlay(ActionEvent event) {
-            Parent root;
-            try {
-                Stage stage1 = (Stage) lab.getScene().getWindow();
-                stage1.close();
-                root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/TerrainJeu/TerrainJeu.fxml"));
-                Stage stage = new Stage();
-                stage.setTitle("Interstellar Havoc: Infinite Frontiers");
-                stage.setScene(new Scene(root, 1250, 800));
-                stage.show();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+        Parent root;
+        try {
+            Stage stage1 = (Stage) lab.getScene().getWindow();
+            stage1.close();
+            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/TerrainJeu/TerrainJeu.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Interstellar Havoc: Infinite Frontiers");
+            stage.setScene(new Scene(root, 1250, 800));
+            stage.show();
         }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

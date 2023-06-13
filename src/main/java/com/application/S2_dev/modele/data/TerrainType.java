@@ -2,15 +2,12 @@
 package com.application.S2_dev.modele.data;
 
 public enum TerrainType {
-    GRASS(0),PATH(1),BLOCKED(2), BATS(3), BLOCKAGE(4), TOWER_BASE(5);
+    terrain(0),chemin(1),mur(2), base_tourelle(3),cheminBloque(4), base_finale(5);
 
-    private int value;
+    private int valeur;
 
-    private TerrainType(int value) {
-        this.value = value;
+    private TerrainType(int valeur) {
+        this.valeur = valeur;
     }
 
-    public int getValue() {
-        return value;
-    }
 }

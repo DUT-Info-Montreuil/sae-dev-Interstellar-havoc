@@ -68,7 +68,9 @@
     -fx-background-color: #ac9aad; /* Couleur de fond */
     -fx-alignment: center;
 }
-
+.labelMenu{
+    -fx-graphic: url('fond.jpg');
+}
 
 
 

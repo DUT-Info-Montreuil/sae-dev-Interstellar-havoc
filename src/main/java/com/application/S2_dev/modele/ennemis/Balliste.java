@@ -3,30 +3,28 @@ package com.application.S2_dev.modele.ennemis;
 import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.modele.tours.Tour;
 
+// La classe Balliste hérite de la classe Ennemi.
 public class Balliste extends Ennemi {
-    
-    private static final int RANGE = 150; // Range of the tower
-    private static final int DAMAGE = 5; // Damage inflicted on towers
-    
-    public Balliste(int x, int y, Terrain terrain){
-        super(x, y, terrain);
+
+    // Constructeur de la classe Balliste.
+    public Balliste(int Posx, int Posy, Terrain terrain){
+        super(Posx, Posy, terrain);
+        this.degats= 150; // Portée de la tour
+        this.portee=5; // Dommages infligés aux tours
     }
     
     @Override
-    public void attack(Tour tour) {
-        if (isInRange(tour)) {
-            // Inflict damage on the enemy
-            tour.damage(DAMAGE);
+    public void attaquerTour(Tour tour) {
+        if (estDansPortee(tour)) {
+            // Infliger des dégâts à la tour
+            tour.infligerDegats(degats);
         }
     }
-
-    private boolean isInRange(Tour tower) {
-        // Check if the enemy is within the firing range
-        double distance = calculateDistance(tower.getX(), tower.getY());
-        return distance <= RANGE;
+    @Override
+    public boolean estDansPortee(Tour tour) {
+        // Vérifier si l'ennemi est à portée de tir
+        double distance = calculerDistance(tour.getX(), tour.getY());
+        return distance <= portee;
     }
 
-    private double calculateDistance(double x, double y) {
-        return Math.sqrt(Math.pow((x-getX()), 2) + Math.pow((y-getY()), 2));
-    }
 }

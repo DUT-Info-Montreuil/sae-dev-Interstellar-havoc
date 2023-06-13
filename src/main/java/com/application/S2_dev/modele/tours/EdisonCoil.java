@@ -1,4 +1,3 @@
-
 package com.application.S2_dev.modele.tours;
 
 import com.application.S2_dev.modele.data.TowerType;
@@ -6,45 +5,30 @@ import com.application.S2_dev.modele.ennemis.Ennemi;
 
 public class EdisonCoil extends Tour {
 
-    private int RANGE; // Range of the tower
-    private int DAMAGE; // Damage inflicted on enemies
-    private int FIRE_RATE; // Firing rate of the tower (shots per second)s
-    private int cooldownTime = 0;
+    private int degats; // Dommages infligés aux ennemis
+    private int taux_tir; // Taux de tir de la tour (coups par seconde)
+    private int tempsRecharge = 0;
 
-    public EdisonCoil(int x, int y, int level) {
-        super(x, y, TowerType.Edison, level,100,100*level);
-        this.FIRE_RATE = 6 - level;
-        this.DAMAGE = 25 + (level*3);
-        this.RANGE = 50 + (level*5);
+    public EdisonCoil(int x, int y, int niveau) {
 
-        if (FIRE_RATE < 1)
-            FIRE_RATE = 1;
+        super("EdisonCoil", x, y, TowerType.Edison, niveau, 100 * niveau, 50 + (niveau * 5));
+
+        this.taux_tir = 6 - niveau;
+        this.degats = 25 + (niveau * 3);
+
+        if (taux_tir < 1)
+            taux_tir = 1;
     }
 
     @Override
-    public void attack(Ennemi ennemi) {
-        if (isInRange(ennemi) && cooldownTime == 0) {
-            // Inflict damage on the enemy
-            ennemi.takeDamage(DAMAGE);
-            cooldownTime = FIRE_RATE;
+    public void attaquerTour(Ennemi ennemi) {
+        // Le temps de recharge fait attaquer la tour les ennemis en fonction de son taux de tir
+        if (tempsRecharge == 0) {
+            // Inflige des dommages à l'ennemi
+            ennemi.subirDegats(degats);
+            tempsRecharge = taux_tir;
         }
-        if (cooldownTime > 0)
-            cooldownTime--;
-    }
-    @Override
-    public boolean estEndommager(){
-        return this.getHealth()<100;
-    }
-    @Override
-    public void setHealth(){this.health=100;}
-
-    private boolean isInRange(Ennemi ennemi) {
-        // Check if the enemy is within the firing range
-        double distance = calculateDistance(ennemi.getX(), ennemi.getY());
-        return distance <= RANGE;
-    }
-
-    private double calculateDistance(double x, double y) {
-        return Math.sqrt(Math.pow((x-getX()), 2) + Math.pow((y-getY()), 2));
+        if (tempsRecharge > 0)
+            tempsRecharge--;
     }
 }

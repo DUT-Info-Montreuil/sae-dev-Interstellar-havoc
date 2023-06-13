@@ -6,7 +6,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 public abstract class Objet {
-    Environnement environnement;
+    public static Environnement environnement;
     public static Terrain terrain;
     private DoubleProperty x, y;
     public int pv;
