@@ -1,6 +1,5 @@
 package com.application.S2_dev.modele.ennemis;
 
-import com.application.S2_dev.Parametre;
 import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.modele.tours.Tour;
 
@@ -13,7 +12,7 @@ public class Balliste extends Ennemi {
         this.degats= 150; // Portée de la tour
         this.portee=5; // Dommages infligés aux tours
     }
-
+    
     @Override
     public void attaquerTour(Tour tour) {
         if (estDansPortee(tour)) {

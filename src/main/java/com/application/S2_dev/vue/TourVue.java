@@ -132,7 +132,7 @@ public class TourVue implements ListChangeListener<Tour> {
         });
 
         tilePane.setOnMouseClicked(h -> {
-            int[] pos = terrain.getPosInMap((int) h.getX(), (int) h.getY());
+            int[] pos = terrain.getPosDansCarte((int) h.getX(), (int) h.getY());
 
             // Vérification si une tour est présente aux coordonnées du clic
             for (int i = 0; i < env.getTour().size(); i++) {
@@ -182,6 +182,7 @@ public class TourVue implements ListChangeListener<Tour> {
             // Ajouter la tour au terrain et l'afficher sur le panneau
             env.addTower(tour);
             creerSprite(tour);
+            env.ajouterTour(tour);
             soustraireArgent(tour.getPrix());
         } else {
             // Placement de la tour non autorisé aux coordonnées spécifiées

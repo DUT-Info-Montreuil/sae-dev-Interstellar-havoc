@@ -17,8 +17,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-
+import javax.sound.sampled.*;
 import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
 public class ObjetVue implements ListChangeListener<Objet> {
@@ -36,6 +38,7 @@ public class ObjetVue implements ListChangeListener<Objet> {
     int[] pos;
     int money ;
     private Label prix;
+    private static Clip clipFond ;
 
 
     public ObjetVue(Pane pane, Environnement environnement, Label Bombe, Label LabelHydrogene, Label Mur, Label prix, Terrain terrain, TerrainVue terrainVue){
@@ -96,9 +99,13 @@ public class ObjetVue implements ListChangeListener<Objet> {
             if(c.getRemoved().get(i) instanceof Mur) {
                     System.out.println("j'ai remit l'image");
                     ((Mur) objet).PlacerMur(pos[0], pos[1]);
-
                    terrainVue.setImage(pos[0], pos[1]);
+            }
 
+            if(c.getRemoved().get(i) instanceof Hydrogene) {
+                URL urlImageVaiL = Main.class.getResource("sons/bruit.wav");
+                String s = urlImageVaiL.getPath();
+                PlayMusicFond(s);
             }
         }
     }
@@ -117,7 +124,7 @@ public class ObjetVue implements ListChangeListener<Objet> {
         });
 
         panneau_de_jeu.setOnMouseClicked( h -> {
-            pos = terrain.getPosInMap((int)h.getX(), (int)h.getY());
+            pos = terrain.getPosDansCarte((int)h.getX(), (int)h.getY());
             apparitionObjet(pos[0], pos[1]);
         });
     }
@@ -177,5 +184,29 @@ public class ObjetVue implements ListChangeListener<Objet> {
     void soustraireMoney(int val) {
         money -= val;
         prix.setText(String.valueOf(money));
+    }
+    public static void PlayMusicFond(String location){
+        AudioInputStream audioInputStream = null;
+        try {
+            audioInputStream = AudioSystem.getAudioInputStream(new File(location));
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        DataLine.Info info = new DataLine.Info(Clip.class, audioInputStream.getFormat());
+        try {
+            clipFond = (Clip) AudioSystem.getLine(info);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            clipFond.open(audioInputStream);
+        } catch (LineUnavailableException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        clipFond.start();
     }
 }

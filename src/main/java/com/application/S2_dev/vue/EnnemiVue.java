@@ -13,7 +13,6 @@ import javafx.scene.layout.Pane;
 import java.net.URL;
 
 public class EnnemiVue implements ListChangeListener<Ennemi> {
-
     private Pane panneau_de_jeu;
     private Label LabelnbVivantScavenger, LabelnbVivantBalliste,  LabelnbVivantBehemoth, Credit;
     int nbVivantScavenger = 0, nbVivantBalliste=0, nbVivantBehemoth=0, money;

@@ -2,15 +2,8 @@ package com.application.S2_dev.controlleur;
 
 import com.application.S2_dev.Main;
 import com.application.S2_dev.Parametre;
-import com.application.S2_dev.modele.data.TerrainType;
-import com.application.S2_dev.modele.data.TowerType;
-import com.application.S2_dev.modele.ennemis.Balliste;
-import com.application.S2_dev.modele.ennemis.Behemoth;
-import com.application.S2_dev.modele.ennemis.Ennemi;
-import com.application.S2_dev.modele.ennemis.Scavenger;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
-import com.application.S2_dev.modele.tours.*;
 import com.application.S2_dev.vue.ObjetVue;
 import com.application.S2_dev.vue.EnnemiVue;
 import com.application.S2_dev.vue.TerrainVue;
@@ -18,27 +11,18 @@ import com.application.S2_dev.vue.TourVue;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.IOException;
 import java.net.URL;
-import java.util.Random;
 import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
@@ -91,8 +75,6 @@ TilePane tilePane;
     private Label labelMur;
     @FXML
     private Label labelMaintenace;
-    private ActionEvent event;
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -115,9 +97,9 @@ TilePane tilePane;
         tourVue.TestClickTourel();
 
         labelLife.setText("5");
-        this.env.getReachedProperty().addListener((observableValue, oldValue, nouvelleValeur) -> {
-            this.labelLife.setText(String.valueOf(nouvelleValeur));
-            if(env.getReachedPlayers()==0){
+        this.env.getJoueursAtteintsProperty().addListener((observableValue, oldValue, nouvelleValeur) -> {
+            this.labelLife.setText(String.valueOf(Parametre.nombreVies-(int)nouvelleValeur));
+            if(env.getJoueursAtteints()==Parametre.nombreVies){
                 gameLoop.stop();
                 JOptionPane.showMessageDialog(null, "Vous avez perdu !");
                 exit();

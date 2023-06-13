@@ -1,51 +1,32 @@
 package com.application.S2_dev.modele.ennemis;
 
-import com.application.S2_dev.modele.bfs.BFS;
-import com.application.S2_dev.modele.bfs.Cell;
-import com.application.S2_dev.modele.map.Terrain;
+import com.application.S2_dev.modele.bfs.Cellule;
 import com.application.S2_dev.modele.objet.Mur;
 import com.application.S2_dev.modele.objet.Objet;
-import com.application.S2_dev.modele.tours.Tour;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-
-import java.util.LinkedList;
-import javafx.scene.image.ImageView;
 import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.modele.tours.Tour;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-
-import java.util.LinkedList;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public abstract class Ennemi {
 
     private DoubleProperty x; // Position X de l'ennemi
     private DoubleProperty y; // Position Y de l'ennemi
     private Terrain terrain; // Terrain sur lequel évolue l'ennemi
-    private int i = 1; // Index de la cellule dans le chemin le plus court
+    private int i = 0; // Index de la cellule dans le chemin le plus court
     private String id; // Identifiant de l'ennemi
     public static int compteur = 0; // Compteur d'ennemis pour générer l'identifiant unique
     private int vie; // Points de vie de l'ennemi
     protected int degats;
     protected int portee;
-    public static BFS bfs;
-    private LinkedList<Cell> shortestPath;
-    private boolean enCoursAttaque = false;
-
+    private Boolean enCoursAttaque;
     public Ennemi(double valX, double valY, Terrain terr) {
         x = new SimpleDoubleProperty(valX);
         y = new SimpleDoubleProperty(valY);
         this.terrain = terr;
-        this.vie = 100;
-        this.id="E"+compteur;
+        this.id = "E" + compteur;
         compteur++;
-        int[] start = {1, 0};
-        int[] end = {12, 60};
-        bfs = new BFS();
-        shortestPath = bfs.shortestPath(terr.getTerrain(), start, end);
+        this.vie = 100;
     }
 
     public String getId() {
@@ -72,6 +53,10 @@ public abstract class Ennemi {
         vie -= degats;
     }
 
+    public boolean AttaquerObjet(){
+        return !enCoursAttaque;
+    }
+
     public boolean estVivant() {
         return vie > 0;
     }
@@ -93,53 +78,35 @@ public abstract class Ennemi {
         }
         enCoursAttaque = false;
     }
+    public void agir(double largeurCase, double hauteurCase) {
+        Cellule celluleCourante = null;
+        Cellule celluleSuivante = null;
+        celluleCourante = terrain.getPlusCourtChemin().get(i);
+        celluleSuivante = i > 0 ? terrain.getPlusCourtChemin().get(i - 1) : null;
 
-    public boolean AttaquerObjet(){
-        return !enCoursAttaque;
-    }
+        if (celluleSuivante != null) {
+            if(terrain.getCase1(celluleSuivante.getI(),celluleSuivante.getJ())==1) {
+                int diffX = celluleCourante.getI() - celluleSuivante.getI();
+                int diffY = celluleCourante.getJ() - celluleSuivante.getJ();
 
-    public void agit(double tileWidth, double tileHeight){
-
-        LinkedList<Cell> cheminPlusCourt = terrain.getCheminPlusCourt();
-
-        Cell currentCell = cheminPlusCourt.get(i);
-        Cell previousCell = i > 0 ? cheminPlusCourt.get(i - 1) : null;
-        if (terrain.getCase1(previousCell.getX(),previousCell.getY())==1) {
-            if (previousCell != null) {
-                if (currentCell.getX() != previousCell.getX()) {
-
-                    if (currentCell.getX() > previousCell.getX()) {
-                        this.setY(this.getY() + tileWidth);
-                    } else if (currentCell.getX() < previousCell.getX()) {
-                        this.setY(this.getY() - tileWidth);
-                    }
+                if (diffX != 0) {
+                    this.setY(this.getY() + (diffX > 0 ? largeurCase : -largeurCase));
                 }
-                if (currentCell.getY() != previousCell.getY()) {
-                    if (currentCell.getY() > previousCell.getY()) {
-                        this.setX(this.getX() + tileWidth);
-                    } else if (currentCell.getY() < previousCell.getY()) {
-                        this.setX(this.getX() - tileWidth);
-                    }
+
+                if (diffY != 0) {
+                    this.setX(this.getX() + (diffY > 0 ? hauteurCase : -hauteurCase));
                 }
             }
-
-            this.move(currentCell);
-        }
-        else if (terrain.getCase1(previousCell.getX(),previousCell.getY())==2){
-            while(AttaquerObjet()){
-                return;
+            else if(terrain.getCase1(celluleSuivante.getI(),celluleSuivante.getJ())==2){
+                while(AttaquerObjet()){
+                    return;
+                }
             }
         }
         i++;
         this.toString();
-        // System.out.println("pos x "+ (this.getX()-16) + " pos Y "+ this.getY());
     }
 
-    public void move(Cell cell) {
-        if (cell != null) {
-            // System.out.println("(X: " + x.getValue() + ", Y: " + y.getValue() + ")");
-        }
-    }
     public void setX(double x1) {
         this.x.setValue(x1);
     }
@@ -150,15 +117,15 @@ public abstract class Ennemi {
 
     @Override
     public String toString() {
-        return "id " + id;
-    }
-
-    public boolean finalDestReached() {
-        return i >= this.shortestPath.size();
+        return "id "+id;
     }
 
     public void meur(){
         this.vie = 0;
+    }
+
+    public boolean destinationFinaleAtteinte() {
+        return i >= this.terrain.getPlusCourtChemin().size();
     }
 
     protected double calculerDistance(double x, double y) {
@@ -167,4 +134,25 @@ public abstract class Ennemi {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  public ImageView getVue() {
+        return vue;
+    }
+
+    public void ajouterImageSecondaire(Image imageSecondaire) {
+        this.imageSecondaire = imageSecondaire;
+    }
+*/
 

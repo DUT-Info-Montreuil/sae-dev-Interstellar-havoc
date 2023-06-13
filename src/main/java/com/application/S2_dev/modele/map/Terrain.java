@@ -1,17 +1,16 @@
 package com.application.S2_dev.modele.map;
 
-import com.application.S2_dev.modele.bfs.Cell;
-import com.application.S2_dev.modele.data.TerrainType;
-import javafx.beans.property.IntegerProperty;
+import com.application.S2_dev.modele.bfs.Cellule;
 import com.application.S2_dev.modele.bfs.BFS;
-import java.util.ArrayList;
+import com.application.S2_dev.modele.data.TerrainType;
 import java.util.LinkedList;
 
 public class Terrain {
-    private int[][] terrain ;
-    private LinkedList<Cell> cheminPlusCourt;
-    public Terrain() {
+    private int[][] terrain;
+    private BFS bfs;
+    private LinkedList<Cellule> cheminPlusCourt;
 
+    public Terrain() {
         terrain = new int[][]{
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 {1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -50,7 +49,13 @@ public class Terrain {
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
         };
+        int[] depart = {1, 0};
+        int[] fin = {12, 60};
+        bfs=new BFS(terrain, depart, fin);
+    }
 
+    public int[][] getTerrain() {
+       return terrain;
     }
 
     public TerrainType getCase(int i, int j) {
@@ -71,11 +76,24 @@ public class Terrain {
                 return null;
         }
     }
+
+    public LinkedList<Cellule> getCheminPlusCourt() {
+        if (cheminPlusCourt==null){
+            return cheminPlusCourt=calculerCheminPlusCourt();
+        }
+        return cheminPlusCourt;
+    }
+    public void setCheminNull(LinkedList<Cellule> cheminPlusCourt) {
+        this.cheminPlusCourt = null;
+    }
+
+    public int[] getPosDansCarte(int x, int y) {
+
+        return new int[]{(int)(y/16), (int)(x/16)};
+    }
+
     public int getCase1(int i, int j) {
         return terrain[i][j];
-    }
-    public int[][] getTerrain() {
-        return terrain;
     }
     public void placementMur(int i, int j) {
         if (terrain[i][j] == 1) {
@@ -86,30 +104,17 @@ public class Terrain {
             terrain[i][j] = 1;
         }
     }
-    LinkedList<Cell> calculerCheminPlusCourt() {
+    public LinkedList<Cellule> getPlusCourtChemin() {
+        return bfs.getPlusCourtChemin();
+    }
+    LinkedList<Cellule> calculerCheminPlusCourt() {
         int[] start = {1, 0};
         int[] end = {12, 60};
 
-        BFS bfs = new BFS();
-        cheminPlusCourt= bfs.shortestPath(terrain, start, end);
+        BFS bfs = new BFS(terrain, start, end);
+        cheminPlusCourt= bfs.getPlusCourtChemin();
         return cheminPlusCourt;
     }
-
-    public LinkedList<Cell> getCheminPlusCourt() {
-        if (cheminPlusCourt==null){
-            return cheminPlusCourt=calculerCheminPlusCourt();
-        }
-        return cheminPlusCourt;
-    }
-    public void setCheminNull(LinkedList<Cell> cheminPlusCourt) {
-        this.cheminPlusCourt = null;
-    }
-
-    public int[] getPosInMap(int x, int y) {
-        return new int[]{(int)(y/16), (int)(x/16)};
-    }
-//casser mur, calcul du bfs, et chemin le plus court appeler tant que le terrain il change pas
-
 }
 
 
