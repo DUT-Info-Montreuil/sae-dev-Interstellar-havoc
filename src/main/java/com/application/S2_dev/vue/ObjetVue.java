@@ -144,8 +144,11 @@ public class ObjetVue implements ListChangeListener<Objet> {
     public void apparitionObjet(int ligne, int colonne) {
         double x = colonne * 16;
         double y = ligne * 16;
-        if(Integer.parseInt(prix.getText()) >0) {
-            if (emplacementBombe(ligne, colonne)) {
+        if(objetSelectionne == null){
+            System.out.println("Pas item selectionné ");
+        }
+        else if(Integer.parseInt(prix.getText()) >0) {
+           if (emplacementBombe(ligne, colonne)) {
                 if (objetSelectionne.equals("Bombe")) {
                     objet = new Bombe(environnement, terrain);
                     creerObjet(objet);

@@ -26,9 +26,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
-public class ControlleurTerrainJeu implements Initializable {    @FXML
-
-TilePane tilePane;
+public class ControlleurTerrainJeu implements Initializable {
+    @FXML
+    TilePane tilePane;
 
     @FXML
     Pane pane;
@@ -117,10 +117,9 @@ TilePane tilePane;
 
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(
-                Duration.seconds(0.5),
+                Duration.seconds(Parametre.tempsUnTour),
                 ev -> {
                     env.unTour();
-
                 });
         gameLoop.getKeyFrames().add(kf);
         gameLoop.play();
@@ -141,13 +140,15 @@ TilePane tilePane;
             stage.setOnHidden(
                     e ->
                             this.gameLoop.play()
-
             );
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
+
     @FXML
     void ButtonQuitter(ActionEvent event) {
         exit();
@@ -181,8 +182,4 @@ TilePane tilePane;
         // Mettre en pause la boucle de jeu
         this.gameLoop.pause();
     }
-
-
 }
-
-

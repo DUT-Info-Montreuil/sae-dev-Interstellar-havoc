@@ -14,17 +14,21 @@ import com.application.S2_dev.modele.tours.Tour;
 import com.application.S2_dev.modele.tours.EdisonCoil;
 import com.application.S2_dev.modele.tours.NikolaCoil;
 import com.application.S2_dev.modele.tours.OppenheimerCoil;
-import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
-import javafx.util.Duration;
+import javafx.stage.Stage;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.net.URL;
 
 public class TourVue implements ListChangeListener<Tour> {
@@ -44,6 +48,10 @@ public class TourVue implements ListChangeListener<Tour> {
     private boolean jeuEnPause = false; // Indicateur de jeu en pause
     private ImageView niveauChoisi = null; // Image affichée pour le niveau sélectionné
     private Tour tourCliquee = null; // Tour sélectionnée par le joueur
+    @FXML
+    private Label textMenuTour;
+    @FXML
+    private Label titreMenuTour;
 
     public TourVue(Environnement environnement, TilePane tilePane, Terrain terrain , Pane pane, Label idBobineEdison, Label idBobineOppenheimer, Label idBobineNikola, Label labelCredit, Label idSelectedTower){
         this.env = environnement;
@@ -155,24 +163,26 @@ public class TourVue implements ListChangeListener<Tour> {
      */
     public void placerTour(int ligne, int cologne, int level) {
         // Vérifier si la tour peut être placée aux coordonnées spécifiées
-        if (peutPlacerTourA(ligne, cologne)) {
-
+        if(selectedTowerType == null){
+            System.out.println("Pas de tour selectionnée");
+        }
+        else if (peutPlacerTourA(ligne, cologne)) {
             Tour tour;
+                // Créer l'objet tour en fonction du type de tour
+                switch (selectedTowerType) {
+                    case Nikola:
+                        tour = new NikolaCoil((int) cologne * 16, (int) ligne * 16, level);
+                        break;
+                    case Edison:
+                        tour = new EdisonCoil((int) cologne * 16, (int) ligne * 16, level);
+                        break;
+                    case Oppenheimer:
+                        tour = new OppenheimerCoil((int) cologne * 16, (int) ligne * 16, level);
+                        break;
 
-            // Créer l'objet tour en fonction du type de tour
-            switch (selectedTowerType) {
-                case Nikola:
-                    tour = new NikolaCoil((int)cologne*16, (int)ligne*16, level);
-                    break;
-                case Edison:
-                    tour = new EdisonCoil((int)cologne*16, (int)ligne*16, level);
-                    break;
-                case Oppenheimer:
-                    tour = new OppenheimerCoil((int)cologne*16, (int)ligne*16, level);
-                    break;
-                default:
-                    return;
-            }
+                    default:
+                        return;
+                }
 
             if (Parametre.argentDebutJoueur< tour.getPrix()) {
                 JOptionPane.showMessageDialog(null, "Pas assez d'Parametre.argentDebutJoueur!");
@@ -255,11 +265,36 @@ public class TourVue implements ListChangeListener<Tour> {
             });
 
             JOptionPane.showMessageDialog(null, "Tour de niveau " + tour.getNiveau() + " " + tour.getNom() + " placée");
+
         }
 
         // Retourne les dimensions de l'image de la tour
         return new double[]{vueTour.getImage().getHeight(), vueTour.getImage().getWidth()};
     }
+    @FXML
+    private Label labelBombe;
+
+    @FXML
+    private Label labelDescription;
+//    void TourEvent (String title,String texte){
+//        Parent root;
+//        this.gameloop.play();
+//        try {
+//            this.gameloop.pause();
+//            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/TerrainJeu/TourMenu.fxml"));
+//            Stage stage = new Stage();
+//            stage.setTitle("Tour Menu");
+//            stage.setScene(new Scene(root, 155, 65));
+//            stage.show();
+//            stage.setOnHidden(
+//                    e ->
+//                            this.gameloop.play()
+//            );
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
     void showniveauChoisi() {
         // URL de l'image du niveau choisi
         URL urlChoixNiveau = Main.class.getResource("image/tour/level_choose.png");

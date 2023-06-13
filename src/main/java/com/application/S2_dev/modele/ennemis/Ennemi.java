@@ -1,6 +1,7 @@
 package com.application.S2_dev.modele.ennemis;
 
 import com.application.S2_dev.modele.bfs.Cellule;
+import com.application.S2_dev.modele.data.PixelMoveTimeEvent;
 import com.application.S2_dev.modele.objet.Mur;
 import com.application.S2_dev.modele.objet.Objet;
 import com.application.S2_dev.modele.map.Terrain;
@@ -21,8 +22,8 @@ public abstract class Ennemi {
     protected int portee;
     private Boolean enCoursAttaque;
     public Ennemi(double valX, double valY, Terrain terr) {
-        x = new SimpleDoubleProperty(valX);
-        y = new SimpleDoubleProperty(valY);
+        x = new SimpleDoubleProperty(valX-8); //-8 pour center
+        y = new SimpleDoubleProperty(valY-8); //-8 pour center
         this.terrain = terr;
         this.id = "E" + compteur;
         compteur++;
@@ -88,14 +89,14 @@ public abstract class Ennemi {
             if(terrain.getCase1(celluleSuivante.getI(),celluleSuivante.getJ())==1) {
                 int diffX = celluleCourante.getI() - celluleSuivante.getI();
                 int diffY = celluleCourante.getJ() - celluleSuivante.getJ();
-
-                if (diffX != 0) {
-                    this.setY(this.getY() + (diffX > 0 ? largeurCase : -largeurCase));
-                }
-
-                if (diffY != 0) {
-                    this.setX(this.getX() + (diffY > 0 ? hauteurCase : -hauteurCase));
-                }
+                PixelMoveTimeEvent.initAnimation(this,diffX,diffY);
+//                if (diffX != 0) {
+//                    this.setY(this.getY() + (diffX > 0 ? largeurCase : -largeurCase));
+//                }
+//
+//                if (diffY != 0) {
+//                    this.setX(this.getX() + (diffY > 0 ? hauteurCase : -hauteurCase));
+//                }
             }
             else if(terrain.getCase1(celluleSuivante.getI(),celluleSuivante.getJ())==2){
                 while(AttaquerObjet()){
