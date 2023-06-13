@@ -12,7 +12,7 @@ public class NikolaCoil extends Tour {
     private int cooldownTime = 0;
 
     public NikolaCoil(int x, int y, int level) {
-        super(x, y, TowerType.Nikola, level,200, 100*level);
+        super(x, y, TowerType.Nikola, level,500, 500*level);
         this.FIRE_RATE = 2 - level;
         this.DAMAGE = 10 + (level*3);
         this.RANGE = 50 + (level*5);

@@ -10,6 +10,7 @@ public class Scavenger extends Ennemi {
     
     public Scavenger(int x, int y){
         super(x, y);
+        this.health=200;
     }
     
     @Override

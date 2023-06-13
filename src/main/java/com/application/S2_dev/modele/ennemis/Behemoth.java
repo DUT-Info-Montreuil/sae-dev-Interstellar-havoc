@@ -10,6 +10,7 @@ public class Behemoth extends Ennemi {
     
     public Behemoth(int x, int y){
         super(x, y);
+        this.health=300;
     }
     
     @Override

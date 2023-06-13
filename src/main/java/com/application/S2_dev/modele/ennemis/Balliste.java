@@ -9,6 +9,7 @@ public class Balliste extends Ennemi {
     
     public Balliste(int x, int y){
         super(x, y);
+        this.health=100;
     }
     
     @Override

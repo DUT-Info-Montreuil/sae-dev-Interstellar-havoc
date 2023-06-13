@@ -12,7 +12,7 @@ public class EdisonCoil extends Tour {
     private int cooldownTime = 0;
 
     public EdisonCoil(int x, int y, int level) {
-        super(x, y, TowerType.Edison, level,100,100*level);
+        super(x, y, TowerType.Edison, level,300,33*level);
         this.FIRE_RATE = 6 - level;
         this.DAMAGE = 25 + (level*3);
         this.RANGE = 50 + (level*5);

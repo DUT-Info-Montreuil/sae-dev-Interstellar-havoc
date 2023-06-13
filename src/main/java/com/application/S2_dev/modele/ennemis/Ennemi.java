@@ -20,7 +20,7 @@ public abstract class Ennemi {
     int i = 0;
     private String id;
     public static int compteur = 0;
-    private int health;
+    public static int health;
     private static final int RANGE = 20;
     private static final int DAMAGE = 25;
 
@@ -30,7 +30,7 @@ public abstract class Ennemi {
         terr = new Terrain();//a voir
         this.id = "E" + compteur;
         compteur++;
-        this.health = 100;
+
     }
 
         public String getId () {

@@ -174,7 +174,7 @@ public class ControlleurTerrainJeu implements Initializable {
         });
 
         tilePane.setOnMouseClicked(h -> {
-            spawnTower(h.getX(), h.getY());
+                     spawnTower(h.getX(), h.getY());
         });
     }
 
