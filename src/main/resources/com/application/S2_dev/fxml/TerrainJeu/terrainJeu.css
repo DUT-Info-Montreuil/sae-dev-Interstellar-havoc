@@ -11,7 +11,56 @@
   -fx-border-radius: 10px;
   -fx-background-radius: 16px;
 }
-.labelHaut{
+.labelHautBalliste{
+    -fx-graphic: url('Balliste.png');
+    -fx-font-size: 10pt;
+    -fx-font-family: "UniversFont";
+    -fx-text-fill: white;
+    -fx-background-color: #684869; /* Couleur de fond */
+    -fx-alignment: top-center;
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 16px; /* Rayon de courbure des coins */
+}
+.labelHautBehemoth{
+    -fx-graphic: url('Behemoth.png');
+    -fx-font-size: 10pt;
+    -fx-font-family: "UniversFont";
+    -fx-text-fill: white;
+    -fx-background-color: #684869; /* Couleur de fond */
+    -fx-alignment: top-center;
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 16px; /* Rayon de courbure des coins */
+}
+.labelHautScavenger{
+    -fx-graphic: url('Scavenger.png');
+    -fx-font-size: 10pt;
+    -fx-font-family: "UniversFont";
+    -fx-text-fill: white;
+    -fx-background-color: #684869; /* Couleur de fond */
+    -fx-alignment: top-center;
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 16px; /* Rayon de courbure des coins */
+}
+.labelHautVie{
+    -fx-graphic: url('Vie.png');
+    -fx-font-size: 10pt;
+    -fx-font-family: "UniversFont";
+    -fx-text-fill: white;
+    -fx-background-color: #684869; /* Couleur de fond */
+    -fx-alignment: top-center;
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 16px; /* Rayon de courbure des coins */
+}
+.labelHautCredit{
+    -fx-graphic: url('Credit.png');
     -fx-font-size: 10pt;
     -fx-font-family: "UniversFont";
     -fx-text-fill: white;
@@ -24,29 +73,32 @@
 }
 .labelNombre{
     -fx-text-fill: white;
-
 }
 
-.labelTour1{
-    -fx-graphic: url('tourel1.png');
-    max-width: 10px; /* Largeur souhaitée */
-    max-height: 20px;
-
+.labelTourNikola{
+    -fx-graphic: url('Nikola.png');
 }
 
 
-.labelTour2{
-    -fx-graphic: url('tourel2.png');
-    max-width: 10px; /* Largeur souhaitée */
-    max-height: 20px;
-
+.labelTourEdison{
+    -fx-graphic: url('Edison.png');
 }
 
-.labelTour3{
-    -fx-graphic: url('tourel3.png');
-    max-width: 10px; /* Largeur souhaitée */
-    max-height: 20px;
+.labelTourOppenheimer{
+    -fx-graphic: url('Oppenheimer.png');
+}
 
+.labelBombe{
+    -fx-graphic: url('bombe.png');
+}
+.labelHydrogene{
+    -fx-graphic: url('hydrogene.png');
+}
+.labelMur{
+    -fx-graphic: url('mur.png');
+}
+.labelMaintenance{
+    -fx-graphic: url('maintenance.png');
 }
 
 

@@ -5,9 +5,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+
 import javafx.scene.control.Label;
+
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,24 +21,54 @@ public class ControlleurMenu implements Initializable  {
 
     @FXML
     private Label lab;
-
     @FXML
-    void actionOption(ActionEvent event) {
+    void ButtonConsigne(ActionEvent event) {
         Parent root;
         try {
             Stage stage1 = (Stage) lab.getScene().getWindow();
             stage1.close();
-            root = FXMLLoader.load(Main.class.getResource("fxml/Option.fxml"));
+            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Consigne/Consigne.fxml"));
             Stage stage = new Stage();
-            stage.setTitle("Tower Defence");
-            stage.setScene(new Scene(root, 1200, 800));
+            stage.setTitle("Consigne du jeu");
+            stage.setScene(new Scene(root, 1250, 800));
             stage.show();
-            // ((Node)(event.getSource())).getScene().getWindow().hide();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
 
+    }
+    @FXML
+    void ButtonCredit(ActionEvent event) {
+        Parent root;
+        try {
+            Stage stage1 = (Stage) lab.getScene().getWindow();
+            stage1.close();
+            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Credit/Credit.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Credit");
+            stage.setScene(new Scene(root, 1250, 800));
+            stage.show();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    void ButtonNiveau(ActionEvent event) {
+        Parent root;
+        try {
+            Stage stage1 = (Stage) lab.getScene().getWindow();
+            stage1.close();
+            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Niveau/Option.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Niveau de jeu");
+            stage.setScene(new Scene(root, 1250, 800));
+            stage.show();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -45,21 +78,20 @@ public class ControlleurMenu implements Initializable  {
     }
     @FXML
     void ButtonPlay(ActionEvent event) {
-            Parent root;
-            try {
-                Stage stage1 = (Stage) lab.getScene().getWindow();
-                stage1.close();
-                root = FXMLLoader.load(Main.class.getResource("fxml/TerrainJeu/TerrainJeu.fxml"));
-                Stage stage = new Stage();
-                stage.setTitle("Tower Defence");
-                stage.setScene(new Scene(root, 1250, 800));
-                stage.show();
-               // ((Node)(event.getSource())).getScene().getWindow().hide();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+        Parent root;
+        try {
+            Stage stage1 = (Stage) lab.getScene().getWindow();
+            stage1.close();
+            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/TerrainJeu/TerrainJeu.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Interstellar Havoc: Infinite Frontiers");
+            stage.setScene(new Scene(root, 1250, 800));
+            stage.show();
         }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

@@ -1,38 +1,34 @@
-
 package com.application.S2_dev.modele.tours;
 
 import com.application.S2_dev.modele.data.TowerType;
 import com.application.S2_dev.modele.ennemis.Ennemi;
 
 public class EdisonCoil extends Tour {
-    private static final int RANGE = 50; // Range of the tower
-    private static final int DAMAGE = 25; // Damage inflicted on enemies
-    private static final int FIRE_RATE = 6; // Firing rate of the tower (shots per second)
-    
-    private int cooldownTime = 0;
 
-    public EdisonCoil(int x, int y) {
-        super(x, y, TowerType.Edison);
+    private int DEGATS; // Dommages infligés aux ennemis
+    private int TAUX_TIR; // Taux de tir de la tour (coups par seconde)
+    private int tempsRecharge = 0;
+
+    public EdisonCoil(int x, int y, int niveau) {
+
+        super("EdisonCoil", x, y, TowerType.Edison, niveau, 100 * niveau, 50 + (niveau * 5));
+
+        this.TAUX_TIR = 6 - niveau;
+        this.DEGATS = 25 + (niveau * 3);
+
+        if (TAUX_TIR < 1)
+            TAUX_TIR = 1;
     }
 
     @Override
-    public void attack(Ennemi ennemi) {
-        if (isInRange(ennemi) && cooldownTime == 0) {
-            // Inflict damage on the enemy
-            ennemi.takeDamage(DAMAGE);
-            cooldownTime = FIRE_RATE;
+    public void attaquerTour(Ennemi ennemi) {
+        // Le temps de recharge fait attaquer la tour les ennemis en fonction de son taux de tir
+        if (tempsRecharge == 0) {
+            // Inflige des dommages à l'ennemi
+            ennemi.subirDegats(DEGATS);
+            tempsRecharge = TAUX_TIR;
         }
-        if (cooldownTime > 0)
-            cooldownTime--;
-    }
-
-    private boolean isInRange(Ennemi ennemi) {
-        // Check if the enemy is within the firing range
-        double distance = calculateDistance(ennemi.getX(), ennemi.getY());
-        return distance <= RANGE;
-    }
-
-    private double calculateDistance(double x, double y) {
-        return Math.sqrt(Math.pow((x-getX()), 2) + Math.pow((y-getY()), 2));
+        if (tempsRecharge > 0)
+            tempsRecharge--;
     }
 }

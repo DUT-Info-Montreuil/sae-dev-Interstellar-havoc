@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" styleClass="my-anchor-pane" stylesheets="@Inventaire.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.S2_dev.controlleur.ControlleurInventaire">
+   <children>
+      <Label fx:id="labelGrandeImage" layoutX="325.0" layoutY="15.0" prefHeight="334.0" prefWidth="668.0" styleClass="labelContour" AnchorPane.bottomAnchor="251.0" AnchorPane.leftAnchor="325.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="15.0" />
+      <Label fx:id="labelDescription" layoutX="12.0" layoutY="426.0" prefHeight="168.0" prefWidth="982.0" styleClass="labelContour" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="426.0" />
+      <Label fx:id="labelMaintenace" layoutX="121.0" layoutY="116.0" prefHeight="91.0" prefWidth="76.0" styleClass="labelMaintenance" AnchorPane.bottomAnchor="393.0" AnchorPane.leftAnchor="121.0" AnchorPane.rightAnchor="803.0" AnchorPane.topAnchor="116.0" />
+      <Label fx:id="labelBombe" layoutX="20.0" layoutY="116.0" prefHeight="91.0" prefWidth="76.0" styleClass="labelBombe" AnchorPane.bottomAnchor="393.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="904.0" AnchorPane.topAnchor="116.0" />
+      <Label fx:id="labelMur" layoutX="223.0" layoutY="116.0" prefHeight="91.0" prefWidth="76.0" styleClass="labelMur" />
+      <Label fx:id="labelTourNikola" layoutX="20.0" layoutY="229.0" prefHeight="91.0" prefWidth="76.0" styleClass="labelTourNikola" />
+      <Label fx:id="labelTourEdison" layoutX="121.0" layoutY="229.0" prefHeight="91.0" prefWidth="76.0" styleClass="labelTourEdison" />
+      <Label fx:id="labelTourOppenheimer" layoutX="223.0" layoutY="229.0" prefHeight="91.0" prefWidth="76.0" styleClass="labelTourppenheimer" />
+      <Label layoutX="12.0" layoutY="14.0" prefHeight="62.0" prefWidth="294.0" styleClass="labelTitre" text="INVENTAIRE" />
+      <Label layoutX="14.0" layoutY="357.0" prefHeight="54.0" prefWidth="982.0" styleClass="labelTitre" text="Description" />
+   </children>
+</AnchorPane>
