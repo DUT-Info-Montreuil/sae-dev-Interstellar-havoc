@@ -48,10 +48,8 @@ public class ControlleurInventaire implements Initializable {
                     imageViewMaintenance.setFitWidth(200);
                     imageViewMaintenance.setFitHeight(200);
                     labelGrandeImage.setGraphic(imageViewMaintenance);
-                    labelDescription.setText("Les bombes sont des dispositifs spéciaux que les joueurs peuvent " +
-                            "placer sur le terrain de jeu.\nElles sont généralement équipées de minuteries précises et " +
-                            "d'un pouvoir dévastateur.\nLorsque les ennemis s'approchent de la bombe, elle explose violemment," +
-                            " infligeant des dégâts considérables à tout ce qui se trouve à proximité.\n");
+                    labelDescription.setText("Les maintenances permettent de réparer les tours sur la Map " +
+                            "Il est appliqué à toutes les Tours.\n.");
                 }
         );
 
@@ -62,10 +60,9 @@ public class ControlleurInventaire implements Initializable {
                     ImageView imageViewMur = new ImageView(imageMur);
                     imageViewMur.setFitWidth(200);
                     imageViewMur.setFitHeight(200);
-                    labelGrandeImage.setGraphic(imageViewMur);labelDescription.setText("Les bombes sont des dispositifs spéciaux que les joueurs peuvent " +
-                            "placer sur le terrain de jeu.\nElles sont généralement équipées de minuteries précises et " +
-                            "d'un pouvoir dévastateur.\nLorsque les ennemis s'approchent de la bombe, elle explose violemment," +
-                            " infligeant des dégâts considérables à tout ce qui se trouve à proximité.\n");
+                    labelGrandeImage.setGraphic(imageViewMur);labelDescription.setText("Les Murs sont des dispositifs spéciaux que les joueurs peuvent " +
+                            "placer sur le terrain de jeu.\nElles permettent de bloquer la progression des ennemies " +
+                            "\n Lorsque les ennemis s'approchent du Mur, ils le détruiront.");
                 }
         );
 
@@ -92,10 +89,9 @@ public class ControlleurInventaire implements Initializable {
                     imageViewTour1.setFitWidth(200);
                     imageViewTour1.setFitHeight(200);
                     labelGrandeImage.setGraphic(imageViewTour1);
-                    labelDescription.setText("Les bombes sont des dispositifs spéciaux que les joueurs peuvent " +
-                            "placer sur le terrain de jeu.\nElles sont généralement équipées de minuteries précises et " +
-                            "d'un pouvoir dévastateur.\nLorsque les ennemis s'approchent de la bombe, elle explose violemment," +
-                            " infligeant des dégâts considérables à tout ce qui se trouve à proximité.\n");
+                    labelDescription.setText("La bobine Edison est la première génération de bobine développés par IHI" +
+                            "placer sur le terrain de jeu.\nElles ont généralement une faible portée ainsi que des dégats modérés" +
+                            "Elle est cependant très peu couteuse.\n");
                 }
         );
 
@@ -107,10 +103,9 @@ public class ControlleurInventaire implements Initializable {
                     imageViewTour2.setFitWidth(200);
                     imageViewTour2.setFitHeight(200);
                     labelGrandeImage.setGraphic(imageViewTour2);
-                    labelDescription.setText("Les bombes sont des dispositifs spéciaux que les joueurs peuvent " +
-                            "placer sur le terrain de jeu.\nElles sont généralement équipées de minuteries précises et " +
-                            "d'un pouvoir dévastateur.\nLorsque les ennemis s'approchent de la bombe, elle explose violemment," +
-                            " infligeant des dégâts considérables à tout ce qui se trouve à proximité.\n");
+                    labelDescription.setText("La bobine Nikola est la deuxième génération de bobine développés par IHI" +
+                            "placé sur le terrain de jeu.\nElles ont généralement une Moyenne portée mais  des dégats considérable" +
+                                    "Elle est cependant un peu plus couteuse que sa prédécesseuse.\n");
                 }
         );
 
@@ -122,10 +117,9 @@ public class ControlleurInventaire implements Initializable {
                     imageViewTour3.setFitWidth(200);
                     imageViewTour3.setFitHeight(200);
                     labelGrandeImage.setGraphic(imageViewTour3);
-                    labelDescription.setText("Les bombes sont des dispositifs spéciaux que les joueurs peuvent " +
-                            "placer sur le terrain de jeu.\nElles sont généralement équipées de minuteries précises et " +
-                            "d'un pouvoir dévastateur.\nLorsque les ennemis s'approchent de la bombe, elle explose violemment," +
-                            " infligeant des dégâts considérables à tout ce qui se trouve à proximité.\n");
+                    labelDescription.setText("La bobine Oppenheimer est la troisième et dernière génération de bobine développés par IHI" +
+                            "placé sur le terrain de jeu.\nElles ont une très grande portée ainsi que des dégâts immenses" +
+                            "Elle est cependant la plus couteuse des bobines D'Interstellar Havoc Industries.\n");
                 }
         );
 

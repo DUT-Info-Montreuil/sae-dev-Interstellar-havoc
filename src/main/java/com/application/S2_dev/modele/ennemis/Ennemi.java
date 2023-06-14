@@ -60,7 +60,7 @@ public abstract class Ennemi {
     public abstract boolean estDansPortee(Tour tour);
 
     public void agir(double largeurCase, double hauteurCase) {
-        Cellule celluleCourante = null;
+        Cellule celluleCourante =null;
         Cellule celluleSuivante = null;
         celluleCourante = terrain.getPlusCourtChemin().get(i);
         celluleSuivante = i > 0 ? terrain.getPlusCourtChemin().get(i - 1) : null;
@@ -79,6 +79,7 @@ public abstract class Ennemi {
     }
         i++;
         this.toString();
+
     }
 
     public void setX(double x1) {

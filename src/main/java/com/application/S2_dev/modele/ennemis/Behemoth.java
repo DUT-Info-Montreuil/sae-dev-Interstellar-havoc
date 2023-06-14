@@ -7,7 +7,7 @@ public class Behemoth extends Ennemi {
     public Behemoth(int x, int y){
         super(x, y);
         this.portee=100; // Portée de la tour
-        this.degats=25; // Dommages infligés aux tours
+        this.degats=10; // Dommages infligés aux tours
     }
 
     @Override
