@@ -22,5 +22,5 @@ public class Behemoth extends Ennemi {
         double distance = calculerDistance(tour.getX(), tour.getY());
         return distance <= portee;
     }
-
 }
+
