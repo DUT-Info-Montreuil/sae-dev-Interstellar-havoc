@@ -14,12 +14,14 @@ public class Behemoth extends Ennemi {
         if (estDansPortee(tour)) {
             // Infliger des dégâts à la tour
             tour.infligerDegats(degats);
+            aProximiteTour.setValue(true);
         }
     }
     @Override
     public boolean estDansPortee(Tour tour) {
         // Vérifier si l'ennemi est à portée de tir
         double distance = calculerDistance(tour.getX(), tour.getY());
+
         return distance <= portee;
     }
 

@@ -80,20 +80,19 @@ TilePane tilePane;
     public void initialize(URL url, ResourceBundle resourceBundle) {
         terrain = new Terrain();
         env = new Environnement(terrain); // Création de l'environnement
-        terrainVue = new TerrainVue(tilePane, terrain);
+        terrainVue = new TerrainVue(tilePane, terrain, env);
         terrainVue.afficherTerrain();
         labelCredit.setText("500");
-        EnnemiVue ennemiVue = new EnnemiVue(pane, labelScavenger, labelBalliste, labelBehemoth, labelCredit);
+        EnnemiVue ennemiVue = new EnnemiVue(pane, labelScavenger, labelBalliste, labelBehemoth, labelCredit, env);
         env.getEnnemis().addListener(ennemiVue);
 
         ObjetVue objetVue = new ObjetVue(pane,env, labelBombe, LabelHydrogene, labelMur, labelCredit, terrain, terrainVue);
         env.getObjets().addListener(objetVue);
         objetVue.AjoutObjet();
-
-        TourVue tourVue = new TourVue(env,tilePane,terrain,pane,idBobineEdison,idBobineOppenheimer,idBobineNikola,labelCredit, idSelectedTower);
+        initAnimation();
+        TourVue tourVue = new TourVue(env,tilePane,terrain,pane,idBobineEdison,idBobineOppenheimer,idBobineNikola, labelCredit, gameLoop);
         env.getTour().addListener(tourVue);
         tourVue.lancerTourVue();
-        initAnimation();
         tourVue.TestClickTourel();
 
         labelLife.setText("5");

@@ -17,6 +17,7 @@ import com.application.S2_dev.modele.tours.OppenheimerCoil;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -25,27 +26,23 @@ import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.net.URL;
 
 public class TourVue implements ListChangeListener<Tour> {
     private Environnement env;
-    Pane pane;
+    private Pane pane;
     private TilePane tilePane;
     private Terrain terrain;
     private Label idBobineEdison, idBobineOppenheimer, idBobineNikola;
-    private Label idSelectedTower, labelCredit;
+    private Label labelCredit;
     private TowerType selectedTowerType;
-    private int timeBeforeNewSpawn = 15;
-    private Tour clickedTower = null;
-    private ImageView levelChooser = null;
-    private int money ;
-    private int temps;
-    private int tempsAvantNouveauSpawn = 10; // Temps avant l'apparition d'un nouvel ennemi
-    private boolean jeuEnPause = false; // Indicateur de jeu en pause
+    private Timeline gameLoop;
     private ImageView niveauChoisi = null; // Image affichée pour le niveau sélectionné
     private Tour tourCliquee = null; // Tour sélectionnée par le joueur
 
-    public TourVue(Environnement environnement, TilePane tilePane, Terrain terrain , Pane pane, Label idBobineEdison, Label idBobineOppenheimer, Label idBobineNikola, Label labelCredit, Label idSelectedTower){
+    public TourVue(Environnement environnement, TilePane tilePane, Terrain terrain , Pane pane, Label idBobineEdison, Label idBobineOppenheimer, Label idBobineNikola, Label labelCredit, Timeline gameLoop){
         this.env = environnement;
         this.tilePane = tilePane;
         this.terrain = terrain;
@@ -53,9 +50,8 @@ public class TourVue implements ListChangeListener<Tour> {
         this.idBobineEdison = idBobineEdison;
         this.idBobineNikola = idBobineNikola;
         this.idBobineOppenheimer = idBobineOppenheimer;
-        this.money = Integer.parseInt(labelCredit.getText());
         this.labelCredit = labelCredit;
-        this.idSelectedTower = idSelectedTower;
+        this.gameLoop = gameLoop;
     }
     @Override
     public void onChanged(Change<? extends Tour> c) {
@@ -72,42 +68,16 @@ public class TourVue implements ListChangeListener<Tour> {
         }
     }
     public void lancerTourVue() {
-        temps = 0;
-
-            if (jeuEnPause)
-                return;
 
             final int ennemiSquadSize = env.getEnnemis().size();
 
-            env.unTour();
-
             if (env.getEnnemis().size() < ennemiSquadSize)
                 ajouterArgent(100);
-
-            int Scavenger = 0, Behemoth = 0, Balliste = 0;
-            for (Ennemi e : env.getEnnemis()) {
-                if (e instanceof Scavenger)
-                    Scavenger++;
-                else if (e instanceof Behemoth)
-                    Behemoth++;
-                else if (e instanceof Balliste)
-                    Balliste++;
-            }
 
             if (!env.getTour().contains(tourCliquee)) {
                 pane.getChildren().remove(this.niveauChoisi);
                 niveauChoisi = null;
             }
-
-            if (tempsAvantNouveauSpawn == 0) {
-                //spawnEnnemi();
-                tempsAvantNouveauSpawn = 15;
-                return;
-            }
-
-            tempsAvantNouveauSpawn--;
-
-
     }
 
     public void TestClickTourel() {
@@ -180,7 +150,6 @@ public class TourVue implements ListChangeListener<Tour> {
             }
 
             // Ajouter la tour au terrain et l'afficher sur le panneau
-            env.addTower(tour);
             creerSprite(tour);
             env.ajouterTour(tour);
             soustraireArgent(tour.getPrix());
@@ -254,7 +223,18 @@ public class TourVue implements ListChangeListener<Tour> {
                 }
             });
 
-            JOptionPane.showMessageDialog(null, "Tour de niveau " + tour.getNiveau() + " " + tour.getNom() + " placée");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Message");
+            alert.setHeaderText(null);
+            alert.setContentText("Tour de niveau " + tour.getNiveau() + " " + tour.getNom() + " placée");
+            alert.setOnShowing(e -> {
+                this.gameLoop.pause();
+            });
+            alert.setOnHidden(e -> {
+                this.gameLoop.play();
+            });
+            alert.showAndWait();
+
         }
 
         // Retourne les dimensions de l'image de la tour

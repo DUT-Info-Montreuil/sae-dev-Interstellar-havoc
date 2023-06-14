@@ -18,6 +18,8 @@ public class Balliste extends Ennemi {
         if (estDansPortee(tour)) {
             // Infliger des dégâts à la tour
             tour.infligerDegats(degats);
+            this.aProximiteTour.setValue(true);
+
         }
     }
     @Override

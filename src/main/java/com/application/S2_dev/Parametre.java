@@ -8,4 +8,6 @@ public class Parametre {
 
     public static int largeurCase = 16;
     public static int hauteurCase = 16;
+
+    public static double tempsUnTour = 0.3;
 }

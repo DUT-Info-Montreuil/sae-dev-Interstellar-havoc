@@ -5,16 +5,18 @@ import com.application.S2_dev.modele.ennemis.Balliste;
 import com.application.S2_dev.modele.ennemis.Behemoth;
 import com.application.S2_dev.modele.ennemis.Ennemi;
 import com.application.S2_dev.modele.ennemis.Scavenger;
+import com.application.S2_dev.modele.objet.Block;
 import com.application.S2_dev.modele.objet.Mur;
 import com.application.S2_dev.modele.objet.Objet;
 import com.application.S2_dev.modele.tours.Tour;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.beans.property.SimpleIntegerProperty;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+
+import java.util.*;
 
 public class Environnement {
     private Random random = new Random();
@@ -23,6 +25,7 @@ public class Environnement {
     private  ObservableList<Objet> objets;
     private ObservableList<Tour> tours;
     private IntegerProperty joueursAtteints ;
+    public BooleanProperty aProximiteTour ;
 
     public Environnement(Terrain terrain) {
         this.terrain = terrain;
@@ -30,6 +33,7 @@ public class Environnement {
         this.tours = FXCollections.observableArrayList();
         this.objets = FXCollections.observableArrayList();
         this.joueursAtteints = new SimpleIntegerProperty(0) ;
+        aProximiteTour = new SimpleBooleanProperty(false);
     }
 
     public void ajouterVague() {
@@ -50,7 +54,7 @@ public class Environnement {
             }
 
             for (int compteur = 0; compteur < ennemisAAjouter; compteur++) {
-                int spawnRate = random.nextInt(150) + 1;
+                int spawnRate = random.nextInt(15) + 1;
                 switch (spawnRate) {
                     case 1:
                         Ennemi en = new Behemoth(5,21, terrain);
@@ -68,10 +72,6 @@ public class Environnement {
             }
         }
     }
-    public void ajouter(Ennemi a) {
-        this.ennemis.add(a);
-    }
-
     public void unTour() {
 
         for (int i = 0; i < ennemis.size(); i++) {
@@ -84,14 +84,12 @@ public class Environnement {
                 ennemis.remove(ennemi);
                 joueursAtteints.setValue(joueursAtteints.getValue()+1);
                 System.out.println("Joueurs atteints : " + joueursAtteints);
-                /*this.reached.setValue(reached.getValue() - 1);
-                System.out.println("Players reached: " + reached);*/
             } else {
                 for (Tour t : tours) {
                     ennemi.attaquerTour(t);
                 }
                 for (Objet o : objets) {
-                    if (o instanceof Mur) {
+                    if (o instanceof Mur || o instanceof Block) {
                         ennemi.attaqueObjet(o);
                         System.out.println("pv " + o.getPv());
                     }
@@ -122,6 +120,11 @@ public class Environnement {
         }
         ajouterVague();
     }
+
+    public BooleanProperty aProximiteTourProperty() {
+        return this.aProximiteTour;
+    }
+
     /**
      * Renvoie une liste d'ennemis à portée de cette tour
      * @param tour Objet Tour représentant la tour
@@ -132,14 +135,18 @@ public class Environnement {
         List<Ennemi> temp = new ArrayList<>();
 
         for (Ennemi e : ennemis) {
-            if (tour.estDansportee(e))
+            if (tour.estDansportee(e)) {
+                this.aProximiteTour.setValue(true);
                 temp.add(e);
+            }
+            else{
+                this.aProximiteTour.setValue(false);
+            }
         }
 
         return temp;
     }
     public ObservableList<Tour> getTour() {
-
         return tours;
     }
     public ObservableList<Objet> getObjets() {
@@ -149,9 +156,6 @@ public class Environnement {
         return ennemis;
     }
 
-    public void addTower(Tour tour) {
-        tours.add(tour);
-    }
     public void ajouterTour(Tour tour) {
         tours.add(tour);
     }

@@ -1,41 +1,56 @@
 package com.application.S2_dev.vue;
 
 import com.application.S2_dev.Main;
+import com.application.S2_dev.Parametre;
 import com.application.S2_dev.modele.ennemis.Behemoth;
 import com.application.S2_dev.modele.ennemis.Ennemi;
 import com.application.S2_dev.modele.ennemis.Scavenger;
 import com.application.S2_dev.modele.ennemis.Balliste;
+import com.application.S2_dev.modele.map.Environnement;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+
+import javax.swing.*;
 import java.net.URL;
 
 public class EnnemiVue implements ListChangeListener<Ennemi> {
     private Pane panneau_de_jeu;
+    Environnement env;
     private Label LabelnbVivantScavenger, LabelnbVivantBalliste,  LabelnbVivantBehemoth, Credit;
     int nbVivantScavenger = 0, nbVivantBalliste=0, nbVivantBehemoth=0, money;
-    private URL urlScavenger, urlBalliste, urlBehemoth;
-    private Image ImageScavenger,ImageBalliste, ImageBehemoth;
+    private URL urlScavenger,urlScavengerProximite, urlBalliste,urlBallisteProximite, urlBehemoth, urlBehemothProximite;
+    private Image ImageScavenger, ImageScavengerProximite, ImageBalliste, ImageBallisteProximite, ImageBehemoth, ImageBehemothProximite;
 
-    public EnnemiVue(Pane pane, Label labelScavenger, Label labelBalliste, Label labelBehemoth, Label Credit) {
+    public EnnemiVue(Pane pane, Label labelScavenger, Label labelBalliste, Label labelBehemoth, Label Credit, Environnement env) {
         this.panneau_de_jeu = pane;
         this.LabelnbVivantScavenger =  labelScavenger;
         this.LabelnbVivantBalliste = labelBalliste;
         this.LabelnbVivantBehemoth =  labelBehemoth;
         this.Credit = Credit;
         this.money = Integer.parseInt(Credit.getText());
+        this.env = env;
 
 
         urlScavenger = Main.class.getResource("image/ennemis/Scavenger.png");
         ImageScavenger = new javafx.scene.image.Image(String.valueOf(urlScavenger));
 
+        urlScavengerProximite = Main.class.getResource("image/ennemis/Scavenger_Damaged.png");
+        ImageScavengerProximite = new javafx.scene.image.Image(String.valueOf(urlScavengerProximite));
+
         urlBalliste = Main.class.getResource("image/ennemis/Balliste.png");
         ImageBalliste = new Image(String.valueOf(urlBalliste));
 
+        urlBallisteProximite = Main.class.getResource("image/ennemis/Balliste_Damaged.png");
+        ImageBallisteProximite = new Image(String.valueOf(urlBallisteProximite));
+
         urlBehemoth = Main.class.getResource("image/ennemis/Behemoth.png");
         ImageBehemoth = new Image(String.valueOf(urlBehemoth));
+
+        urlBehemothProximite = Main.class.getResource("image/ennemis/Behemoth_Damaged.png");
+        ImageBehemothProximite = new Image(String.valueOf(urlBehemothProximite));
     }
     @Override
     public void onChanged(Change<? extends Ennemi> c) {
@@ -61,7 +76,8 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
         }
 
         for (int i = 0; i < c.getAddedSubList().size(); i++) {
-            creerSprite(c.getAddedSubList().get(i));
+                creerSpriteProximite(c.getAddedSubList().get(i));
+
             if (c.getAddedSubList().get(i) instanceof Scavenger) {
                 nbVivantScavenger++;
             } else if (c.getAddedSubList().get(i) instanceof Balliste) {
@@ -110,6 +126,75 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
         if (behemoth != null) {
             behemoth.setId(e.getId());
             panneau_de_jeu.getChildren().add(behemoth);
+        }
+    }
+    void creerSpriteProximite(Ennemi e) {
+        ImageView scavengerProximite;
+        ImageView ballisteProximite;
+        ImageView behemothProximite;
+
+        if (e instanceof Scavenger) {
+            behemothProximite = null;
+            ballisteProximite = null;
+            scavengerProximite = new ImageView(ImageScavenger);
+            scavengerProximite.translateXProperty().bind(e.getXProperty());
+            scavengerProximite.translateYProperty().bind(e.getYProperty());
+
+            env.aProximiteTourProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue ) {
+                    scavengerProximite.setImage(ImageScavengerProximite); // Image de proximité (zone rouge)
+                } else {
+                    scavengerProximite.setImage(ImageScavenger); // Image normale
+                }
+            });
+        }
+        else {
+            scavengerProximite = null;
+            if (e instanceof Balliste) {
+                behemothProximite = null;
+                ballisteProximite = new ImageView(ImageBalliste);
+                ballisteProximite.translateXProperty().bind(e.getXProperty());
+                ballisteProximite.translateYProperty().bind(e.getYProperty());
+
+                // Ajouter un ChangeListener à la propriété aProximiteTour
+                env.aProximiteTourProperty().addListener((observable, oldValue, newValue) -> {
+                    if (newValue ) {
+                        ballisteProximite.setImage(ImageBallisteProximite); // Image de proximité (zone rouge)
+                    } else {
+                        ballisteProximite.setImage(ImageBalliste); // Image normale
+                    }
+                });
+            } else {
+                ballisteProximite = null;
+                if (e instanceof Behemoth) {
+                    behemothProximite = new ImageView(ImageBehemoth);
+                    behemothProximite.translateXProperty().bind(e.getXProperty());
+                    behemothProximite.translateYProperty().bind(e.getYProperty());
+
+                    // Ajouter un ChangeListener à la propriété aProximiteTour
+                    env.aProximiteTourProperty().addListener((observable, oldValue, newValue) -> {
+                        if (newValue ) {
+                            behemothProximite.setImage(ImageBehemothProximite); // Image de proximité (zone rouge)
+                        } else {
+                            behemothProximite.setImage(ImageBehemoth); // Image normale
+                        }
+                    });
+                } else {
+                    behemothProximite = null;
+                }
+            }
+        }
+        if (scavengerProximite != null) {
+            scavengerProximite.setId(e.getId());
+            panneau_de_jeu.getChildren().add(scavengerProximite);
+        }
+        if (ballisteProximite != null) {
+            ballisteProximite.setId(e.getId());
+            panneau_de_jeu.getChildren().add(ballisteProximite);
+        }
+        if (behemothProximite != null) {
+            behemothProximite.setId(e.getId());
+            panneau_de_jeu.getChildren().add(behemothProximite);
         }
     }
     void addMoney(int value) {

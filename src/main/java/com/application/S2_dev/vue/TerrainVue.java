@@ -1,7 +1,11 @@
 package com.application.S2_dev.vue;
 
 import com.application.S2_dev.Main;
+import com.application.S2_dev.modele.bfs.Cellule;
+import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
+import com.application.S2_dev.modele.objet.Mur;
+import com.application.S2_dev.modele.objet.Objet;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
@@ -27,10 +31,12 @@ public class TerrainVue {
 
     URL urlTowerBase = Main.class.getResource("image/map/tour.png");
     Image base = new Image(String.valueOf(urlTowerBase));
+    Environnement env;
 
-    public TerrainVue(TilePane tilePane, Terrain terr) {
+    public TerrainVue(TilePane tilePane, Terrain terr, Environnement env) {
         this.tilePane = tilePane;
         this.terrain = terr;
+        this.env = env;
 
     }
 
@@ -68,12 +74,15 @@ public class TerrainVue {
             }
         }
     }
+    public void mur(){
 
-    public void setImage(int ligne, int colonne) {
+    }
+
+    public void setImage(int ligne, int colonne, int nouvelleValeur) {
         int index = ligne * terrain.getTerrain()[0].length + colonne;
         tilePane.getChildren().remove(index);
 
-        int nouvelleValeur = terrain.getCase1(ligne, colonne);
+        // int nouvelleValeur = terrain.getCase1(ligne, colonne);
 
         switch (nouvelleValeur) {
             case 0:
@@ -89,8 +98,10 @@ public class TerrainVue {
                 tilePane.getChildren().add(index, imm);
                 break;
             case 4:
+                //System.out.println("et 1");
                 ImageView imm3 = new ImageView(block);
                 tilePane.getChildren().add(index, imm3);
+                // System.out.println("et 22");
                 break;
             default:
 

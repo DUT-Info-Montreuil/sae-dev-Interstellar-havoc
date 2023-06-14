@@ -1,11 +1,15 @@
 package com.application.S2_dev.modele.ennemis;
 
 import com.application.S2_dev.modele.bfs.Cellule;
+import com.application.S2_dev.modele.data.PixelMoveTimeEvent;
+import com.application.S2_dev.modele.objet.Block;
 import com.application.S2_dev.modele.objet.Mur;
 import com.application.S2_dev.modele.objet.Objet;
 import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.modele.tours.Tour;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 public abstract class Ennemi {
@@ -19,6 +23,7 @@ public abstract class Ennemi {
     private int vie; // Points de vie de l'ennemi
     protected int degats;
     protected int portee;
+    public BooleanProperty aProximiteTour ;
     private Boolean enCoursAttaque;
     public Ennemi(double valX, double valY, Terrain terr) {
         x = new SimpleDoubleProperty(valX);
@@ -27,6 +32,7 @@ public abstract class Ennemi {
         this.id = "E" + compteur;
         compteur++;
         this.vie = 100;
+        aProximiteTour = new SimpleBooleanProperty(false);
     }
 
     public String getId() {
@@ -53,16 +59,14 @@ public abstract class Ennemi {
         vie -= degats;
     }
 
-    public boolean AttaquerObjet(){
-        return !enCoursAttaque;
-    }
-
     public boolean estVivant() {
         return vie > 0;
     }
     public abstract void attaquerTour(Tour tour);
     public abstract boolean estDansPortee(Tour tour);
-
+    public BooleanProperty aProximiteTour(){
+        return aProximiteTour;
+    }
     private boolean objetProximite(Objet objet) {
         double distance = calculaterDistance(objet.getX(), objet.getY());
         return distance <= 10;
@@ -70,16 +74,24 @@ public abstract class Ennemi {
     private double calculaterDistance(double x, double y) {
         return Math.sqrt(Math.pow((x-getX()), 2) + Math.pow((y-getY()), 2));
     }
+    public boolean AttaquerObjet(){
+        return !enCoursAttaque;
+    }
     public  void attaqueObjet(Objet objet){
         if(objetProximite(objet)) {
             System.out.println("je suis a coté");
             enCoursAttaque = true;
-            ((Mur) objet).degat(1);
+            if(objet instanceof Block) {
+                ((Block) objet).degat(1);
+            }
+            else if(objet instanceof Mur) {
+                ((Mur) objet).degat(1);
+            }
         }
         enCoursAttaque = false;
     }
     public void agir(double largeurCase, double hauteurCase) {
-        Cellule celluleCourante = null;
+        Cellule celluleCourante =null;
         Cellule celluleSuivante = null;
         celluleCourante = terrain.getPlusCourtChemin().get(i);
         celluleSuivante = i > 0 ? terrain.getPlusCourtChemin().get(i - 1) : null;
@@ -88,14 +100,7 @@ public abstract class Ennemi {
             if(terrain.getCase1(celluleSuivante.getI(),celluleSuivante.getJ())==1) {
                 int diffX = celluleCourante.getI() - celluleSuivante.getI();
                 int diffY = celluleCourante.getJ() - celluleSuivante.getJ();
-
-                if (diffX != 0) {
-                    this.setY(this.getY() + (diffX > 0 ? largeurCase : -largeurCase));
-                }
-
-                if (diffY != 0) {
-                    this.setX(this.getX() + (diffY > 0 ? hauteurCase : -hauteurCase));
-                }
+                PixelMoveTimeEvent.initAnimation(this,diffX,diffY);
             }
             else if(terrain.getCase1(celluleSuivante.getI(),celluleSuivante.getJ())==2){
                 while(AttaquerObjet()){
@@ -110,7 +115,6 @@ public abstract class Ennemi {
     public void setX(double x1) {
         this.x.setValue(x1);
     }
-
     public void setY(double y1) {
         this.y.setValue(y1);
     }
