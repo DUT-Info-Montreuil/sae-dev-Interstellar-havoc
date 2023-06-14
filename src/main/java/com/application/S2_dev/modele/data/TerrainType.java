@@ -2,7 +2,7 @@
 package com.application.S2_dev.modele.data;
 
 public enum TerrainType {
-    terrain(0),chemin(1),cheminBloque(2), base_tourelle(3);
+    terrain(0),chemin(1),mur(2), base_tourelle(3),cheminBloque(4), base_finale(5);
 
     private int valeur;
 
@@ -10,7 +10,4 @@ public enum TerrainType {
         this.valeur = valeur;
     }
 
-    public int getValeur() {
-        return valeur;
-    }
 }

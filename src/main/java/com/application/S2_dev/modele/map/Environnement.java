@@ -1,81 +1,111 @@
 package com.application.S2_dev.modele.map;
 
 import com.application.S2_dev.Parametre;
-import com.application.S2_dev.modele.ennemis.*;
+import com.application.S2_dev.modele.ennemis.Balliste;
+import com.application.S2_dev.modele.ennemis.Behemoth;
+import com.application.S2_dev.modele.ennemis.Ennemi;
+import com.application.S2_dev.modele.ennemis.Scavenger;
+import com.application.S2_dev.modele.objet.Mur;
+import com.application.S2_dev.modele.objet.Objet;
 import com.application.S2_dev.modele.tours.Tour;
-import java.util.ArrayList;
-import java.util.List;
+import javafx.beans.property.IntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.layout.Pane;
+import javafx.beans.property.SimpleIntegerProperty;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class Environnement {
-
-    Pane pane;
+    private Random random = new Random();
     private Terrain terrain;
-    private ArrayList<Ennemi> ennemisElimines;
-    private ArrayList<Tour> toursEliminees;
     private  ObservableList<Ennemi> ennemis;
-    private ArrayList<Tour> tours;
-    private int joueursAtteints = 0;
+    private  ObservableList<Objet> objets;
+    private ObservableList<Tour> tours;
+    private IntegerProperty joueursAtteints ;
 
-    public Environnement(Pane gameLayout) {
-        this.ennemisElimines = new ArrayList<>();
-        this.toursEliminees = new ArrayList<>();
+    public Environnement(Terrain terrain) {
+        this.terrain = terrain;
         this.ennemis = FXCollections.observableArrayList();
-        this.tours = new ArrayList<>();
-        terrain = new Terrain();
-        this.pane = gameLayout;
+        this.tours = FXCollections.observableArrayList();
+        this.objets = FXCollections.observableArrayList();
+        this.joueursAtteints = new SimpleIntegerProperty(0) ;
     }
 
-    public ObservableList<Ennemi> getEnnemis() {
-        return ennemis;
+    public void ajouterVague() {
+        boolean spawnPossible = true;
+        int ennemisMax = 5;
+        int ennemisActuels = ennemis.size();
+
+        if (ennemisActuels >= ennemisMax) {
+            spawnPossible = false;
+        }
+        if (spawnPossible) {
+            int ennemisAAjouter =  ennemisMax - ennemisActuels;
+
+            if (ennemisActuels == 0) {
+                Ennemi en = new Balliste(5,21, terrain);
+                ennemis.add(en);
+                ennemisAAjouter--;
+            }
+
+            for (int compteur = 0; compteur < ennemisAAjouter; compteur++) {
+                int spawnRate = random.nextInt(150) + 1;
+                switch (spawnRate) {
+                    case 1:
+                        Ennemi en = new Behemoth(5,21, terrain);
+                        ennemis.add(en);
+                        break;
+                    case 2:
+                        Ennemi en1 = new Scavenger(5,21, terrain);
+                        ennemis.add(en1);
+                        break;
+                    case 3:
+                        Ennemi en2 = new Balliste(5,21,terrain);
+                        ennemis.add(en2);
+                        break;
+                }
+            }
+        }
     }
-
-
-    public ArrayList<Tour> getTour() {
-        return tours;
-    }
-
-    public void ajouterEnnemi(Ennemi ennemi) {
-        this.ennemis.add(ennemi);
-    }
-
-
-    public void init() {
-        Ennemi e1 = new Balliste(5, 21);
-        ennemis.add(e1);
+    public void ajouter(Ennemi a) {
+        this.ennemis.add(a);
     }
 
     public void unTour() {
 
-        for(int i = 0; i < ennemis.size(); i++) {
-            Ennemi ennemi = ennemis.get(i);
-            ennemi.agir(Parametre.largeurCase, Parametre.hauteurCase);
-        }
-
         for (int i = 0; i < ennemis.size(); i++) {
             Ennemi ennemi = ennemis.get(i);
+            ennemi.agir(Parametre.largeurCase, Parametre.hauteurCase);
             if (!ennemi.estVivant()) {
-                System.out.println("Mort de : " + ennemi.getId());
+                System.out.println("mort de : " + ennemi.getId());
                 ennemis.remove(ennemi);
-                this.ennemisElimines.add(ennemi);
             } else if (ennemi.destinationFinaleAtteinte()) {
                 ennemis.remove(ennemi);
-                this.ennemisElimines.add(ennemi);
-                joueursAtteints++;
+                joueursAtteints.setValue(joueursAtteints.getValue()+1);
                 System.out.println("Joueurs atteints : " + joueursAtteints);
+                /*this.reached.setValue(reached.getValue() - 1);
+                System.out.println("Players reached: " + reached);*/
             } else {
-                for (Tour tour : tours) {
-                    ennemi.attaquerTour(tour);
+                for (Tour t : tours) {
+                    ennemi.attaquerTour(t);
+                }
+                for (Objet o : objets) {
+                    if (o instanceof Mur) {
+                        ennemi.attaqueObjet(o);
+                        System.out.println("pv " + o.getPv());
+                    }
                 }
             }
         }
 
-        /**
-         * Attaque les ennemis s'ils sont à portée
-         */
-
+        for (int i = 0; i < objets.size(); i++) {
+            Objet objet = objets.get(i);
+            objet.agit();
+            if (!objet.estVivant()) {
+                objets.remove(objet);
+            }
+        }
         for (int i = 0; i < tours.size(); i++) {
             Tour tour = tours.get(i);
             if (!tour.estDetruite()) {
@@ -85,39 +115,13 @@ public class Environnement {
                     // Remarque : l'attaque est basée sur le taux de tir de la tour
                     tour.attaquerTour(e);
                 }
-                System.out.println(tours);
             } else {
-                System.out.println("Tour détruite : " + tour.getNom());
+                System.out.println("Tour détruite : " + tour.getId());
                 tours.remove(tour);
-                this.toursEliminees.add(tour);
-            }
-
-        }
-
-        // Supprime les objets indésirables
-        for (Ennemi e : ennemisElimines) {
-            pane.getChildren().remove(e.getVue());
-        }
-
-        for (Tour t : toursEliminees) {
-            pane.getChildren().remove(t.getVue());
-        }
-
-        ennemisElimines.clear();
-        toursEliminees.clear();
-
-        // Ajoute l'indicateur de dégâts
-        List<Ennemi> ennemisEndommages = getEnnemisLibres();
-
-        for (Ennemi e : ennemis) {
-            if (ennemisEndommages.contains(e)) {
-                e.basculerVersVueSecondaire(true);
-            } else {
-                e.basculerVersVueSecondaire(false);
             }
         }
+        ajouterVague();
     }
-
     /**
      * Renvoie une liste d'ennemis à portée de cette tour
      * @param tour Objet Tour représentant la tour
@@ -134,11 +138,50 @@ public class Environnement {
 
         return temp;
     }
+    public ObservableList<Tour> getTour() {
+
+        return tours;
+    }
+    public ObservableList<Objet> getObjets() {
+        return objets;
+    }
+    public ObservableList<Ennemi> getEnnemis() {
+        return ennemis;
+    }
+
+    public void addTower(Tour tour) {
+        tours.add(tour);
+    }
+    public void ajouterTour(Tour tour) {
+        tours.add(tour);
+    }
+    public void ajoutObjet(Objet objet) {
+        this.objets.add(objet);
+    }
+    public int getJoueursAtteints() {
+        return this.joueursAtteints.getValue();
+    }
+    public IntegerProperty getJoueursAtteintsProperty() {
+        return joueursAtteints;
+    }
+
+}
 
 
-    /**
-     * @return liste d'ennemis qui ne sont pas à portée d'une tour
-     */
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
     public List<Ennemi> getEnnemisLibres() {
         List<Ennemi> temp = new ArrayList<>();
         for (Ennemi ennemi : ennemis) {
@@ -155,14 +198,5 @@ public class Environnement {
         }
         return temp;
     }
-
-
-    public void ajouterTour(Tour tour) {
-        tours.add(tour);
-    }
-
-    public int getJoueursAtteints() {
-        return joueursAtteints;
-    }
-}
+ */
 

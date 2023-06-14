@@ -27,7 +27,7 @@ public class ControlleurMenu implements Initializable  {
         try {
             Stage stage1 = (Stage) lab.getScene().getWindow();
             stage1.close();
-            root = FXMLLoader.load(Main.class.getResource("fxml/Consigne/Consigne.fxml"));
+            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Consigne/Consigne.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Consigne du jeu");
             stage.setScene(new Scene(root, 1250, 800));
@@ -44,7 +44,7 @@ public class ControlleurMenu implements Initializable  {
         try {
             Stage stage1 = (Stage) lab.getScene().getWindow();
             stage1.close();
-            root = FXMLLoader.load(Main.class.getResource("fxml/Credit/Credit.fxml"));
+            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Credit/Credit.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Credit");
             stage.setScene(new Scene(root, 1250, 800));
@@ -60,7 +60,7 @@ public class ControlleurMenu implements Initializable  {
         try {
             Stage stage1 = (Stage) lab.getScene().getWindow();
             stage1.close();
-            root = FXMLLoader.load(Main.class.getResource("fxml/Niveau/Option.fxml"));
+            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Niveau/Option.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Niveau de jeu");
             stage.setScene(new Scene(root, 1250, 800));
@@ -78,20 +78,20 @@ public class ControlleurMenu implements Initializable  {
     }
     @FXML
     void ButtonPlay(ActionEvent event) {
-            Parent root;
-            try {
-                Stage stage1 = (Stage) lab.getScene().getWindow();
-                stage1.close();
-                root = FXMLLoader.load(Main.class.getResource("fxml/TerrainJeu/TerrainJeu.fxml"));
-                Stage stage = new Stage();
-                stage.setTitle("Interstellar Havoc: Infinite Frontiers");
-                stage.setScene(new Scene(root, 1250, 800));
-                stage.show();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+        Parent root;
+        try {
+            Stage stage1 = (Stage) lab.getScene().getWindow();
+            stage1.close();
+            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/TerrainJeu/TerrainJeu.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Interstellar Havoc: Infinite Frontiers");
+            stage.setScene(new Scene(root, 1250, 800));
+            stage.show();
         }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

@@ -1,11 +1,12 @@
 package com.application.S2_dev.modele.ennemis;
 
+import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.modele.tours.Tour;
 
 public class Scavenger extends Ennemi {
 
-    public Scavenger(int x, int y){
-        super(x, y);
+    public Scavenger(int x, int y, Terrain terrain){
+        super(x, y, terrain);
         this.portee=50; // Portée de la tour
         this.degats=5;  // Dommages infligés aux tours
     }

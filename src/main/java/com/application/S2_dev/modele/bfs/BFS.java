@@ -2,7 +2,6 @@ package com.application.S2_dev.modele.bfs;
 
 
 import java.util.*;
-
 public class BFS {
     public BFS(int[][] matrice, int[] debut, int[] fin) {
      plusCourtChemin2(matrice, debut, fin);
@@ -40,7 +39,7 @@ public class BFS {
 
             for (int i = 0; i < m; i++) {
                 for (int j = 0; j < n; j++) {
-                    if (matrice[i][j] == 1) {  // Changer ici
+                    if (matrice[i][j] == 1 || matrice[i][j] == 2) {  // Changer ici
                         cellules[i][j] = new Cellule(i, j, Integer.MAX_VALUE, null);
                     }
                 }

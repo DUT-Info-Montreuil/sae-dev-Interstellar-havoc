@@ -144,6 +144,9 @@ public abstract class Tour {
         return x.get();
     }
 
+    public void meur(){
+        this.vie = 0;
+    }
     public double getY() {
         return y.get();
     }

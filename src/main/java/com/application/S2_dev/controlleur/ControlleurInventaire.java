@@ -30,19 +30,19 @@ public class ControlleurInventaire implements Initializable {
     private Label labelMur;
 
     @FXML
-    private Label labelTour1;
+    private Label labelTourNikola;
 
     @FXML
-    private Label labelTour2;
+    private Label labelTourEdison;
 
     @FXML
-    private Label labelTour3;
+    private Label labelTourOppenheimer;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         labelMaintenace.setOnMouseClicked(
                 e -> {
-                    URL urlImageMaintenance = Main.class.getResource("/image/Inventaire/maintenance.png");
+                    URL urlImageMaintenance = Main.class.getResource("image/Inventaire/maintenance.png");
                     Image imageMaintenance = new Image(String.valueOf(urlImageMaintenance));
                     ImageView imageViewMaintenance = new ImageView(imageMaintenance);
                     imageViewMaintenance.setFitWidth(200);
@@ -55,7 +55,7 @@ public class ControlleurInventaire implements Initializable {
 
         labelMur.setOnMouseClicked(
                 e -> {
-                    URL urlImageMur = Main.class.getResource("/image/Inventaire/mur.png");
+                    URL urlImageMur = Main.class.getResource("image/Inventaire/mur.png");
                     Image imageMur = new Image(String.valueOf(urlImageMur));
                     ImageView imageViewMur = new ImageView(imageMur);
                     imageViewMur.setFitWidth(200);
@@ -68,7 +68,7 @@ public class ControlleurInventaire implements Initializable {
 
         labelBombe.setOnMouseClicked(
                 e -> {
-                    URL urlImageBombe = Main.class.getResource("/image/Inventaire/bombe.png");
+                    URL urlImageBombe = Main.class.getResource("image/Inventaire/bombe.png");
                     Image imageBombe = new Image(String.valueOf(urlImageBombe));
                     ImageView imageViewBombe = new ImageView(imageBombe);
                     imageViewBombe.setFitWidth(200);
@@ -81,9 +81,9 @@ public class ControlleurInventaire implements Initializable {
                 }
         );
 
-        labelTour1.setOnMouseClicked(
+        labelTourNikola.setOnMouseClicked(
                 e -> {
-                    URL urlImageTour1 = Main.class.getResource("/image/Inventaire/tourel1.png");
+                    URL urlImageTour1 = Main.class.getResource("image/Inventaire/Nikola.png");
                     Image imageTour1 = new Image(String.valueOf(urlImageTour1));
                     ImageView imageViewTour1 = new ImageView(imageTour1);
                     imageViewTour1.setFitWidth(200);
@@ -95,9 +95,9 @@ public class ControlleurInventaire implements Initializable {
                 }
         );
 
-        labelTour2.setOnMouseClicked(
+        labelTourEdison.setOnMouseClicked(
                 e -> {
-                    URL urlImageTour2 = Main.class.getResource("/image/Inventaire/tourel2.png");
+                    URL urlImageTour2 = Main.class.getResource("image/Inventaire/Edison.png");
                     Image imageTour2 = new Image(String.valueOf(urlImageTour2));
                     ImageView imageViewTour2 = new ImageView(imageTour2);
                     imageViewTour2.setFitWidth(200);
@@ -109,9 +109,9 @@ public class ControlleurInventaire implements Initializable {
                 }
         );
 
-        labelTour3.setOnMouseClicked(
+        labelTourOppenheimer.setOnMouseClicked(
                 e -> {
-                    URL urlImageTour3 = Main.class.getResource("/image/Inventaire/tourel3.png");
+                    URL urlImageTour3 = Main.class.getResource("image/Inventaire/Oppenheimer.png");
                     Image imageTour3 = new Image(String.valueOf(urlImageTour3));
                     ImageView imageViewTour3 = new ImageView(imageTour3);
                     imageViewTour3.setFitWidth(200);

@@ -1,13 +1,12 @@
+
 package com.application.S2_dev.modele.ennemis;
 
+import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.modele.tours.Tour;
 
 public class Behemoth extends Ennemi {
-
-    public Behemoth(int x, int y){
-        super(x, y);
-        this.portee=100; // Portée de la tour
-        this.degats=10; // Dommages infligés aux tours
+    public Behemoth(int x, int y, Terrain terrain){
+        super(x, y, terrain);
     }
 
     @Override
@@ -23,4 +22,6 @@ public class Behemoth extends Ennemi {
         double distance = calculerDistance(tour.getX(), tour.getY());
         return distance <= portee;
     }
+}
+
 }

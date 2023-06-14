@@ -11,7 +11,4 @@ public enum TowerType {
         this.value = value;
     }
 
-    public int getValue() {
-        return value;
-    }
 }

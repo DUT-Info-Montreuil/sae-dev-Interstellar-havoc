@@ -26,7 +26,7 @@ public class ControlleurOption implements Initializable {
         try {
             Stage stage1 = (Stage) label.getScene().getWindow();
             stage1.close();
-            root = FXMLLoader.load(Main.class.getResource("/fxml/Menu/Menu.fxml"));
+            root = FXMLLoader.load(Main.class.getResource("fxml/Menu/Menu.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Tower Defence");
             stage.setScene(new Scene(root, 1250, 800));
