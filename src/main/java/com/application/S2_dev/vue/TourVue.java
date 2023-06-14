@@ -315,70 +315,65 @@ public class TourVue implements ListChangeListener<Tour> {
             niveauChoisi.setOnMouseClicked(h -> {
                 int newX = (int) (h.getX() - niveauChoisi.getX());
                 int newY = (int) (h.getY() - niveauChoisi.getY());
+                if (env.getTour().contains(tourCliquee)) {
+                    int cologne = tourCliquee.getXCarte();
+                    int ligne = tourCliquee.getYCarte();
+                    int niveauTour = tourCliquee.getNiveau();
 
-                // Vérifie les coordonnées du clic pour déterminer l'action correspondante
-                if (newX > 0 && newX < 16 && newY > 16 && newY < 32) {
-                    // Niveau 1 requis
-                    if (env.getTour().contains(tourCliquee)) {
-                        int cologne = tourCliquee.getXCarte();
-                        int ligne = tourCliquee.getYCarte();
-
-                        if (((Parametre.argentDebutJoueur+ tourCliquee.getPrix()) - 100) < 0) {
-                            JOptionPane.showMessageDialog(null, "Pas assez d'argent");
-                        } else {
-                            // Supprime la tour et rembourse l'argent
-                            rembourserArgent(tourCliquee.getPrix());
-                            pane.getChildren().remove(tourCliquee.getVue());
-                            env.getTour().remove(tourCliquee);
-                            placerTour(ligne, cologne, 1);
+                    if (newX > 0 && newX < 16 && newY > 16 && newY < 32) {
+                        // Niveau 1 requis
+                        if (niveauTour == 0) {
+                            int prixTourNiveau1 = 100;
+                            if ((Parametre.argentDebutJoueur + tourCliquee.getPrix() - prixTourNiveau1) < 0) {
+                                JOptionPane.showMessageDialog(null, "Pas assez d'argent");
+                            } else {
+                                rembourserArgent(tourCliquee.getPrix());
+                                pane.getChildren().remove(tourCliquee.getVue());
+                                env.getTour().remove(tourCliquee);
+                                placerTour(ligne, cologne, 1);
+                            }
                         }
-                    }
-                } else if (newX > 64 && newX < 80 && newY > 16 && newY < 32) {
-                    // Niveau 2 requis
-                    if (env.getTour().contains(tourCliquee)) {
-                        int cologne = tourCliquee.getXCarte();
-                        int ligne = tourCliquee.getYCarte();
-
-                        if (((Parametre.argentDebutJoueur+ tourCliquee.getPrix()) - 200) < 0) {
-                            JOptionPane.showMessageDialog(null, "Pas assez d'argent");
+                    } else if (newX > 64 && newX < 80 && newY > 16 && newY < 32) {
+                        // Niveau 2 requis
+                        if (niveauTour == 1) {
+                            int prixTourNiveau2 = 200;
+                            if ((Parametre.argentDebutJoueur + tourCliquee.getPrix() - prixTourNiveau2) < 0) {
+                                JOptionPane.showMessageDialog(null, "Pas assez d'argent");
+                            } else {
+                                rembourserArgent(tourCliquee.getPrix());
+                                pane.getChildren().remove(tourCliquee.getVue());
+                                env.getTour().remove(tourCliquee);
+                                placerTour(ligne, cologne, 2);
+                            }
                         } else {
-                            // Supprime la tour et rembourse l'argent
-                            rembourserArgent(tourCliquee.getPrix());
-                            pane.getChildren().remove(tourCliquee.getVue());
-                            env.getTour().remove(tourCliquee);
-                            placerTour(ligne, cologne, 2);
+                            JOptionPane.showMessageDialog(null, "Vous ne pouvez pas passer au niveau 2 sans avoir le niveau précédent.");
                         }
-                    }
-                }else if (newX > 32 && newX < 48 && newY > 64 && newY < 80) {
-                    // Niveau 3 requis
-                    if (env.getTour().contains(tourCliquee)) {
-                        int cologne = tourCliquee.getXCarte();
-                        int ligne = tourCliquee.getYCarte();
-
-                        if (((Parametre.argentDebutJoueur + tourCliquee.getPrix()) - 300) < 0) {
-                            JOptionPane.showMessageDialog(null, "Pas assez d'argent");
+                    } else if (newX > 32 && newX < 48 && newY > 64 && newY < 80) {
+                        // Niveau 3 requis
+                        if (niveauTour == 2) {
+                            int prixTourNiveau3 = 300;
+                            if ((Parametre.argentDebutJoueur + tourCliquee.getPrix() - prixTourNiveau3) < 0) {
+                                JOptionPane.showMessageDialog(null, "Pas assez d'argent");
+                            } else {
+                                rembourserArgent(tourCliquee.getPrix());
+                                pane.getChildren().remove(tourCliquee.getVue());
+                                env.getTour().remove(tourCliquee);
+                                placerTour(ligne, cologne, 3);
+                            }
                         } else {
-                            // Supprime la tour et rembourse l'argent
-                            rembourserArgent(tourCliquee.getPrix());
-                            pane.getChildren().remove(tourCliquee.getVue());
-                            env.getTour().remove(tourCliquee);
-                            placerTour(ligne, cologne, 3);
+                            JOptionPane.showMessageDialog(null, "Vous ne pouvez pas passer au niveau 3 sans avoir le niveau précédent.");
                         }
-                    }
-                } else if (newX > 32 && newX < 48 && newY > 32 && newY < 48) {
-                    // Supprimer la tour
-                    if (env.getTour().contains(tourCliquee)) {
-                        int cologne = tourCliquee.getXCarte();
-                        int ligne = tourCliquee.getYCarte();
-
-                        // Supprime la tour et rembourse l'argent
+                    } else if (newX > 32 && newX < 48 && newY > 32 && newY < 48) {
+                        // Supprimer la tour
                         rembourserArgent(tourCliquee.getPrix());
+
+
                         pane.getChildren().remove(tourCliquee.getVue());
                         env.getTour().remove(tourCliquee);
                     }
                 }
 
-                // Supprime l'image du niveau choisi
+                    // Supprime l'image du niveau choisi
                 pane.getChildren().remove(niveauChoisi);
                 niveauChoisi = null;
                 return;
