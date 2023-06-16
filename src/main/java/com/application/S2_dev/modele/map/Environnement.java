@@ -82,7 +82,6 @@ public class Environnement {
         } else {
             for (Tour t : tours) {
                 ennemi.attaquerTour(t); // attaque des tours
-                System.out.println("PV de la tour " + t.getVie());
             }
             for (Objet o : objets) {
                 ennemi.attaqueObjet(o); // attaque des objets (mur et chemin bloquer)
