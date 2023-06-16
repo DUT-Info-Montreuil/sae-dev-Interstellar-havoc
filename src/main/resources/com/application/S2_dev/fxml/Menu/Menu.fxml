@@ -6,18 +6,17 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" styleClass="my-anchor-pane" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.S2_dev.controlleur.ControlleurMenu">
    <children>
-      <AnchorPane layoutX="840.0" layoutY="305.0" prefHeight="392.0" prefWidth="183.0" styleClass="my-anchor-pane2" stylesheets="@menu.css" AnchorPane.bottomAnchor="103.0" AnchorPane.leftAnchor="840.0" AnchorPane.rightAnchor="177.0" AnchorPane.topAnchor="305.0">
+      <Label layoutX="819.0" layoutY="286.0" prefHeight="59.0" prefWidth="246.0" styleClass="label2" stylesheets="@menu.css" text="Main Menu" />
+      <Label layoutX="-268.0" prefHeight="800.0" prefWidth="1426.0" styleClass="labelMenu" stylesheets="@menu.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-268.0" AnchorPane.rightAnchor="42.0" AnchorPane.topAnchor="0.0" />
+      <Label fx:id="lab" layoutX="10.0" layoutY="10.0" prefHeight="259.0" prefWidth="1200.0" styleClass="label-titre" stylesheets="@menu.css" />
+      <AnchorPane layoutX="152.0" layoutY="295.0" prefHeight="402.0" prefWidth="214.0" stylesheets="@menu.css">
          <children>
-            <Button layoutX="32.0" layoutY="63.0" mnemonicParsing="false" onAction="#ButtonPlay" prefHeight="42.0" prefWidth="116.0" styleClass="bouton" stylesheets="@menu.css" text="PLAY" AnchorPane.bottomAnchor="289.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="37.0" AnchorPane.topAnchor="61.0" />
-            <Button layoutX="48.0" layoutY="223.0" mnemonicParsing="false" onAction="#ButtonCredit" prefHeight="39.0" prefWidth="92.0" styleClass="bouton" stylesheets="@menu.css" text="CREDIT" AnchorPane.bottomAnchor="132.0" AnchorPane.leftAnchor="46.0" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="221.0" />
-            <Button layoutX="42.0" layoutY="280.0" mnemonicParsing="false" onAction="#actionQuit" prefHeight="47.0" prefWidth="104.0" styleClass="bouton" stylesheets="@menu.css" text="QUIT" AnchorPane.bottomAnchor="69.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="41.0" AnchorPane.topAnchor="280.0" />
-            <Label fx:id="lab" layoutX="109.0" layoutY="115.0" prefHeight="8.0" prefWidth="36.0" />
-            <Button layoutX="32.0" layoutY="114.0" mnemonicParsing="false" onAction="#ButtonConsigne" prefHeight="39.0" prefWidth="124.0" styleClass="bouton" stylesheets="@menu.css" text="CONSIGNE" AnchorPane.bottomAnchor="241.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="29.0" AnchorPane.topAnchor="112.0" />
-            <Button layoutX="37.0" layoutY="168.0" mnemonicParsing="false" onAction="#ButtonNiveau" prefHeight="38.0" prefWidth="113.0" styleClass="bouton" stylesheets="@menu.css" text="NIVEAU" AnchorPane.bottomAnchor="188.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="166.0" />
+            <Button layoutX="27.0" layoutY="27.0" mnemonicParsing="false" onAction="#ButtonPlay" prefHeight="52.0" prefWidth="155.0" styleClass="bouton" stylesheets="@menu.css" text="PLAY" AnchorPane.bottomAnchor="323.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="27.0" />
+            <Button layoutX="33.0" layoutY="166.0" mnemonicParsing="false" onAction="#ButtonCredit" prefHeight="49.0" prefWidth="155.0" styleClass="bouton" stylesheets="@menu.css" text="CREDIT" AnchorPane.bottomAnchor="187.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="166.0" />
+            <Button layoutX="33.0" layoutY="233.0" mnemonicParsing="false" onAction="#actionQuit" prefHeight="53.0" prefWidth="155.0" styleClass="bouton" stylesheets="@menu.css" text="QUIT" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="233.0" />
+            <Label fx:id="lab1" layoutX="109.0" layoutY="115.0" prefHeight="8.0" prefWidth="36.0" />
+            <Button layoutX="31.0" layoutY="99.0" mnemonicParsing="false" onAction="#ButtonConsigne" prefHeight="39.0" prefWidth="124.0" styleClass="bouton" stylesheets="@menu.css" text="CONSIGNE" AnchorPane.bottomAnchor="254.0" AnchorPane.leftAnchor="31.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="99.0" />
          </children>
       </AnchorPane>
-      <Label layoutX="809.0" layoutY="276.0" prefHeight="59.0" prefWidth="246.0" styleClass="label2" stylesheets="@menu.css" text="Main Menu" AnchorPane.bottomAnchor="465.0" AnchorPane.leftAnchor="809.0" AnchorPane.rightAnchor="145.0" AnchorPane.topAnchor="276.0" />
-      <Label prefHeight="259.0" prefWidth="1200.0" styleClass="label-titre" stylesheets="@menu.css" AnchorPane.bottomAnchor="541.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-      <Label layoutX="144.0" layoutY="387.0" prefHeight="293.0" prefWidth="328.0" styleClass="labelLogo" stylesheets="@menu.css" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="144.0" AnchorPane.rightAnchor="728.0" AnchorPane.topAnchor="387.0" />
    </children>
 </AnchorPane>

@@ -9,7 +9,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,9 +16,9 @@ import java.util.ResourceBundle;
 public class ControlleurConsigne implements Initializable {
     @FXML
     private Label labelConsigne;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Texte du labelConsigne avec le texte explicatif du jeu
         labelConsigne.setText("Bienvenue dans notre Tower Defense à thème spatial ! Votre mission consiste à défendre la base contre les vagues d'ennemis qui approchent. Voici votre consigne :\n" +
                 "\n" +
                 "Vous devez protégez la base en empêchant les ennemis d'atteindre son emplacement. Assurez-vous que la base ne subisse aucun dommage.\n" +
@@ -38,27 +37,38 @@ public class ControlleurConsigne implements Initializable {
                 "Anticipez les mouvements des ennemis et ajustez votre stratégie en conséquence. Expérimentez différentes configurations de tours et d'objets spéciaux pour trouver celle qui vous convient le mieux.\n" +
                 "Restez vigilant et réactif ! Vous devrez peut-être ajuster votre défense en temps réel pour faire face à des situations inattendues ou à des ennemis particulièrement résistants.\n" +
                 "\n" +
-                "Le jeu enregistre votre performance en fonction de votre capacité à défendre la base. Visez un score élevé et essayez de vous hisser en tête du classement.\n" +
                 "Préparez-vous à une bataille spatiale épique dans notre Tower Defense à thème de l'univers. Faites preuve de stratégie, de précision et de rapidité pour protéger la base et sauver l'univers !\n" +
                 "\n" +
                 "Bonne chance !");
     }
 
+
     @FXML
     void ButtonRetour(ActionEvent event) {
+        // Bouton retour au menu du jeu
         Parent root;
         try {
-            Stage stage1 = (Stage) labelConsigne.getScene().getWindow();
-            stage1.close();
+            Stage stage1 = (Stage) labelConsigne.getScene().getWindow(); // recuperation de la fenêtre parente du labelConsigne
+            stage1.close(); // fermeture de la fenêtre parente du labelConsigne
             root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Menu/Menu.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Menu de jeu");
             stage.setScene(new Scene(root, 1250, 800));
-            stage.show();
-            //((Node)(event.getSource())).getScene().getWindow().hide();
+            stage.show(); // Affichage du Menu de jeu
         }
         catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    @FXML
+    void ButtonRetourJeu(ActionEvent event) {
+        // Bouton retour au jeu lorsqu'on affiche la consigne en jouant
+        try {
+            Stage stage1 = (Stage) labelConsigne.getScene().getWindow(); // recuperation de la fenêtre parente du labelConsigne
+            stage1.close(); // fermeture de la fenêtre parente du labelConsigne
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
         }
 
     }

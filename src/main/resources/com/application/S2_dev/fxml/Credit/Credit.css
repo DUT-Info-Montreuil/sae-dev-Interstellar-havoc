@@ -8,6 +8,8 @@
     -fx-font-family: "UniversFont";
     -fx-text-fill: white;
     -fx-alignment: center;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
     -fx-content-display: center;
     -fx-border-color: rgb(147, 139, 139);
     -fx-border-width: 2px;
@@ -15,7 +17,9 @@
        
 }
 
-
+.labelFond{
+    -fx-graphic: url('fond.jpg');
+    }
 .bouton{
   -fx-background-color: #684869; /* Couleur de fond */
   -fx-text-fill: white;
@@ -26,13 +30,17 @@
   -fx-background-radius: 16px;
 }
 
-.labelCosigne{
+.labelContour{
     -fx-border-color:rgb(147, 139, 139);
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
     -fx-background-radius: 16px; /* Rayon de courbure des coins */
+
+}
+.labelText{
     -fx-text-fill: white;
     -fx-font-style: italic;
+    -fx-font-weight: bold;
     -fx-font-family: "UniversFont";
     -fx-alignment: center;
     -fx-font-size: 10pt;

@@ -4,17 +4,18 @@
 
 .titre {
   
-    -fx-font-size: 28pt;
-    -fx-font-family: "UniversFont";
-    -fx-text-fill: white;
-    -fx-alignment: center;
-    -fx-content-display: center;
-    -fx-border-color: rgb(147, 139, 139);
-    -fx-border-width: 2px;
-    -fx-border-radius: 10px;
+    -fx-border-color: white;
+       -fx-border-width: 2px;
+       -fx-border-radius: 10px;
+       -fx-background-radius: 16px; /* Rayon de courbure des coins */
+       -fx-text-fill: white;
+       -fx-font-style: italic;
+       -fx-font-weight: bold;
+       -fx-font-family: "UniversFont";
+       -fx-alignment: center;
+       -fx-font-size: 25pt;
        
 }
-
 
 .bouton{
   -fx-background-color: #684869; /* Couleur de fond */
@@ -33,10 +34,14 @@
     -fx-background-radius: 16px; /* Rayon de courbure des coins */
     -fx-text-fill: white;
     -fx-font-style: italic;
+    -fx-font-weight: bold;
     -fx-font-family: "UniversFont";
     -fx-alignment: center;
-    -fx-font-size: 10pt;
+    -fx-font-size: 9pt;
 }
+.labelFond{
+    -fx-graphic: url('fond.jpg');
+    }
 
 
 

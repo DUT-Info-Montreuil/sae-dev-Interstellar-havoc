@@ -1,51 +1,40 @@
 package com.application.S2_dev.vue;
 
 import com.application.S2_dev.Main;
-import com.application.S2_dev.Parametre;
-import com.application.S2_dev.modele.data.TerrainType;
-import com.application.S2_dev.modele.data.TowerType;
-import com.application.S2_dev.modele.ennemis.Balliste;
-import com.application.S2_dev.modele.ennemis.Behemoth;
-import com.application.S2_dev.modele.ennemis.Ennemi;
-import com.application.S2_dev.modele.ennemis.Scavenger;
+import com.application.S2_dev.modele.Boutique;
+import com.application.S2_dev.modele.données.TerrainType;
+import com.application.S2_dev.modele.données.TowerType;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.modele.tours.Tour;
 import com.application.S2_dev.modele.tours.EdisonCoil;
 import com.application.S2_dev.modele.tours.NikolaCoil;
 import com.application.S2_dev.modele.tours.OppenheimerCoil;
-import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
-import javafx.util.Duration;
-
-import javax.swing.*;
 import java.net.URL;
 
 public class TourVue implements ListChangeListener<Tour> {
     private Environnement env;
-    Pane pane;
+    private Pane pane;
     private TilePane tilePane;
     private Terrain terrain;
     private Label idBobineEdison, idBobineOppenheimer, idBobineNikola;
-    private Label idSelectedTower, labelCredit;
     private TowerType selectedTowerType;
-    private int timeBeforeNewSpawn = 15;
-    private Tour clickedTower = null;
-    private ImageView levelChooser = null;
-    private int money ;
-    private int temps;
-    private int tempsAvantNouveauSpawn = 10; // Temps avant l'apparition d'un nouvel ennemi
-    private boolean jeuEnPause = false; // Indicateur de jeu en pause
+    private Timeline gameLoop;
+    private Boutique boutique;
     private ImageView niveauChoisi = null; // Image affichée pour le niveau sélectionné
     private Tour tourCliquee = null; // Tour sélectionnée par le joueur
+    private Alert MessagePlacementTour = new Alert(Alert.AlertType.INFORMATION);
 
-    public TourVue(Environnement environnement, TilePane tilePane, Terrain terrain , Pane pane, Label idBobineEdison, Label idBobineOppenheimer, Label idBobineNikola, Label labelCredit, Label idSelectedTower){
+    public TourVue(Environnement environnement, TilePane tilePane, Terrain terrain , Pane pane, Label idBobineEdison, Label idBobineOppenheimer, Label idBobineNikola, Timeline gameLoop, Boutique boutique){
         this.env = environnement;
         this.tilePane = tilePane;
         this.terrain = terrain;
@@ -53,9 +42,8 @@ public class TourVue implements ListChangeListener<Tour> {
         this.idBobineEdison = idBobineEdison;
         this.idBobineNikola = idBobineNikola;
         this.idBobineOppenheimer = idBobineOppenheimer;
-        this.money = Integer.parseInt(labelCredit.getText());
-        this.labelCredit = labelCredit;
-        this.idSelectedTower = idSelectedTower;
+        this.gameLoop = gameLoop;
+        this.boutique = boutique;
     }
     @Override
     public void onChanged(Change<? extends Tour> c) {
@@ -63,51 +51,27 @@ public class TourVue implements ListChangeListener<Tour> {
             System.out.println("les ajouts Tour: " + c.getAddedSubList());
             System.out.println("les suppressions Tour: " + c.getRemoved());
         }
-        for(int i =0; i<c.getAddedSubList().size();i++){
-           // soustraireArgent(c.getAddedSubList().get(i).getPrix());
-        }
         for (int i = 0; i < c.getRemoved().size(); i++) {
             ImageView sprite = (ImageView) pane.lookup("#" + c.getRemoved().get(i).getId());
             pane.getChildren().remove(sprite);
+            ProgressBar progressBar = (ProgressBar) pane.lookup("#"+c.getRemoved().get(i).getId());
+            pane.getChildren().remove(progressBar);
         }
     }
     public void lancerTourVue() {
-        temps = 0;
-
-            if (jeuEnPause)
-                return;
+        MessagePlacementTour.setTitle("Placement de la tour");
+        MessagePlacementTour.setHeaderText(null);
 
             final int ennemiSquadSize = env.getEnnemis().size();
 
-            env.unTour();
-
             if (env.getEnnemis().size() < ennemiSquadSize)
                 ajouterArgent(100);
-
-            int Scavenger = 0, Behemoth = 0, Balliste = 0;
-            for (Ennemi e : env.getEnnemis()) {
-                if (e instanceof Scavenger)
-                    Scavenger++;
-                else if (e instanceof Behemoth)
-                    Behemoth++;
-                else if (e instanceof Balliste)
-                    Balliste++;
-            }
 
             if (!env.getTour().contains(tourCliquee)) {
                 pane.getChildren().remove(this.niveauChoisi);
                 niveauChoisi = null;
             }
-
-            if (tempsAvantNouveauSpawn == 0) {
-                //spawnEnnemi();
-                tempsAvantNouveauSpawn = 15;
-                return;
-            }
-
-            tempsAvantNouveauSpawn--;
-
-
+            TestClickTourel();
     }
 
     public void TestClickTourel() {
@@ -144,8 +108,6 @@ public class TourVue implements ListChangeListener<Tour> {
 
             placerTour(pos[0], pos[1], 1); // Placement d'une tour à la position spécifiée
         });
-
-        labelCredit.setText(Parametre.argentDebutJoueur+ ""); // Affichage de la quantité d'Parametre.argentDebutJoueurdu joueur
     }
     /**
      * Place une tour sur la carte
@@ -174,13 +136,12 @@ public class TourVue implements ListChangeListener<Tour> {
                     return;
             }
 
-            if (Parametre.argentDebutJoueur< tour.getPrix()) {
-                JOptionPane.showMessageDialog(null, "Pas assez d'Parametre.argentDebutJoueur!");
+            if (boutique.getPrix()< tour.getPrix()) {
+                boutique.MessageArgent();
                 return;
             }
 
             // Ajouter la tour au terrain et l'afficher sur le panneau
-            env.addTower(tour);
             creerSprite(tour);
             env.ajouterTour(tour);
             soustraireArgent(tour.getPrix());
@@ -190,23 +151,27 @@ public class TourVue implements ListChangeListener<Tour> {
         }
     }
     void soustraireArgent(int valeur) {
-        Parametre.argentDebutJoueur-= valeur; // Soustrait la valeur donnée à la variable argent
-        labelCredit.setText(Parametre.argentDebutJoueur+ ""); // Met à jour le texte de l'étiquette pour afficher la nouvelle valeur de l'argent
+        boutique.setPrix(boutique.getPrix()-valeur);
+        //Parametre.argentDebutJoueur-= valeur; // Soustrait la valeur donnée à la variable argent
+        //labelCredit.setText(Parametre.argentDebutJoueur+ ""); // Met à jour le texte de l'étiquette pour afficher la nouvelle valeur de l'argent
     }
 
     void rembourserArgent(int valeur) {
-        Parametre.argentDebutJoueur+= valeur; // Ajoute la valeur donnée à la variable argent
-        labelCredit.setText(Parametre.argentDebutJoueur+ ""); // Met à jour le texte de l'étiquette pour afficher la nouvelle valeur de l'argent
+        boutique.setPrix(boutique.getPrix()+valeur);
+        //Parametre.argentDebutJoueur+= valeur; // Ajoute la valeur donnée à la variable argent
+        //labelCredit.setText(Parametre.argentDebutJoueur+ ""); // Met à jour le texte de l'étiquette pour afficher la nouvelle valeur de l'argent
     }
 
     void ajouterArgent(int valeur) {
-        Parametre.argentDebutJoueur+= valeur; // Ajoute la valeur donnée à la variable argent
-        labelCredit.setText(Parametre.argentDebutJoueur+ ""); // Met à jour le texte de l'étiquette pour afficher la nouvelle valeur de l'argent
+        boutique.setPrix(boutique.getPrix()+valeur);
+        //Parametre.argentDebutJoueur+= valeur; // Ajoute la valeur donnée à la variable argent
+        //labelCredit.setText(Parametre.argentDebutJoueur+ ""); // Met à jour le texte de l'étiquette pour afficher la nouvelle valeur de l'argent
     }
 
     double[] creerSprite(Tour tour) {
         // URL de l'image de la tour
         URL urlTour;
+
 
         // Sélectionne l'URL de l'image en fonction du type de tour
         switch (tour.getType()) {
@@ -228,13 +193,27 @@ public class TourVue implements ListChangeListener<Tour> {
         Image imageTour = new Image(String.valueOf(urlTour));
         ImageView vueTour = new ImageView(imageTour);
 
+        ProgressBar progressBar = new ProgressBar();
+        progressBar.setProgress(tour.getVie());
+        double largeurSouhaitee = 100; // Définissez la largeur souhaitée en pixels
+        double hauteurSouhaitee = 10; // Définissez la hauteur souhaitée en pixels
+
+        progressBar.setPrefWidth(largeurSouhaitee);
+        progressBar.setPrefHeight(hauteurSouhaitee);
+
         // Lie les propriétés de translation de la tour aux propriétés de translation de la tour
         vueTour.translateXProperty().bind(tour.getXProperty());
         vueTour.translateYProperty().bind(tour.getYProperty());
 
+        // a revoir !!!!!!
+        progressBar.progressProperty().bind(tour.vieProperty());
+        //progressBar.progressProperty().bind(tour.vieProperty().divide(tour.getVieMax()));
+
+
         // Vérifie si l'ImageView est valide
         if (vueTour != null) {
             vueTour.setId(tour.getId());
+            progressBar.setId(tour.getId());
             int largeur = (int) vueTour.getImage().getWidth();
             int hauteur = (int) vueTour.getImage().getHeight();
             int x = (int) (tour.getX() - (largeur / 2));
@@ -243,7 +222,15 @@ public class TourVue implements ListChangeListener<Tour> {
             tour.getYProperty().set(y);
             tour.setLimites(x, y, largeur, hauteur);
             tour.setVue(vueTour);
+
+            // Position du progresseBar au-dessus de la tour
+            double progressBarX = x + (largeur / 2) - (progressBar.getWidth() / 2);
+            double progressBarY = y - progressBar.getHeight();
+            progressBar.setLayoutX(progressBarX);
+            progressBar.setLayoutY(progressBarY);
+
             pane.getChildren().add(vueTour);
+            pane.getChildren().add(progressBar);
 
             // Définit le gestionnaire d'événements sur le clic de l'ImageView de la tour
             vueTour.setOnMouseClicked(h -> {
@@ -253,8 +240,15 @@ public class TourVue implements ListChangeListener<Tour> {
                     System.out.println("Niveau du choix affiché");
                 }
             });
+            MessagePlacementTour.setContentText("Tour de niveau " + tour.getNiveau() + " " + tour.getNom() + " placée");
+            MessagePlacementTour.setOnShowing(e -> {
+                this.gameLoop.pause();
+            });
+            MessagePlacementTour.setOnHidden(e -> {
+                this.gameLoop.play();
+            });
+            MessagePlacementTour.showAndWait();
 
-            JOptionPane.showMessageDialog(null, "Tour de niveau " + tour.getNiveau() + " " + tour.getNom() + " placée");
         }
 
         // Retourne les dimensions de l'image de la tour
@@ -280,66 +274,80 @@ public class TourVue implements ListChangeListener<Tour> {
             niveauChoisi.setOnMouseClicked(h -> {
                 int newX = (int) (h.getX() - niveauChoisi.getX());
                 int newY = (int) (h.getY() - niveauChoisi.getY());
+                if (env.getTour().contains(tourCliquee)) {
+                    int cologne = tourCliquee.getXCarte();
+                    int ligne = tourCliquee.getYCarte();
+                    int niveauTour = tourCliquee.getNiveau();
 
-                // Vérifie les coordonnées du clic pour déterminer l'action correspondante
-                if (newX > 0 && newX < 16 && newY > 16 && newY < 32) {
-                    // Niveau 1 requis
-                    if (env.getTour().contains(tourCliquee)) {
-                        int cologne = tourCliquee.getXCarte();
-                        int ligne = tourCliquee.getYCarte();
-
-                        if (((Parametre.argentDebutJoueur+ tourCliquee.getPrix()) - 100) < 0) {
-                            JOptionPane.showMessageDialog(null, "Pas assez d'argent");
-                        } else {
-                            // Supprime la tour et rembourse l'argent
-                            rembourserArgent(tourCliquee.getPrix());
-                            pane.getChildren().remove(tourCliquee.getVue());
-                            env.getTour().remove(tourCliquee);
-                            placerTour(ligne, cologne, 1);
+                    if (newX > 0 && newX < 16 && newY > 16 && newY < 32) {
+                        // Niveau 1 requis
+                        if (niveauTour == 0) {
+                            int prixTourNiveau1 = 100;
+                            if ((boutique.getPrix() + tourCliquee.getPrix() - prixTourNiveau1) < 0) {
+                                boutique.MessageArgent();
+                            } else {
+                                rembourserArgent(tourCliquee.getPrix());
+                                env.getTour().remove(tourCliquee);
+                                placerTour(ligne, cologne, 1);
+                            }
                         }
-                    }
-                } else if (newX > 64 && newX < 80 && newY > 16 && newY < 32) {
-                    // Niveau 2 requis
-                    if (env.getTour().contains(tourCliquee)) {
-                        int cologne = tourCliquee.getXCarte();
-                        int ligne = tourCliquee.getYCarte();
-
-                        if (((Parametre.argentDebutJoueur+ tourCliquee.getPrix()) - 200) < 0) {
-                            JOptionPane.showMessageDialog(null, "Pas assez d'argent");
-                        } else {
-                            // Supprime la tour et rembourse l'argent
-                            rembourserArgent(tourCliquee.getPrix());
-                            pane.getChildren().remove(tourCliquee.getVue());
-                            env.getTour().remove(tourCliquee);
-                            placerTour(ligne, cologne, 2);
+                    } else if (newX > 64 && newX < 80 && newY > 16 && newY < 32) {
+                        // Niveau 2 requis
+                        if (niveauTour == 1 ) {
+                            int prixTourNiveau2 = 200;
+                            if ((boutique.getPrix() + tourCliquee.getPrix() - prixTourNiveau2) < 0) {
+                                //boutique.MessageArgent();
+                            } else {
+                                rembourserArgent(tourCliquee.getPrix());
+                                env.getTour().remove(tourCliquee);
+                                placerTour(ligne, cologne, 2);
+                            }
+                        } else if(niveauTour != 3){
+                            MessagePlacementTour.setContentText("Vous ne pouvez pas passer au niveau 2 sans avoir le niveau précédent.");
+                            MessagePlacementTour.setOnShowing(e -> {
+                                this.gameLoop.pause();
+                            });
+                            MessagePlacementTour.setOnHidden(e -> {
+                                this.gameLoop.play();
+                            });
+                            MessagePlacementTour.showAndWait();
                         }
-                    }
-                }else if (newX > 32 && newX < 48 && newY > 64 && newY < 80) {
-                    // Niveau 3 requis
-                    if (env.getTour().contains(tourCliquee)) {
-                        int cologne = tourCliquee.getXCarte();
-                        int ligne = tourCliquee.getYCarte();
-
-                        if (((Parametre.argentDebutJoueur + tourCliquee.getPrix()) - 300) < 0) {
-                            JOptionPane.showMessageDialog(null, "Pas assez d'argent");
-                        } else {
-                            // Supprime la tour et rembourse l'argent
-                            rembourserArgent(tourCliquee.getPrix());
-                            pane.getChildren().remove(tourCliquee.getVue());
-                            env.getTour().remove(tourCliquee);
-                            placerTour(ligne, cologne, 3);
+                    } else if (newX > 32 && newX < 48 && newY > 64 && newY < 80) {
+                        // Niveau 3 requis
+                        if (niveauTour == 2) {
+                            int prixTourNiveau3 = 300;
+                            if ((boutique.getPrix() + tourCliquee.getPrix() - prixTourNiveau3) < 0) {
+                                // boutique.MessageArgent();
+                            } else {
+                                rembourserArgent(tourCliquee.getPrix());
+                                env.getTour().remove(tourCliquee);
+                                placerTour(ligne, cologne, 3);
+                            }
+                        } else if (niveauTour != 3) {
+                            MessagePlacementTour.setContentText("Vous ne pouvez pas passer au niveau 3 sans avoir le niveau précédent.");
+                            MessagePlacementTour.setOnShowing(e -> {
+                                this.gameLoop.pause();
+                            });
+                            MessagePlacementTour.setOnHidden(e -> {
+                                this.gameLoop.play();
+                            });
+                            MessagePlacementTour.showAndWait();
                         }
-                    }
-                } else if (newX > 32 && newX < 48 && newY > 32 && newY < 48) {
-                    // Supprimer la tour
-                    if (env.getTour().contains(tourCliquee)) {
-                        int cologne = tourCliquee.getXCarte();
-                        int ligne = tourCliquee.getYCarte();
-
-                        // Supprime la tour et rembourse l'argent
+                    } else if (newX > 32 && newX < 48 && newY > 32 && newY < 48) {
+                        // Supprimer la tour
                         rembourserArgent(tourCliquee.getPrix());
-                        pane.getChildren().remove(tourCliquee.getVue());
                         env.getTour().remove(tourCliquee);
+                    }
+                    if (niveauTour == 3 ) {
+                        MessagePlacementTour.setContentText("Le upgrade est au maximum !\n" +
+                                "Cependant vous pouvez changer le type de tour.");
+                        MessagePlacementTour.setOnShowing(e -> {
+                            this.gameLoop.pause();
+                        });
+                        MessagePlacementTour.setOnHidden(e -> {
+                            this.gameLoop.play();
+                        });
+                        MessagePlacementTour.showAndWait();
                     }
                 }
 
@@ -351,12 +359,10 @@ public class TourVue implements ListChangeListener<Tour> {
             });
         }
     }
-
     public boolean peutPlacerTourA(int ligne, int cologne) {
         if (terrain.getCase(ligne, cologne) == TerrainType.base_tourelle)
             return true;
         else return false;
     }
-
 
 }

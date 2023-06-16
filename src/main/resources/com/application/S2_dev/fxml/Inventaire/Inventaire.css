@@ -23,6 +23,13 @@
     -fx-border-radius: 10px;
     -fx-background-radius: 16px; /* Rayon de courbure des coins */
 }
+.labelHydrogene{
+    -fx-graphic: url('hydrogene.png');
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 16px; /* Rayon de courbure des coins */
+}
 .labelTourNikola{
     -fx-graphic: url('Nikola.png');
     -fx-border-color: white;
@@ -49,8 +56,21 @@
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
     -fx-background-radius: 16px; /* Rayon de courbure des coins */
+    -fx-text-fill: black;
+    -fx-font-style: italic;
+    -fx-font-weight: bold;
+    -fx-font-family: "UniversFont";
+    -fx-alignment: center;
+    -fx-font-size: 10pt;
+}
+.labelContour2{
+    -fx-border-color: white;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 16px; /* Rayon de courbure des coins */
     -fx-text-fill: white;
     -fx-font-style: italic;
+    -fx-font-weight: bold;
     -fx-font-family: "UniversFont";
     -fx-alignment: center;
     -fx-font-size: 10pt;
@@ -62,10 +82,15 @@
     -fx-background-radius: 16px; /* Rayon de courbure des coins */
     -fx-text-fill: white;
     -fx-font-style: italic;
+    -fx-font-weight: bold;
     -fx-font-family: "UniversFont";
     -fx-alignment: center;
     -fx-font-size: 25pt;
 }
+.labelFond{
+    -fx-graphic: url('fond2.jpg');
+}
+
 
 
 

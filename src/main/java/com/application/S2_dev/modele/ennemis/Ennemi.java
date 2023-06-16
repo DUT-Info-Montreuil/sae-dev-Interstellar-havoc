@@ -1,7 +1,7 @@
 package com.application.S2_dev.modele.ennemis;
 
 import com.application.S2_dev.modele.bfs.Cellule;
-import com.application.S2_dev.modele.objet.Mur;
+import com.application.S2_dev.modele.données.PixelMoveTimeEvent;
 import com.application.S2_dev.modele.objet.Objet;
 import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.modele.tours.Tour;
@@ -16,71 +16,53 @@ public abstract class Ennemi {
     private int i = 0; // Index de la cellule dans le chemin le plus court
     private String id; // Identifiant de l'ennemi
     public static int compteur = 0; // Compteur d'ennemis pour générer l'identifiant unique
-    private int vie; // Points de vie de l'ennemi
+    public int vie; // Points de vie de l'ennemi
     protected int degats;
     protected int portee;
     private Boolean enCoursAttaque;
+    private Cellule celluleSuivante; // Cellule suivante de l'ennemi (x et y)
+    private Cellule celluleCourante; // Cellule courante de l'ennemi (x et y)
+
+    //Constructeur de l'ennemi
     public Ennemi(double valX, double valY, Terrain terr) {
         x = new SimpleDoubleProperty(valX);
         y = new SimpleDoubleProperty(valY);
         this.terrain = terr;
         this.id = "E" + compteur;
         compteur++;
-        this.vie = 100;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public DoubleProperty getXProperty() {
-        return x;
-    }
-
-    public DoubleProperty getYProperty() {
-        return y;
-    }
-
-    public double getX() {
-        return x.getValue();
-    }
-
-    public double getY() {
-        return y.getValue();
     }
 
     public void subirDegats(int degats) {
         vie -= degats;
     }
-
-    public boolean AttaquerObjet(){
-        return !enCoursAttaque;
-    }
-
     public boolean estVivant() {
         return vie > 0;
     }
     public abstract void attaquerTour(Tour tour);
     public abstract boolean estDansPortee(Tour tour);
-
+    // Verifie si un objet est a proximité de l'ennemi
+    protected double calculerDistance(double x, double y) {
+        // Calculer la distance entre l'ennemi et une position donnée
+        return Math.sqrt(Math.pow((x - getX()), 2) + Math.pow((y - getY()), 2));
+    }
     private boolean objetProximite(Objet objet) {
-        double distance = calculaterDistance(objet.getX(), objet.getY());
+        double distance = calculerDistance(objet.getX(), objet.getY());
         return distance <= 10;
     }
-    private double calculaterDistance(double x, double y) {
-        return Math.sqrt(Math.pow((x-getX()), 2) + Math.pow((y-getY()), 2));
+    public boolean AttaquerObjet(){
+        return !enCoursAttaque;
     }
+    // Si un objet est a proximité, l'ennemi attaque
     public  void attaqueObjet(Objet objet){
         if(objetProximite(objet)) {
-            System.out.println("je suis a coté");
             enCoursAttaque = true;
-            ((Mur) objet).degat(1);
+            objet.degat(1);
         }
         enCoursAttaque = false;
     }
-    public void agir(double largeurCase, double hauteurCase) {
-        Cellule celluleCourante = null;
-        Cellule celluleSuivante = null;
+    public void agir() {
+        celluleCourante =null;
+        celluleSuivante = null;
         celluleCourante = terrain.getPlusCourtChemin().get(i);
         celluleSuivante = i > 0 ? terrain.getPlusCourtChemin().get(i - 1) : null;
 
@@ -88,14 +70,7 @@ public abstract class Ennemi {
             if(terrain.getCase1(celluleSuivante.getI(),celluleSuivante.getJ())==1) {
                 int diffX = celluleCourante.getI() - celluleSuivante.getI();
                 int diffY = celluleCourante.getJ() - celluleSuivante.getJ();
-
-                if (diffX != 0) {
-                    this.setY(this.getY() + (diffX > 0 ? largeurCase : -largeurCase));
-                }
-
-                if (diffY != 0) {
-                    this.setX(this.getX() + (diffY > 0 ? hauteurCase : -hauteurCase));
-                }
+                PixelMoveTimeEvent.initAnimation(this,diffX,diffY);
             }
             else if(terrain.getCase1(celluleSuivante.getI(),celluleSuivante.getJ())==2){
                 while(AttaquerObjet()){
@@ -106,58 +81,42 @@ public abstract class Ennemi {
         i++;
         this.toString();
     }
-
-    public void setX(double x1) {
-        this.x.setValue(x1);
+    public void meur(){
+        this.vie = 0;
     }
 
-    public void setY(double y1) {
-        this.y.setValue(y1);
+    // Verifie si l'ennemi a atteint la base finale
+    public boolean destinationFinaleAtteinte() {
+        return i >= this.terrain.getPlusCourtChemin().size();
     }
-
     @Override
     public String toString() {
         return "id "+id;
     }
 
-    public void meur(){
-        this.vie = 0;
+    /* les getter et setter */
+    public void setX(double x1) {
+        this.x.setValue(x1);
     }
-
-    public boolean destinationFinaleAtteinte() {
-        return i >= this.terrain.getPlusCourtChemin().size();
+    public void setY(double y1) {
+        this.y.setValue(y1);
     }
-
-    protected double calculerDistance(double x, double y) {
-        // Calculer la distance entre l'ennemi et une position donnée
-        return Math.sqrt(Math.pow((x - getX()), 2) + Math.pow((y - getY()), 2));
+    public Cellule getCelluleCourante() {
+        return celluleCourante;
     }
-
+    public String getId() {
+        return id;
+    }
+    public DoubleProperty getXProperty() {
+        return x;
+    }
+    public DoubleProperty getYProperty() {
+        return y;
+    }
+    public double getX() {
+        return x.getValue();
+    }
+    public double getY() {
+        return y.getValue();
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*  public ImageView getVue() {
-        return vue;
-    }
-    // Méthode permettant de calculer la distance entre la Balliste et les coordonnées spécifiées.
-    public double calculerDistance(double x, double y) {
-        return Math.sqrt(Math.pow((x-getX()), 2) + Math.pow((y-getY()), 2));
-    }
-    }
-
-    public void ajouterImageSecondaire(Image imageSecondaire) {
-        this.imageSecondaire = imageSecondaire;
-    }
-*/
-

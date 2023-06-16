@@ -1,12 +1,11 @@
 package com.application.S2_dev.vue;
 
 import com.application.S2_dev.Main;
+import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
-
-import javax.swing.*;
 import java.net.URL;
 
 public class TerrainVue {
@@ -14,9 +13,9 @@ public class TerrainVue {
     Terrain terrain ;
     URL urlImageMur = Main.class.getResource("image/map/Mur.png");
     Image imageMur = new Image(String.valueOf(urlImageMur));
-    URL urlImageTerrain = Main.class.getResource("image/map/terrain.png");
+    URL urlImageTerrain = Main.class.getResource("image/map/terrain.jpg");
     Image imageTerrain = new Image(String.valueOf(urlImageTerrain));
-    URL urlImageChemin = Main.class.getResource("image/map/chemin.png");
+    URL urlImageChemin = Main.class.getResource("image/map/chemin.jpg");
     Image imageChemin = new Image(String.valueOf(urlImageChemin));
 
     URL urlBaseFinale = Main.class.getResource("image/map/base.png");
@@ -27,16 +26,19 @@ public class TerrainVue {
 
     URL urlTowerBase = Main.class.getResource("image/map/tour.png");
     Image base = new Image(String.valueOf(urlTowerBase));
+    Environnement env;
 
-    public TerrainVue(TilePane tilePane, Terrain terr) {
+    public TerrainVue(TilePane tilePane, Terrain terr, Environnement env) {
         this.tilePane = tilePane;
         this.terrain = terr;
+        this.env = env;
 
     }
 
+    /**
+     * Affiche le terrain en ajoutant les images correspondantes aux différentes cases.
+     */
     public void afficherTerrain(){
-
-
         for(int i = 0; i<terrain.getTerrain().length; i++) {
             for (int j = 0; j < terrain.getTerrain()[i].length; j++) {
                 switch (terrain.getCase1(i,j)) {
@@ -69,11 +71,13 @@ public class TerrainVue {
         }
     }
 
-    public void setImage(int ligne, int colonne) {
+    /* .*/
+    /**
+     * Met à jour l'image d'une case spécifique du terrain
+     */
+    public void setImage(int ligne, int colonne, int nouvelleValeur) {
         int index = ligne * terrain.getTerrain()[0].length + colonne;
         tilePane.getChildren().remove(index);
-
-        int nouvelleValeur = terrain.getCase1(ligne, colonne);
 
         switch (nouvelleValeur) {
             case 0:
@@ -89,8 +93,10 @@ public class TerrainVue {
                 tilePane.getChildren().add(index, imm);
                 break;
             case 4:
+                //System.out.println("et 1");
                 ImageView imm3 = new ImageView(block);
                 tilePane.getChildren().add(index, imm3);
+                // System.out.println("et 22");
                 break;
             default:
 

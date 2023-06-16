@@ -5,15 +5,17 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="1000.0" styleClass="my-anchor-pane" stylesheets="@Inventaire.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.S2_dev.controlleur.ControlleurInventaire">
    <children>
-      <Label fx:id="labelGrandeImage" layoutX="325.0" layoutY="15.0" prefHeight="334.0" prefWidth="668.0" styleClass="labelContour" AnchorPane.bottomAnchor="251.0" AnchorPane.leftAnchor="325.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="15.0" />
-      <Label fx:id="labelDescription" layoutX="12.0" layoutY="426.0" prefHeight="168.0" prefWidth="982.0" styleClass="labelContour" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="426.0" />
-      <Label fx:id="labelMaintenace" layoutX="121.0" layoutY="116.0" prefHeight="91.0" prefWidth="76.0" styleClass="labelMaintenance" AnchorPane.bottomAnchor="393.0" AnchorPane.leftAnchor="121.0" AnchorPane.rightAnchor="803.0" AnchorPane.topAnchor="116.0" />
-      <Label fx:id="labelBombe" layoutX="20.0" layoutY="116.0" prefHeight="91.0" prefWidth="76.0" styleClass="labelBombe" AnchorPane.bottomAnchor="393.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="904.0" AnchorPane.topAnchor="116.0" />
-      <Label fx:id="labelMur" layoutX="223.0" layoutY="116.0" prefHeight="91.0" prefWidth="76.0" styleClass="labelMur" />
-      <Label fx:id="labelTourNikola" layoutX="20.0" layoutY="229.0" prefHeight="91.0" prefWidth="76.0" styleClass="labelTourNikola" />
-      <Label fx:id="labelTourEdison" layoutX="121.0" layoutY="229.0" prefHeight="91.0" prefWidth="76.0" styleClass="labelTourEdison" />
-      <Label fx:id="labelTourOppenheimer" layoutX="223.0" layoutY="229.0" prefHeight="91.0" prefWidth="76.0" styleClass="labelTourppenheimer" />
+      <Label prefHeight="600.0" prefWidth="1000.0" styleClass="labelFond" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Label layoutX="12.0" layoutY="14.0" prefHeight="62.0" prefWidth="294.0" styleClass="labelTitre" text="INVENTAIRE" />
-      <Label layoutX="14.0" layoutY="357.0" prefHeight="54.0" prefWidth="982.0" styleClass="labelTitre" text="Description" />
+      <Label layoutX="9.0" layoutY="369.0" prefHeight="55.0" prefWidth="982.0" styleClass="labelTitre" text="DESCRIPTION" />
+      <Label fx:id="labelGrandeImage" layoutX="321.0" layoutY="15.0" prefHeight="345.0" prefWidth="668.0" styleClass="labelContour2" text="Sélectionnez un objet !" />
+      <Label fx:id="labelDescription" layoutX="9.0" layoutY="432.0" prefHeight="159.0" prefWidth="982.0" styleClass="labelContour" text="Description de votre objet" />
+      <Label fx:id="labelMaintenace" layoutX="106.0" layoutY="91.0" prefHeight="86.0" prefWidth="70.0" styleClass="labelMaintenance" />
+      <Label fx:id="labelBombe" layoutX="14.0" layoutY="91.0" prefHeight="86.0" prefWidth="70.0" styleClass="labelBombe" />
+      <Label fx:id="labelMur" layoutX="195.0" layoutY="91.0" prefHeight="86.0" prefWidth="70.0" styleClass="labelMur" />
+      <Label fx:id="labelTourNikola" layoutX="14.0" layoutY="182.0" prefHeight="86.0" prefWidth="69.0" styleClass="labelTourNikola" />
+      <Label fx:id="labelTourEdison" layoutX="106.0" layoutY="182.0" prefHeight="86.0" prefWidth="70.0" styleClass="labelTourEdison" />
+      <Label fx:id="labelTourOppenheimer" layoutX="195.0" layoutY="182.0" prefHeight="80.0" prefWidth="70.0" styleClass="labelTourppenheimer" />
+      <Label fx:id="labelHydrogene" layoutX="14.0" layoutY="275.0" prefHeight="86.0" prefWidth="70.0" styleClass="labelHydrogene" />
    </children>
 </AnchorPane>

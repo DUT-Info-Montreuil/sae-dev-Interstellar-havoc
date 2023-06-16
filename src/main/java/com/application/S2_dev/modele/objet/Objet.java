@@ -52,6 +52,7 @@ public abstract class Objet {
         return pv > 0;
     }
     public abstract void agit();
+    public abstract void degat(int value);
     public int getPrix() {
         return prix;
     }

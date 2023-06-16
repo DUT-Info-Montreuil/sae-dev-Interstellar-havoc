@@ -4,11 +4,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="800.0" prefWidth="1250.0" styleClass="my-anchor-pane" stylesheets="@Consigne.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.S2_dev.controlleur.ControlleurConsigne">
    <children>
+      <Label prefHeight="800.0" prefWidth="1250.0" styleClass="labelFond" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Label layoutX="8.0" layoutY="8.0" prefHeight="72.0" prefWidth="1232.0" styleClass="titre" text="CONSIGNE DU JEU" AnchorPane.bottomAnchor="720.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="8.0" />
       <Label fx:id="labelConsigne" layoutX="10.0" layoutY="91.0" prefHeight="637.0" prefWidth="1232.0" styleClass="labelCosigne" AnchorPane.bottomAnchor="72.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="91.0" />
-      <Button layoutX="1098.0" layoutY="749.0" mnemonicParsing="false" onAction="#ButtonRetour" prefHeight="37.0" prefWidth="130.0" styleClass="bouton" text="RETOUR" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="1098.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="749.0" />
+      <Button layoutX="1098.0" layoutY="749.0" mnemonicParsing="false" onAction="#ButtonRetour" prefHeight="37.0" prefWidth="130.0" styleClass="bouton" text="RETOUR AU MENU" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="1098.0" AnchorPane.rightAnchor="22.0" AnchorPane.topAnchor="749.0" />
+      <Button layoutX="948.0" layoutY="749.0" mnemonicParsing="false" onAction="#ButtonRetourJeu" prefHeight="37.0" prefWidth="130.0" styleClass="bouton" text="RETOUR AU JEU" />
    </children>
 </AnchorPane>

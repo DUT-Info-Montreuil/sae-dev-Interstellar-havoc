@@ -5,16 +5,20 @@ import com.application.S2_dev.modele.map.Terrain;
 public class Mur extends Objet{
     public Mur(Environnement environnement,Terrain terrain){
         super(environnement, terrain);
-        this.prix = 50;
+        this.prix = 50; // prix de l'objet
 
     }
+    @Override
     public void degat(int value) {
+        /* degats infligés au mur */
         this.pv -= value;
     }
     public void PlacerMur(int i , int j ){
-        this.terrain.placementMur(i,j);
+        /* Placement du chemin apres destruction du mur */
+        this.terrain.placementObjetMur(i,j);
     }
     @Override
     public void agit() {
+        /* Cet objet n'agit pas */
     }
 }

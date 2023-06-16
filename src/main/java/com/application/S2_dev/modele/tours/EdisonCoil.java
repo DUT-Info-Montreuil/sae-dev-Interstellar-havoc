@@ -1,17 +1,19 @@
 package com.application.S2_dev.modele.tours;
 
-import com.application.S2_dev.modele.data.TowerType;
+import com.application.S2_dev.modele.données.TowerType;
 import com.application.S2_dev.modele.ennemis.Ennemi;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class EdisonCoil extends Tour {
 
-    private int degats; // Dommages infligés aux ennemis
-    private int taux_tir; // Taux de tir de la tour (coups par seconde)
+    private int degats = 20; // Dommages infligés aux ennemis
+    private int taux_tir = 5; // Taux de tir de la tour (coups par seconde)
     private int tempsRecharge = 0;
 
     public EdisonCoil(int x, int y, int niveau) {
 
         super("EdisonCoil", x, y, TowerType.Edison, niveau, 100 * niveau, 50 + (niveau * 5));
+        this.vie = new SimpleIntegerProperty(250);
 
         this.taux_tir = 6 - niveau;
         this.degats = 25 + (niveau * 3);
@@ -19,9 +21,8 @@ public class EdisonCoil extends Tour {
         if (taux_tir < 1)
             taux_tir = 1;
     }
-
     @Override
-    public void attaquerTour(Ennemi ennemi) {
+    public void attaquerEnnemi(Ennemi ennemi) {
         // Le temps de recharge fait attaquer la tour les ennemis en fonction de son taux de tir
         if (tempsRecharge == 0) {
             // Inflige des dommages à l'ennemi

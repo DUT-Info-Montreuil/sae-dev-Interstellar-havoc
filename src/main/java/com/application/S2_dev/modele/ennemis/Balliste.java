@@ -9,12 +9,13 @@ public class Balliste extends Ennemi {
     // Constructeur de la classe Balliste.
     public Balliste(int Posx, int Posy, Terrain terrain){
         super(Posx, Posy, terrain);
-        this.degats= 150; // Portée de la tour
-        this.portee=5; // Dommages infligés aux tours
+        this.degats= 5; // Portée de la tour
+        this.portee=30; // Dommages infligés aux tours
+        this.vie = 20;
     }
-    
     @Override
     public void attaquerTour(Tour tour) {
+        System.out.println("tour !!!!!!" + tour.getX());
         if (estDansPortee(tour)) {
             // Infliger des dégâts à la tour
             tour.infligerDegats(degats);
@@ -23,7 +24,7 @@ public class Balliste extends Ennemi {
     @Override
     public boolean estDansPortee(Tour tour) {
         // Vérifier si l'ennemi est à portée de tir
-        double distance = calculerDistance(tour.getX(), tour.getY());
+        double distance = this.calculerDistance(tour.getY(), tour.getX());
         return distance <= portee;
     }
 
