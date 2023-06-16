@@ -17,16 +17,12 @@ public class Scavenger extends Ennemi {
         if (estDansPortee(tour)) {
             // Infliger des dégâts à la tour
             tour.infligerDegats(degats);
-
         }
     }
-
     @Override
     public boolean estDansPortee(Tour tour) {
         // Vérifier si l'ennemi est à portée de tir
         double distance = this.calculerDistance(tour.getY(), tour.getX());
         return distance <= portee;
     }
-
-
 }

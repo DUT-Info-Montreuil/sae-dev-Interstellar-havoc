@@ -1,4 +1,4 @@
-package com.application.S2_dev.modele.data;
+package com.application.S2_dev.modele.données;
 
 import com.application.S2_dev.Parametre;
 import com.application.S2_dev.modele.ennemis.Ennemi;

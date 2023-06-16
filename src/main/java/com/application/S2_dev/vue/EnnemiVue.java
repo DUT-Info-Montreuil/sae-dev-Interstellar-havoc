@@ -1,7 +1,6 @@
 package com.application.S2_dev.vue;
 
 import com.application.S2_dev.Main;
-import com.application.S2_dev.Parametre;
 import com.application.S2_dev.modele.Boutique;
 import com.application.S2_dev.modele.ennemis.Behemoth;
 import com.application.S2_dev.modele.ennemis.Ennemi;
@@ -13,16 +12,14 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-
-import javax.swing.*;
 import java.net.URL;
 
 public class EnnemiVue implements ListChangeListener<Ennemi> {
     private Pane panneau_de_jeu;
-    Environnement env;
+    private Environnement env;
     private Label LabelnbVivantScavenger, LabelnbVivantBalliste,  LabelnbVivantBehemoth;
-    private Boutique boutique;
-    int nbVivantScavenger = 0, nbVivantBalliste=0, nbVivantBehemoth=0, money;
+    private Boutique boutique; /* Boutique pour l'achat des ennemis */
+    private int nbVivantScavenger = 0, nbVivantBalliste=0, nbVivantBehemoth=0; /* compteur des ennemis */
     private URL urlScavenger,urlScavengerProximite, urlBalliste,urlBallisteProximite, urlBehemoth, urlBehemothProximite;
     private Image ImageScavenger, ImageScavengerProximite, ImageBalliste, ImageBallisteProximite, ImageBehemoth, ImageBehemothProximite;
 
@@ -34,6 +31,7 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
         this.env = env;
         this.boutique = boutique;
 
+        /* URL et image des sprites */
         urlScavenger = Main.class.getResource("image/ennemis/Scavenger.png");
         ImageScavenger = new javafx.scene.image.Image(String.valueOf(urlScavenger));
 
@@ -60,75 +58,41 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
         }
         for (int i = 0; i < c.getRemoved().size(); i++) {
             ImageView sprite = (ImageView) panneau_de_jeu.lookup("#" + c.getRemoved().get(i).getId());
-            panneau_de_jeu.getChildren().remove(sprite);
+            panneau_de_jeu.getChildren().remove(sprite); /* Suppression du sprite du panneau de jeu */
             if (c.getRemoved().get(i) instanceof Scavenger) {
-                nbVivantScavenger--;
-                boutique.setPrix(boutique.getPrix()+100);
+                nbVivantScavenger--; // Mise à jour du compteur
+                boutique.setPrix(boutique.getPrix()+100); // La destruction des ennemis permet de gagner de l'argent
             } else if (c.getRemoved().get(i) instanceof Balliste) {
-                nbVivantBalliste--;
-                boutique.setPrix(boutique.getPrix()+50);
+                nbVivantBalliste--; // Mise à jour du compteur
+                boutique.setPrix(boutique.getPrix()+50); // La destruction des ennemis permet de gagner de l'argent
             }
             else if(c.getRemoved().get(i) instanceof Behemoth){
-                nbVivantBehemoth--;
-                boutique.setPrix(boutique.getPrix()+200);
+                nbVivantBehemoth--; // Mise à jour du compteur
+                boutique.setPrix(boutique.getPrix()+200); // La destruction des ennemis permet de gagner de l'argent
             }
-
         }
 
         for (int i = 0; i < c.getAddedSubList().size(); i++) {
-                creerSpriteProximite(c.getAddedSubList().get(i));
+            creerSprite(c.getAddedSubList().get(i)); // Creation du sprite
 
             if (c.getAddedSubList().get(i) instanceof Scavenger) {
-                nbVivantScavenger++;
+                nbVivantScavenger++; // Mise à jour du compteur
             } else if (c.getAddedSubList().get(i) instanceof Balliste) {
-                nbVivantBalliste++;
+                nbVivantBalliste++; // Mise à jour du compteur
             }
             else if(c.getAddedSubList().get(i) instanceof Behemoth){
-                nbVivantBehemoth++;
+                nbVivantBehemoth++; // Mise à jour du compteur
             }
 
         }
+        // Mise à jour des labels
         LabelnbVivantScavenger.setText(String.valueOf(nbVivantScavenger));
         LabelnbVivantBalliste.setText(String.valueOf(nbVivantBalliste));
         LabelnbVivantBehemoth.setText(String.valueOf(nbVivantBehemoth));
     }
 
     void creerSprite(Ennemi e) {
-        ImageView scavenger = null;
-        ImageView balliste = null;
-        ImageView behemoth = null;
-
-
-        if (e instanceof Scavenger) {
-            scavenger = new ImageView(ImageScavenger);
-            scavenger.translateXProperty().bind(e.getXProperty());
-            scavenger.translateYProperty().bind(e.getYProperty());
-
-        } else if (e instanceof Balliste) {
-            balliste = new ImageView(ImageBalliste);
-            balliste.translateXProperty().bind(e.getXProperty());
-            balliste.translateYProperty().bind(e.getYProperty());
-
-        } else if (e instanceof Behemoth) {
-            behemoth = new ImageView(ImageBehemoth);
-            behemoth.translateXProperty().bind(e.getXProperty());
-            behemoth.translateYProperty().bind(e.getYProperty());
-
-        }
-        if (scavenger != null) {
-            scavenger.setId(e.getId());
-            panneau_de_jeu.getChildren().add(scavenger);
-        }
-        if (balliste != null) {
-            balliste.setId(e.getId());
-            panneau_de_jeu.getChildren().add(balliste);
-        }
-        if (behemoth != null) {
-            behemoth.setId(e.getId());
-            panneau_de_jeu.getChildren().add(behemoth);
-        }
-    }
-    void creerSpriteProximite(Ennemi e) {
+        /* Methode qui permet de créer les sprites des ennemis present dans l'environnement */
         ImageView scavengerProximite;
         ImageView ballisteProximite;
         ImageView behemothProximite;
@@ -140,6 +104,7 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
             scavengerProximite.translateXProperty().bind(e.getXProperty());
             scavengerProximite.translateYProperty().bind(e.getYProperty());
 
+            /* nouvelle image pour les ennemis à porté d'une tour */
             env.aProximiteTourProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue ) {
                     scavengerProximite.setImage(ImageScavengerProximite); // Image de proximité (zone rouge)
@@ -156,7 +121,7 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
                 ballisteProximite.translateXProperty().bind(e.getXProperty());
                 ballisteProximite.translateYProperty().bind(e.getYProperty());
 
-                // Ajouter un ChangeListener à la propriété aProximiteTour
+                /* nouvelle image pour les ennemis à porté d'une tour */
                 env.aProximiteTourProperty().addListener((observable, oldValue, newValue) -> {
                     if (newValue ) {
                         ballisteProximite.setImage(ImageBallisteProximite); // Image de proximité (zone rouge)
@@ -171,7 +136,7 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
                     behemothProximite.translateXProperty().bind(e.getXProperty());
                     behemothProximite.translateYProperty().bind(e.getYProperty());
 
-                    // Ajouter un ChangeListener à la propriété aProximiteTour
+                    /* nouvelle image pour les ennemis à porté d'une tour */
                     env.aProximiteTourProperty().addListener((observable, oldValue, newValue) -> {
                         if (newValue ) {
                             behemothProximite.setImage(ImageBehemothProximite); // Image de proximité (zone rouge)
@@ -185,16 +150,16 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
             }
         }
         if (scavengerProximite != null) {
-            scavengerProximite.setId(e.getId());
-            panneau_de_jeu.getChildren().add(scavengerProximite);
+            scavengerProximite.setId(e.getId()); /* Attribution d'un identifiant à l'objet ImageView */
+            panneau_de_jeu.getChildren().add(scavengerProximite); /* Ajout du sprite au panneau de jeu */
         }
         if (ballisteProximite != null) {
-            ballisteProximite.setId(e.getId());
-            panneau_de_jeu.getChildren().add(ballisteProximite);
+            ballisteProximite.setId(e.getId()); /* Attribution d'un identifiant à l'objet ImageView */
+            panneau_de_jeu.getChildren().add(ballisteProximite); /* Ajout du sprite au panneau de jeu */
         }
         if (behemothProximite != null) {
-            behemothProximite.setId(e.getId());
-            panneau_de_jeu.getChildren().add(behemothProximite);
+            behemothProximite.setId(e.getId()); /* Attribution d'un identifiant à l'objet ImageView */
+            panneau_de_jeu.getChildren().add(behemothProximite); /* Ajout du sprite au panneau de jeu */
         }
     }
 }

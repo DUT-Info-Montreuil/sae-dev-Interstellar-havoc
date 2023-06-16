@@ -2,9 +2,7 @@ package com.application.S2_dev.vue;
 
 import com.application.S2_dev.Main;
 import com.application.S2_dev.modele.Boutique;
-import com.application.S2_dev.modele.bfs.Cellule;
-import com.application.S2_dev.modele.data.TerrainType;
-import com.application.S2_dev.modele.ennemis.Ennemi;
+import com.application.S2_dev.modele.données.TerrainType;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.modele.objet.*;
@@ -12,22 +10,15 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import javax.sound.sampled.*;
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.Queue;
-
-import static com.application.S2_dev.Parametre.hauteurCase;
-import static com.application.S2_dev.Parametre.largeurCase;
 
 public class ObjetVue implements ListChangeListener<Objet> {
 
@@ -41,10 +32,9 @@ public class ObjetVue implements ListChangeListener<Objet> {
     private Image ImageBombe, ImageHydrogene, ImageExplosion;
     private ImageView imageObjet;
     private String objetSelectionne;
-    int[] pos;
-    Boutique boutique;
-    private static Clip clipFond ;
-    Queue<Ennemi> fileAttente = new LinkedList<>();
+    private  int[] pos;
+    private Boutique boutique;
+    private static Clip clipFond ;// music pour les annimations
 
 
     public ObjetVue(Pane pane, Environnement environnement, Label Bombe, Label LabelHydrogene, Label Mur, Terrain terrain, TerrainVue terrainVue, Boutique boutique){
@@ -58,6 +48,7 @@ public class ObjetVue implements ListChangeListener<Objet> {
         this.boutique = boutique;
 
 
+        /* URL et image des sprites */
         urlBombe = Main.class.getResource("image/objet/Bombe.png");
         ImageBombe = new javafx.scene.image.Image(String.valueOf(urlBombe));
 
@@ -77,60 +68,44 @@ public class ObjetVue implements ListChangeListener<Objet> {
         }
         for(int i =0; i<c.getAddedSubList().size(); i++){
             if(c.getAddedSubList().get(i) instanceof Bombe){
-                boutique.setPrix(boutique.getPrix()-((Bombe) c.getAddedSubList().get(i)).getPrix());
+                boutique.setPrix(boutique.getPrix()-((Bombe) c.getAddedSubList().get(i)).getPrix()); // Mise à jour du prix
             }
             else if(c.getAddedSubList().get(i) instanceof Hydrogene){
-                boutique.setPrix(boutique.getPrix()-((Hydrogene) c.getAddedSubList().get(i)).getPrix());
+                boutique.setPrix(boutique.getPrix()-((Hydrogene) c.getAddedSubList().get(i)).getPrix()); // Mise à jour du prix
             }
             else if(c.getAddedSubList().get(i) instanceof Mur){
-                boutique.setPrix(boutique.getPrix()-((Mur) c.getAddedSubList().get(i)).getPrix());
+                boutique.setPrix(boutique.getPrix()-((Mur) c.getAddedSubList().get(i)).getPrix()); // Mise à jour du prix
             }
         }
         for (int i = 0; i < c.getRemoved().size(); i++) {
             if(c.getRemoved().get(i) instanceof Bombe) {
-                annimationBombe(c.getRemoved().get(i));
+                animationBombe(c.getRemoved().get(i)); /* Chargement de l'image d'animation pour la bombe */
             }
             if(c.getRemoved().get(i) instanceof Mur) {
-                System.out.println("j'ai remit l'image");
+                /* Placement du chemin apres la destruction du mur */
                 ((Mur) objet).PlacerMur(pos[0], pos[1]);
                 terrainVue.setImage(pos[0], pos[1],1);
             }
-            if(c.getRemoved().get(i) instanceof Block) {
-                System.out.println("j'ai remit l'image block");
-                int ligne = ((Block)c.getRemoved().get(i)).getLigne();
-                int colonne = ((Block)c.getRemoved().get(i)).getColonne();
-                ((Block) c.getRemoved().get(i)).PlacerMur(ligne, colonne);
+            if(c.getRemoved().get(i) instanceof CheminBloque) {
+                /* Placement du chemin apres la destruction du mur */
+                int ligne = ((CheminBloque)c.getRemoved().get(i)).getLigne();
+                int colonne = ((CheminBloque)c.getRemoved().get(i)).getColonne();
+                ((CheminBloque) c.getRemoved().get(i)).PlacerMur(ligne, colonne);
                 terrainVue.setImage(ligne, colonne,1);
 
             }
             if(c.getRemoved().get(i) instanceof Hydrogene) {
-                annimationBombe(c.getRemoved().get(i));
+                animationBombe(c.getRemoved().get(i)); /* Chargement de l'image d'animation pour la bombe */
                 URL urlImageVaiL = Main.class.getResource("sons/bruit.wav");
                 String s = urlImageVaiL.getPath();
-                PlayMusicFond(s);
+                PlayMusicFond(s); /* music d'animation */
             }
-           /* for (Ennemi ennemi : environnement.getEnnemis()) {
-                fileAttente.add(ennemi); // Ajouter l'ennemi à la file d'attente
-            }
-            declencherDeplacementProchainEnnemi();*/
             ImageView sprite = (ImageView) panneau_de_jeu.lookup("#" + c.getRemoved().get(i).getId());
-            panneau_de_jeu.getChildren().remove(sprite);
+            panneau_de_jeu.getChildren().remove(sprite); /* Suppression du sprite du panneau de jeu */
         }
     }
-   /* public void declencherDeplacementProchainEnnemi() {
-        if (!fileAttente.isEmpty()) {
-            Ennemi prochainEnnemi = fileAttente.peek(); // Obtenir le prochain ennemi sans le supprimer de la file
-            Timeline timeline = new Timeline(
-                    new KeyFrame(Duration.seconds(2), event -> {
-                        prochainEnnemi.agir(); // Faire agir le prochain ennemi
-                        fileAttente.poll(); // Supprimer l'ennemi de la file après son action
-                        declencherDeplacementProchainEnnemi(); // Appeler récursivement pour le prochain ennemi
-                    })
-            );
-            timeline.play();
-        }
-    }*/
-    public void annimationBombe(Objet objet){
+    public void animationBombe(Objet objet){
+        /* Animation de la bombe.*/
         ImageView imageObjet = new ImageView(ImageExplosion);
         imageObjet.setX(objet.getX());
         imageObjet.setY(objet.getY());
@@ -140,6 +115,7 @@ public class ObjetVue implements ListChangeListener<Objet> {
         }
         imageObjet.setOpacity(0);
         panneau_de_jeu.getChildren().add(imageObjet);
+        // Apparation de l'image d"explosion
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(imageObjet.opacityProperty(), 0)),
                 new KeyFrame(Duration.seconds(0.5), new KeyValue(imageObjet.opacityProperty(), 1)),
@@ -147,22 +123,23 @@ public class ObjetVue implements ListChangeListener<Objet> {
                 new KeyFrame(Duration.seconds(1.5), new KeyValue(imageObjet.opacityProperty(), 0))
         );
         timeline.play();
-        timeline.setOnFinished(event -> panneau_de_jeu.getChildren().remove(imageObjet));
+        timeline.setOnFinished(event -> panneau_de_jeu.getChildren().remove(imageObjet)); /* Suppression de l'image du panneau de jeu */
     }
     public void AjoutObjet(){
+        /* Méthode appelée lors de l'ajout d'un objet.*/
         labelBombe.setOnMouseClicked(event -> {
             objetSelectionne = "Bombe";
-            obj();
+            setObjetSelectionne();
         });
 
         LabelHydrogene.setOnMouseClicked(event -> {
             objetSelectionne = "Hydrogene";
-            obj();
+            setObjetSelectionne();
         });
 
         labelMur.setOnMouseClicked( h -> {
             objetSelectionne = "Mur";
-            obj();
+            setObjetSelectionne();
         });
 
         panneau_de_jeu.setOnMouseClicked( h -> {
@@ -175,12 +152,10 @@ public class ObjetVue implements ListChangeListener<Objet> {
             }
 
         });
-      AfficherMur();
-
+        AfficherCheminBloque();
     }
-
     void creerObjet(Objet objet) {
-
+        /* Crée un objet en fonction de l'objet sélectionné.*/
             if (objet instanceof Bombe) {
                 imageObjet = new ImageView(ImageBombe);
             } else if (objet instanceof Hydrogene) {
@@ -191,27 +166,27 @@ public class ObjetVue implements ListChangeListener<Objet> {
                 panneau_de_jeu.getChildren().add(imageObjet);
             }
         }
-
-    public void apparitionMur(int ligne, int colonne) {
-
+    public void apparitionCheminBloque(int ligne, int colonne) {
+        /* Apparition du chemin bloqué sur la grille.*/
         double x = colonne * 16;
         double y = ligne * 16;
-        objet = new Block(environnement, terrain, ligne,colonne);
+        objet = new CheminBloque(environnement, terrain, ligne,colonne);
         objet.setX(x);
         objet.setY(y);
         environnement.ajoutObjet(objet);
     }
-    public void AfficherMur(){
+    public void AfficherCheminBloque(){
+        /*affichage du chemin bloque */
         for(int i = 0; i<terrain.getTerrain().length; i++) {
             for (int j = 0; j < terrain.getTerrain()[i].length; j++) {
                 if (terrain.getCase1(i, j) == 2) {
-                    System.out.println("apparition du mur");
-                    apparitionMur(i,j);
+                    apparitionCheminBloque(i,j);
                 }
             }
         }
     }
-    public void obj(){
+    public void setObjetSelectionne(){
+       /* Définit l'objet sélectionné en fonction de l'option choisie.*/
         if (objetSelectionne.equals("Bombe")) {
             objet = new Bombe(environnement, terrain);
         }
@@ -223,9 +198,10 @@ public class ObjetVue implements ListChangeListener<Objet> {
         }
     }
     public void apparitionObjet(int ligne, int colonne) {
+        /* Apparition d'un objet sur la grille.*/
         double x = colonne * 16;
         double y = ligne * 16;
-            if (emplacementBombe(ligne, colonne)) {
+            if (emplacementObjet(ligne, colonne)) {
                     if (objet instanceof Bombe) {
                         creerObjet(objet);
                         imageObjet.setX(x);
@@ -250,13 +226,15 @@ public class ObjetVue implements ListChangeListener<Objet> {
                 System.out.println("Emplacement impossible");
             }
     }
-    public boolean emplacementBombe(int ligne, int colonne) {
+    public boolean emplacementObjet(int ligne, int colonne) {
+        /* verifie sur l'emplacement de l'objet est possible */
         if (terrain.getCase(ligne, colonne) == TerrainType.chemin){
             return true;
         }
         return false;
     }
     public static void PlayMusicFond(String location){
+        /* music de fond */
         AudioInputStream audioInputStream = null;
         try {
             audioInputStream = AudioSystem.getAudioInputStream(new File(location));

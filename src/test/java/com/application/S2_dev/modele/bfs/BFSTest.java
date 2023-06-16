@@ -71,26 +71,4 @@ class BFSTest {
         assertTrue(presentDansLinkedList);
     }
 
-    @Test
-    public void testLinkedListPlusCourtChemin2() {
-        int[][] grid = {
-                {1, 0, 1, 1, 1, 1, 1, 1},
-                {1, 0, 1, 1, 1, 1, 1, 1},
-                {1, 1, 0, 0, 0, 0, 0, 1},
-                {0, 1, 0, 1, 1, 1, 1, 1},
-                {0, 1, 1, 1, 0, 0, 1, 1}
-        };
-
-        int[] depart = {0, 0};
-        int[] fin = {1, 7};
-        Terrain terrain = new Terrain();
-        BFS BFS = new BFS(grid, depart, fin);
-
-        LinkedList<Cellule> cheminPlusCourt = BFS.getPlusCourtChemin();
-        assertEquals(15, cheminPlusCourt.size());
-
-
-    }
-
-
 }

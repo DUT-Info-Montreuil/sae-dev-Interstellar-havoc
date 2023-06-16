@@ -2,8 +2,8 @@ package com.application.S2_dev.vue;
 
 import com.application.S2_dev.Main;
 import com.application.S2_dev.modele.Boutique;
-import com.application.S2_dev.modele.data.TerrainType;
-import com.application.S2_dev.modele.data.TowerType;
+import com.application.S2_dev.modele.données.TerrainType;
+import com.application.S2_dev.modele.données.TowerType;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.modele.tours.Tour;
@@ -32,7 +32,7 @@ public class TourVue implements ListChangeListener<Tour> {
     private Boutique boutique;
     private ImageView niveauChoisi = null; // Image affichée pour le niveau sélectionné
     private Tour tourCliquee = null; // Tour sélectionnée par le joueur
-    Alert MessagePlacementTour = new Alert(Alert.AlertType.INFORMATION);
+    private Alert MessagePlacementTour = new Alert(Alert.AlertType.INFORMATION);
 
     public TourVue(Environnement environnement, TilePane tilePane, Terrain terrain , Pane pane, Label idBobineEdison, Label idBobineOppenheimer, Label idBobineNikola, Timeline gameLoop, Boutique boutique){
         this.env = environnement;
@@ -359,12 +359,10 @@ public class TourVue implements ListChangeListener<Tour> {
             });
         }
     }
-
     public boolean peutPlacerTourA(int ligne, int cologne) {
         if (terrain.getCase(ligne, cologne) == TerrainType.base_tourelle)
             return true;
         else return false;
     }
-
 
 }

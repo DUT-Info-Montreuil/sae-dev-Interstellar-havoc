@@ -2,16 +2,8 @@ package com.application.S2_dev.modele.map;
 
 import com.application.S2_dev.modele.bfs.Cellule;
 import com.application.S2_dev.modele.bfs.BFS;
-import com.application.S2_dev.modele.data.TerrainType;
-import com.application.S2_dev.modele.ennemis.Ennemi;
-
-import java.util.ArrayList;
+import com.application.S2_dev.modele.données.TerrainType;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-
-import static com.application.S2_dev.Parametre.hauteurCase;
-import static com.application.S2_dev.Parametre.largeurCase;
 
 public class Terrain {
     private int[][] terrain;
@@ -61,11 +53,6 @@ public class Terrain {
         int[] fin = {12, 60};
         bfs=new BFS(terrain, depart, fin);
     }
-
-    public int[][] getTerrain() {
-       return terrain;
-    }
-
     public TerrainType getCase(int i, int j) {
         switch (terrain[i][j]) {
             case 0:
@@ -84,26 +71,18 @@ public class Terrain {
                 return null;
         }
     }
-
-    public LinkedList<Cellule> getCheminPlusCourt() {
-        if (cheminPlusCourt==null){
-            return cheminPlusCourt=calculerCheminPlusCourt();
-        }
-        return cheminPlusCourt;
-    }
     public void setCheminNull(LinkedList<Cellule> cheminPlusCourt) {
         this.cheminPlusCourt = null;
     }
-
     public int[] getPosDansCarte(int x, int y) {
-
+        // on recupere l'emplacement par rapport au terrain
         return new int[]{(int)(y/16), (int)(x/16)};
     }
-
     public int getCase1(int i, int j) {
         return terrain[i][j];
     }
     public void placementObjetMur(int i, int j) {
+        /* Remplacement du chemin en chemin Bloqué quand le joueur place un mur */
         if (terrain[i][j] == 1) {
             terrain[i][j] = 2;
             setCheminNull(cheminPlusCourt);
@@ -113,6 +92,7 @@ public class Terrain {
         }
     }
     public void placementMur(int i, int j) {
+        /* Remplacement du chemin Bloqué en chemin quand l'ennemi casse le mur' */
         if (terrain[i][j] == 2) {
             terrain[i][j] = 1;
             setCheminNull(cheminPlusCourt);
@@ -120,10 +100,6 @@ public class Terrain {
         else if(terrain[i][j] == 1) {
             terrain[i][j] = 2;
         }
-
-    }
-    public LinkedList<Cellule> getPlusCourtChemin() {
-        return bfs.getPlusCourtChemin();
     }
     LinkedList<Cellule> calculerCheminPlusCourt() {
         int[] start = {1, 0};
@@ -132,6 +108,20 @@ public class Terrain {
         BFS bfs = new BFS(terrain, start, end);
         cheminPlusCourt= bfs.getPlusCourtChemin();
         return cheminPlusCourt;
+    }
+
+    /* les getter et setter */
+    public LinkedList<Cellule> getCheminPlusCourt() {
+        if (cheminPlusCourt==null){
+            return cheminPlusCourt=calculerCheminPlusCourt();
+        }
+        return cheminPlusCourt;
+    }
+    public LinkedList<Cellule> getPlusCourtChemin() {
+        return bfs.getPlusCourtChemin();
+    }
+    public int[][] getTerrain() {
+        return terrain;
     }
 }
 

@@ -1,8 +1,7 @@
 package com.application.S2_dev.modele.tours;
 
-import com.application.S2_dev.modele.data.TowerType;
+import com.application.S2_dev.modele.données.TowerType;
 import com.application.S2_dev.modele.ennemis.Ennemi;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class NikolaCoil extends Tour {
@@ -22,7 +21,6 @@ public class NikolaCoil extends Tour {
         if (TAUX_TIR < 1)
             TAUX_TIR = 1;
     }
-
     @Override
     public void attaquerEnnemi(Ennemi ennemi) {
         if (tempsRecharge == 0) {

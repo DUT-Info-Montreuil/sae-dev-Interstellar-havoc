@@ -1,12 +1,11 @@
 package com.application.S2_dev.modele.tours;
 
-import com.application.S2_dev.modele.data.TowerType;
+import com.application.S2_dev.modele.données.TowerType;
 import com.application.S2_dev.modele.ennemis.Ennemi;
 import java.util.UUID;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.ImageView;
 
 /**

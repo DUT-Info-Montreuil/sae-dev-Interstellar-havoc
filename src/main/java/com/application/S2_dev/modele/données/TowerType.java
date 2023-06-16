@@ -1,5 +1,5 @@
 
-package com.application.S2_dev.modele.data;
+package com.application.S2_dev.modele.données;
 
 public enum TowerType {
 

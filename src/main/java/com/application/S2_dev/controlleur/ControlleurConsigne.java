@@ -9,7 +9,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,9 +16,9 @@ import java.util.ResourceBundle;
 public class ControlleurConsigne implements Initializable {
     @FXML
     private Label labelConsigne;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Texte du labelConsigne avec le texte explicatif du jeu
         labelConsigne.setText("Bienvenue dans notre Tower Defense à thème spatial ! Votre mission consiste à défendre la base contre les vagues d'ennemis qui approchent. Voici votre consigne :\n" +
                 "\n" +
                 "Vous devez protégez la base en empêchant les ennemis d'atteindre son emplacement. Assurez-vous que la base ne subisse aucun dommage.\n" +
@@ -43,17 +42,19 @@ public class ControlleurConsigne implements Initializable {
                 "Bonne chance !");
     }
 
+
     @FXML
     void ButtonRetour(ActionEvent event) {
+        // Bouton retour au menu du jeu
         Parent root;
         try {
-            Stage stage1 = (Stage) labelConsigne.getScene().getWindow();
-            stage1.close();
+            Stage stage1 = (Stage) labelConsigne.getScene().getWindow(); // recuperation de la fenêtre parente du labelConsigne
+            stage1.close(); // fermeture de la fenêtre parente du labelConsigne
             root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Menu/Menu.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Menu de jeu");
             stage.setScene(new Scene(root, 1250, 800));
-            stage.show();
+            stage.show(); // Affichage du Menu de jeu
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -61,9 +62,10 @@ public class ControlleurConsigne implements Initializable {
     }
     @FXML
     void ButtonRetourJeu(ActionEvent event) {
+        // Bouton retour au jeu lorsqu'on affiche la consigne en jouant
         try {
-            Stage stage1 = (Stage) labelConsigne.getScene().getWindow();
-            stage1.close();
+            Stage stage1 = (Stage) labelConsigne.getScene().getWindow(); // recuperation de la fenêtre parente du labelConsigne
+            stage1.close(); // fermeture de la fenêtre parente du labelConsigne
         }
         catch (Exception ex) {
             ex.printStackTrace();

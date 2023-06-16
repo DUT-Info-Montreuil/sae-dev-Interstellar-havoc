@@ -13,14 +13,12 @@ public class Balliste extends Ennemi {
         this.portee=30; // Dommages infligés aux tours
         this.vie = 20;
     }
-    
     @Override
     public void attaquerTour(Tour tour) {
         System.out.println("tour !!!!!!" + tour.getX());
         if (estDansPortee(tour)) {
             // Infliger des dégâts à la tour
             tour.infligerDegats(degats);
-
         }
     }
     @Override

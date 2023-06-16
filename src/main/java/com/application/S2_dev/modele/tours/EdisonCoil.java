@@ -1,8 +1,7 @@
 package com.application.S2_dev.modele.tours;
 
-import com.application.S2_dev.modele.data.TowerType;
+import com.application.S2_dev.modele.données.TowerType;
 import com.application.S2_dev.modele.ennemis.Ennemi;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class EdisonCoil extends Tour {
@@ -22,7 +21,6 @@ public class EdisonCoil extends Tour {
         if (taux_tir < 1)
             taux_tir = 1;
     }
-
     @Override
     public void attaquerEnnemi(Ennemi ennemi) {
         // Le temps de recharge fait attaquer la tour les ennemis en fonction de son taux de tir
