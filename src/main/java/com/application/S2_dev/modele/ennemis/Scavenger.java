@@ -7,15 +7,18 @@ public class Scavenger extends Ennemi {
 
     public Scavenger(int x, int y, Terrain terrain){
         super(x, y, terrain);
+        this.degats= 2; // Portée de la tour
+        this.portee=15; // Dommages infligés aux tours
+        this.vie = 50;
     }
 
     @Override
     public void attaquerTour(Tour tour) {
-        if (estDansPortee(tour)) {
+       // if (estDansPortee(tour)) {
             // Infliger des dégâts à la tour
             tour.infligerDegats(degats);
-            this.aProximiteTour.setValue(true);
-        }
+
+        //}
     }
 
     @Override

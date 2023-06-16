@@ -20,12 +20,14 @@ public class ControlleurCredit implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        labelCredit.setText("Au nom de l'équipe d'Interstellar Havoc, merci d'avoir joué et avoir défendu la galaxie\n" +
-                "\n" +
-                "Rabab, Elsa, Mehdi, Franço\n" +
-                "\n" +
-                "Merci aux professeurs de l'IUT pour leurs conseils et supervision, ce jeu est possible grâce à vous.\n" +
-                "Merci MILLE FOIS !");
+        labelCredit.setText(
+                "Merci d'avoir joué et défendu la galaxie !\n" +
+                "Nous tenons à exprimer notre profonde gratitude envers les professeurs de l'IUT \n" +
+                "pour leurs conseils et leur supervision tout au long de la création de ce jeu.\n" +
+                "Ensemble, nous avons accompli quelque chose d'extraordinaire \n" +
+                "\n"+
+                "Merci encore pour votre participation et votre dévouement. \n"
+        );
     }
 
     @FXML

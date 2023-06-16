@@ -2,6 +2,8 @@ package com.application.S2_dev.modele.tours;
 
 import com.application.S2_dev.modele.data.TowerType;
 import com.application.S2_dev.modele.ennemis.Ennemi;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class OppenheimerCoil extends Tour {
 
@@ -11,8 +13,9 @@ public class OppenheimerCoil extends Tour {
 
     public OppenheimerCoil(int x, int y, int niveau) {
         super("OppenheimerCoil", x, y, TowerType.Oppenheimer, niveau, 100 * niveau, 150 + (niveau * 5));
+        this.vie = new SimpleIntegerProperty(350);
         this.TAUX_TIR = 10 - niveau;
-        this.DEGATS = 25 + (niveau * 3);
+        this.DEGATS = 55 + (niveau * 3);
 
         if (TAUX_TIR < 1)
             TAUX_TIR = 1;
@@ -27,5 +30,10 @@ public class OppenheimerCoil extends Tour {
         }
         if (tempsRecharge > 0)
             tempsRecharge--;
+    }
+    @Override
+    public IntegerProperty getVieMax(){
+        this.vieMax.setValue(350);
+        return this.vieMax;
     }
 }

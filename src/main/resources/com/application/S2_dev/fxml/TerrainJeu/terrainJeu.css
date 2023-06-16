@@ -90,15 +90,54 @@
 
 .labelBombe{
     -fx-graphic: url('bombe.png');
+    -fx-font-size: 10pt;
+        -fx-font-family: "UniversFont";
+        -fx-text-fill: white;
+        -fx-background-color: #684869; /* Couleur de fond */
+        -fx-alignment: top-center;
+        -fx-border-color: white;
+        -fx-border-width: 2px;
+        -fx-border-radius: 10px;
+        -fx-background-radius: 16px; /* Rayon de courbure des coins */
 }
 .labelHydrogene{
     -fx-graphic: url('hydrogene.png');
+     -fx-font-size: 10pt;
+            -fx-font-family: "UniversFont";
+            -fx-text-fill: white;
+            -fx-background-color: #684869; /* Couleur de fond */
+            -fx-alignment: top-center;
+            -fx-border-color: white;
+            -fx-border-width: 2px;
+            -fx-border-radius: 10px;
+            -fx-background-radius: 16px; /* Rayon de courbure des coins */
 }
 .labelMur{
     -fx-graphic: url('mur.png');
+     -fx-font-size: 10pt;
+            -fx-font-family: "UniversFont";
+            -fx-text-fill: white;
+            -fx-background-color: #684869; /* Couleur de fond */
+            -fx-alignment: top-center;
+            -fx-border-color: white;
+            -fx-border-width: 2px;
+            -fx-border-radius: 10px;
+            -fx-background-radius: 16px; /* Rayon de courbure des coins */
 }
 .labelMaintenance{
     -fx-graphic: url('maintenance.png');
+     -fx-font-size: 10pt;
+            -fx-font-family: "UniversFont";
+            -fx-text-fill: white;
+            -fx-background-color: #684869; /* Couleur de fond */
+            -fx-alignment: top-center;
+            -fx-border-color: white;
+            -fx-border-width: 2px;
+            -fx-border-radius: 10px;
+            -fx-background-radius: 16px; /* Rayon de courbure des coins */
+}
+.labelFond{
+    -fx-graphic: url('fond2.jpg');
 }
 
 

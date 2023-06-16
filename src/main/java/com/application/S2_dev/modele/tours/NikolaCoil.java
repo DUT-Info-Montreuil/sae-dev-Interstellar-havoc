@@ -2,6 +2,8 @@ package com.application.S2_dev.modele.tours;
 
 import com.application.S2_dev.modele.data.TowerType;
 import com.application.S2_dev.modele.ennemis.Ennemi;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class NikolaCoil extends Tour {
 
@@ -12,6 +14,7 @@ public class NikolaCoil extends Tour {
     public NikolaCoil(int x, int y, int niveau) {
 
         super("NikolaCoil", x, y, TowerType.Nikola, niveau, 100 * niveau, 50 + (niveau * 5));
+        this.vie = new SimpleIntegerProperty(150);
 
         this.TAUX_TIR = 2 - niveau;
         this.DEGATS = 10 + (niveau * 3);
@@ -29,5 +32,10 @@ public class NikolaCoil extends Tour {
         }
         if (tempsRecharge > 0)
             tempsRecharge--;
+    }
+    @Override
+    public IntegerProperty getVieMax(){
+        this.vieMax.setValue(150);
+        return this.vieMax;
     }
 }

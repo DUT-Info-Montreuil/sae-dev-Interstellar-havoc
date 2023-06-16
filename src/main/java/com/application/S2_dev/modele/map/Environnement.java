@@ -54,7 +54,7 @@ public class Environnement {
             }
 
             for (int compteur = 0; compteur < ennemisAAjouter; compteur++) {
-                int spawnRate = random.nextInt(15) + 1;
+                int spawnRate = random.nextInt(150) + 1;
                 switch (spawnRate) {
                     case 1:
                         Ennemi en = new Behemoth(5,21, terrain);
@@ -87,11 +87,12 @@ public class Environnement {
             } else {
                 for (Tour t : tours) {
                     ennemi.attaquerTour(t);
+                    System.out.println("pv de tour "+ t.getVie());
                 }
                 for (Objet o : objets) {
                     if (o instanceof Mur || o instanceof Block) {
                         ennemi.attaqueObjet(o);
-                        System.out.println("pv " + o.getPv());
+                      //  System.out.println("pv " + o.getPv());
                     }
                 }
             }

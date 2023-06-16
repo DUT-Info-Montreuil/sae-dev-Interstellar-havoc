@@ -37,6 +37,9 @@ public class ControlleurInventaire implements Initializable {
 
     @FXML
     private Label labelTourOppenheimer;
+
+    @FXML
+    private Label labelHydrogene;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -49,8 +52,9 @@ public class ControlleurInventaire implements Initializable {
                     imageViewMaintenance.setFitWidth(200);
                     imageViewMaintenance.setFitHeight(200);
                     labelGrandeImage.setGraphic(imageViewMaintenance);
+                    labelGrandeImage.setText("");
                     labelDescription.setText("Les maintenances permettent de réparer les tours sur la Map " +
-                            "Il est appliqué à toutes les Tours.\n.");
+                            "Il est appliqué à toutes les Tours.");
                 }
         );
 
@@ -61,7 +65,9 @@ public class ControlleurInventaire implements Initializable {
                     ImageView imageViewMur = new ImageView(imageMur);
                     imageViewMur.setFitWidth(200);
                     imageViewMur.setFitHeight(200);
-                    labelGrandeImage.setGraphic(imageViewMur);labelDescription.setText("Les Murs sont des dispositifs spéciaux que les joueurs peuvent " +
+                    labelGrandeImage.setGraphic(imageViewMur);
+                    labelGrandeImage.setText("");
+                    labelDescription.setText("Les Murs sont des dispositifs spéciaux que les joueurs peuvent " +
                             "placer sur le terrain de jeu.\nElles permettent de bloquer la progression des ennemies " +
                             "\n Lorsque les ennemis s'approchent du Mur, ils le détruiront.");
                 }
@@ -75,10 +81,25 @@ public class ControlleurInventaire implements Initializable {
                     imageViewBombe.setFitWidth(200);
                     imageViewBombe.setFitHeight(200);
                     labelGrandeImage.setGraphic(imageViewBombe);
+                    labelGrandeImage.setText("");
                     labelDescription.setText("Les bombes sont des dispositifs spéciaux que les joueurs peuvent " +
-                            "placer sur le terrain de jeu.\nElles sont généralement équipées de minuteries précises et " +
-                            "d'un pouvoir dévastateur.\nLorsque les ennemis s'approchent de la bombe, elle explose violemment," +
+                            "placer sur le terrain de jeu.\n Lorsque les ennemis s'approchent de la bombe, elle explose violemment," +
                             " infligeant des dégâts considérables à tout ce qui se trouve à proximité.\n");
+                }
+        );
+        labelHydrogene.setOnMouseClicked(
+                e -> {
+                    URL urlImageHydrogene = Main.class.getResource("image/Inventaire/hydrogene.png");
+                    Image imageHydrogene = new Image(String.valueOf(urlImageHydrogene));
+                    ImageView imageViewHydrogene = new ImageView(imageHydrogene);
+                    imageViewHydrogene.setFitWidth(200);
+                    imageViewHydrogene.setFitHeight(200);
+                    labelGrandeImage.setGraphic(imageViewHydrogene);
+                    labelGrandeImage.setText("");
+                    labelDescription.setText("L'hydrogenes est un dispositif spécial que le joueurs peut " +
+                            "placer sur le terrain de jeu.\nElle represente un autre type de bombe plus puissante que l'original. Elle a " +
+                            "un pouvoir dévastateur et detruit tout les objets du terrain.\nLorsque vous la placer, elle explose violemment," +
+                            " infligeant des dégâts considérables à tout ce qui se trouve sur le terrain.\n");
                 }
         );
 
@@ -90,9 +111,12 @@ public class ControlleurInventaire implements Initializable {
                     imageViewTour1.setFitWidth(200);
                     imageViewTour1.setFitHeight(200);
                     labelGrandeImage.setGraphic(imageViewTour1);
+                    labelGrandeImage.setText("");
                     labelDescription.setText("La bobine Edison est la première génération de bobine développés par IHI" +
-                            "placer sur le terrain de jeu.\nElles ont généralement une faible portée ainsi que des dégats modérés" +
-                            "Elle est cependant très peu couteuse.\n");
+                            "placer sur le terrain de jeu.\nElles ont généralement une faible portée ainsi que des dégats modérés. " +
+                            "Elle est cependant très peu couteuse.\n" +
+                            "Lorsque vous cliquez sur la tour, il est possible de la changer ou de l'upgrade. La tour peut évoluer jusqu'a trois niveau, \n" +
+                            "cependant il faudra payer la différence");
                 }
         );
 
@@ -104,9 +128,12 @@ public class ControlleurInventaire implements Initializable {
                     imageViewTour2.setFitWidth(200);
                     imageViewTour2.setFitHeight(200);
                     labelGrandeImage.setGraphic(imageViewTour2);
+                    labelGrandeImage.setText("");
                     labelDescription.setText("La bobine Nikola est la deuxième génération de bobine développés par IHI" +
-                            "placé sur le terrain de jeu.\nElles ont généralement une Moyenne portée mais  des dégats considérable" +
-                            "Elle est cependant un peu plus couteuse que sa prédécesseuse.\n");
+                            "placé sur le terrain de jeu.\nElles ont généralement une Moyenne portée mais  des dégats considérable. " +
+                            "Elle est cependant un peu plus couteuse que sa prédécesseuse.\n"+
+                            "Lorsque vous cliquez sur la tour, il est possible de la changer ou de l'upgrade. La tour peut évoluer jusqu'a trois niveau, \n" +
+                            "cependant il faudra payer la différence");
                 }
         );
 
@@ -118,9 +145,12 @@ public class ControlleurInventaire implements Initializable {
                     imageViewTour3.setFitWidth(200);
                     imageViewTour3.setFitHeight(200);
                     labelGrandeImage.setGraphic(imageViewTour3);
+                    labelGrandeImage.setText("");
                     labelDescription.setText("La bobine Oppenheimer est la troisième et dernière génération de bobine développés par IHI" +
-                            "placé sur le terrain de jeu.\nElles ont une très grande portée ainsi que des dégâts immenses" +
-                            "Elle est cependant la plus couteuse des bobines D'Interstellar Havoc Industries.\n");
+                            "placé sur le terrain de jeu.\nElles ont une très grande portée ainsi que des dégâts immenses. " +
+                            "Elle est cependant la plus couteuse des bobines D'Interstellar Havoc Industries.\n"+
+                            "Lorsque vous cliquez sur la tour, il est possible de la changer ou de l'upgrade. La tour peut évoluer jusqu'a trois niveau, \n" +
+                            "cependant il faudra payer la différence");
                 }
         );
     }

@@ -66,8 +66,6 @@ TilePane tilePane;
     Environnement env;
 
     @FXML
-    private Label idSelectedTower;
-    @FXML
     private Label labelBombe;
     @FXML
     private Label LabelHydrogene;
@@ -116,7 +114,7 @@ TilePane tilePane;
 
         gameLoop.setCycleCount(Timeline.INDEFINITE);
         KeyFrame kf = new KeyFrame(
-                Duration.seconds(0.5),
+                Duration.seconds(0.3),
                 ev -> {
                     env.unTour();
 
@@ -163,6 +161,25 @@ TilePane tilePane;
             stage.setTitle("Tower Defence");
             stage.setScene(new Scene(root, 1250, 800));
             stage.show();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    void ButtonConsigne(ActionEvent event) {
+        Parent root;
+        try {
+            this.gameLoop.pause();
+            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Consigne/Consigne.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Consigne du jeu");
+            stage.setScene(new Scene(root, 1250, 800));
+            stage.show();
+            stage.setOnHidden(
+                    e ->
+                            this.gameLoop.play()
+            );
         }
         catch (IOException e) {
             e.printStackTrace();

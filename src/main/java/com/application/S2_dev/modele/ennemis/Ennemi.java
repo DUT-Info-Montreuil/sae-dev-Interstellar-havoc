@@ -20,10 +20,9 @@ public abstract class Ennemi {
     private int i = 0; // Index de la cellule dans le chemin le plus court
     private String id; // Identifiant de l'ennemi
     public static int compteur = 0; // Compteur d'ennemis pour générer l'identifiant unique
-    private int vie; // Points de vie de l'ennemi
+    public int vie; // Points de vie de l'ennemi
     protected int degats;
     protected int portee;
-    public BooleanProperty aProximiteTour ;
     private Boolean enCoursAttaque;
     public Ennemi(double valX, double valY, Terrain terr) {
         x = new SimpleDoubleProperty(valX);
@@ -31,8 +30,6 @@ public abstract class Ennemi {
         this.terrain = terr;
         this.id = "E" + compteur;
         compteur++;
-        this.vie = 100;
-        aProximiteTour = new SimpleBooleanProperty(false);
     }
 
     public String getId() {
@@ -64,9 +61,6 @@ public abstract class Ennemi {
     }
     public abstract void attaquerTour(Tour tour);
     public abstract boolean estDansPortee(Tour tour);
-    public BooleanProperty aProximiteTour(){
-        return aProximiteTour;
-    }
     private boolean objetProximite(Objet objet) {
         double distance = calculaterDistance(objet.getX(), objet.getY());
         return distance <= 10;

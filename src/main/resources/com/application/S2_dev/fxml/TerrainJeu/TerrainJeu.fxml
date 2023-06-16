@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="800.0" prefWidth="1200.0" styleClass="my-anchor-pane" stylesheets="@terrainJeu.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.S2_dev.controlleur.ControlleurTerrainJeu">
    <center>
@@ -17,7 +18,7 @@
       </Pane>
    </center>
    <top>
-      <AnchorPane prefHeight="108.0" prefWidth="600.0" styleClass="my-anchor-pane" stylesheets="@terrainJeu.css" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="108.0" prefWidth="600.0" styleClass="labelFond" stylesheets="@terrainJeu.css" BorderPane.alignment="CENTER">
          <children>
             <Label layoutX="14.0" layoutY="13.0" prefHeight="72.0" prefWidth="127.0" styleClass="labelHautScavenger" stylesheets="@terrainJeu.css" text="Scavenger" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="1089.0" AnchorPane.topAnchor="13.0" />
             <Label fx:id="labelScavenger" layoutX="73.0" layoutY="19.0" prefHeight="70.0" prefWidth="8.0" styleClass="labelNombre" stylesheets="@terrainJeu.css" text="0" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="73.0" AnchorPane.rightAnchor="1149.0" AnchorPane.topAnchor="19.0" />
@@ -36,30 +37,43 @@
       </AnchorPane>
    </top>
    <right>
-      <AnchorPane prefHeight="579.0" prefWidth="217.0" styleClass="my-anchor-pane" stylesheets="@terrainJeu.css" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="579.0" prefWidth="217.0" styleClass="labelFond" stylesheets="@terrainJeu.css" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="labelBombe" layoutX="76.0" layoutY="285.0" prefHeight="61.0" prefWidth="66.0" styleClass="labelBombe" AnchorPane.bottomAnchor="242.0" AnchorPane.leftAnchor="76.0" AnchorPane.rightAnchor="76.0" AnchorPane.topAnchor="285.0" />
-            <Label fx:id="labelMur" layoutX="74.0" layoutY="377.0" prefHeight="77.0" prefWidth="70.0" styleClass="labelMur" AnchorPane.bottomAnchor="134.0" AnchorPane.leftAnchor="74.0" AnchorPane.rightAnchor="74.0" AnchorPane.topAnchor="377.0" />
-            <Label fx:id="labelMaintenace" layoutX="76.0" layoutY="494.0" prefHeight="60.0" prefWidth="66.0" styleClass="labelMaintenance" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="76.0" AnchorPane.rightAnchor="76.0" AnchorPane.topAnchor="494.0" />
-            <Label fx:id="LabelHydrogene" layoutX="69.0" layoutY="152.0" prefHeight="70.0" prefWidth="79.0" styleClass="labelHydrogene" AnchorPane.bottomAnchor="366.0" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="152.0" />
+            <Label fx:id="labelBombe" layoutX="69.0" layoutY="220.0" prefHeight="70.0" prefWidth="70.0" styleClass="labelBombe" AnchorPane.bottomAnchor="303.0" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="79.0" AnchorPane.topAnchor="220.0" />
+            <Label fx:id="labelMur" layoutX="71.0" layoutY="303.0" prefHeight="73.0" prefWidth="72.0" styleClass="labelMur" AnchorPane.bottomAnchor="217.0" AnchorPane.leftAnchor="71.0" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="303.0" />
+            <Label fx:id="labelMaintenace" layoutX="74.0" layoutY="388.0" prefHeight="65.0" prefWidth="71.0" styleClass="labelMaintenance" AnchorPane.bottomAnchor="137.0" AnchorPane.leftAnchor="74.0" AnchorPane.rightAnchor="73.0" AnchorPane.topAnchor="388.0" />
+            <Label fx:id="LabelHydrogene" layoutX="69.0" layoutY="141.0" prefHeight="68.0" prefWidth="71.0" styleClass="labelHydrogene" AnchorPane.bottomAnchor="384.0" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="78.0" AnchorPane.topAnchor="141.0" />
+            <Label layoutX="28.0" layoutY="69.0" prefHeight="46.0" prefWidth="161.0" styleClass="bouton" text="Choisissez votre ralentisseur:" />
+            <Label layoutX="22.0" layoutY="480.0" prefHeight="34.0" prefWidth="174.0" text="Aidez-vous de l'inventaire !" textFill="#fcf9f9">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </right>
    <bottom>
-      <AnchorPane prefHeight="76.0" prefWidth="600.0" styleClass="my-anchor-pane" stylesheets="@terrainJeu.css" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="76.0" prefWidth="600.0" styleClass="labelFond" stylesheets="@terrainJeu.css" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="idBobineEdison" layoutX="154.0" layoutY="-1.0" prefHeight="80.0" prefWidth="64.0" styleClass="labelTourEdison" stylesheets="@terrainJeu.css" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="154.0" AnchorPane.rightAnchor="1020.0" AnchorPane.topAnchor="-1.0" />
-            <Label fx:id="idBobineOppenheimer" layoutX="282.0" layoutY="-3.0" prefHeight="86.0" prefWidth="65.0" styleClass="labelTourOppenheimer" stylesheets="@terrainJeu.css" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="282.0" AnchorPane.rightAnchor="892.0" AnchorPane.topAnchor="-3.0" />
-            <Label fx:id="idBobineNikola" layoutX="30.0" layoutY="2.0" prefHeight="75.0" prefWidth="77.0" stylesheets="@terrainJeu.css" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="1123.0" AnchorPane.topAnchor="2.0">
+            <Label fx:id="idBobineEdison" layoutX="496.0" prefHeight="80.0" prefWidth="64.0" styleClass="labelTourEdison" stylesheets="@terrainJeu.css" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="496.0" AnchorPane.rightAnchor="678.0" AnchorPane.topAnchor="0.0" />
+            <Label fx:id="idBobineOppenheimer" layoutX="611.0" layoutY="-3.0" prefHeight="86.0" prefWidth="65.0" styleClass="labelTourOppenheimer" stylesheets="@terrainJeu.css" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="611.0" AnchorPane.rightAnchor="563.0" AnchorPane.topAnchor="-3.0" />
+            <Label fx:id="idBobineNikola" layoutX="400.0" layoutY="5.0" prefHeight="75.0" prefWidth="77.0" stylesheets="@terrainJeu.css" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="400.0" AnchorPane.rightAnchor="753.0" AnchorPane.topAnchor="5.0">
                <styleClass>
                   <String fx:value="labelTourNikola" />
                   <String fx:value="labelNombre" />
-               </styleClass></Label>
-            <Label layoutX="148.0" layoutY="74.0" styleClass="labelNombre" text="Bobine Edison" />
-            <Label layoutX="258.0" layoutY="74.0" styleClass="labelNombre" text="Bobine Oppenheimer" />
-            <Label layoutX="31.0" layoutY="74.0" styleClass="labelNombre" text="Bobine Nikola" />
+               </styleClass>
+            </Label>
+            <Label layoutX="496.0" layoutY="74.0" styleClass="labelNombre" text="Bobine Edison" />
+            <Label layoutX="595.0" layoutY="74.0" styleClass="labelNombre" text="Bobine Oppenheimer" />
+            <Label layoutX="400.0" layoutY="73.0" styleClass="labelNombre" text="Bobine Nikola" />
             <Button layoutX="1067.0" layoutY="40.0" mnemonicParsing="false" onAction="#ButtonInventaire" prefHeight="31.0" prefWidth="98.0" styleClass="bouton" stylesheets="@terrainJeu.css" text="Inventaire" />
-            <Label fx:id="idSelectedTower" layoutX="532.0" layoutY="56.0" text="No Tower Selected" />
+            <Label layoutX="14.0" layoutY="19.0" prefHeight="46.0" prefWidth="299.0" styleClass="bouton" text="Choisissez votre defence puis placer la sur une etoiles : " />
+            <Button layoutX="950.0" layoutY="40.0" mnemonicParsing="false" onAction="#ButtonConsigne" prefHeight="31.0" prefWidth="98.0" styleClass="bouton" stylesheets="@terrainJeu.css" text="Consigne" />
+            <Label layoutX="20.0" layoutY="72.0" prefHeight="19.0" prefWidth="212.0" text="Aidez-vous de l'inventaire !" textFill="#fcf9f9">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </bottom>

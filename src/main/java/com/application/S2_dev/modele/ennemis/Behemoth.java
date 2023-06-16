@@ -7,15 +7,18 @@ import com.application.S2_dev.modele.tours.Tour;
 public class Behemoth extends Ennemi {
     public Behemoth(int x, int y, Terrain terrain){
         super(x, y, terrain);
+        this.degats= 5; // Portée de la tour
+        this.portee=20; // Dommages infligés aux tours
+        this.vie = 100;
     }
 
     @Override
     public void attaquerTour(Tour tour) {
-        if (estDansPortee(tour)) {
+       // if (estDansPortee(tour)) {
             // Infliger des dégâts à la tour
             tour.infligerDegats(degats);
-            aProximiteTour.setValue(true);
-        }
+
+        //}
     }
     @Override
     public boolean estDansPortee(Tour tour) {

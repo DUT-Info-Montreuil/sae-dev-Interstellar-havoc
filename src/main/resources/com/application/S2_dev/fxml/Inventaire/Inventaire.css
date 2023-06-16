@@ -4,68 +4,81 @@
 
 .labelBombe{
     -fx-graphic: url('bombe.png');
-    -fx-border-color: white;
+    -fx-border-color: black;
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
     -fx-background-radius: 16px; /* Rayon de courbure des coins */
 }
 .labelMur{
     -fx-graphic: url('mur.png');
-    -fx-border-color: white;
+    -fx-border-color: black;
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
     -fx-background-radius: 16px; /* Rayon de courbure des coins */
 }
 .labelMaintenance{
     -fx-graphic: url('maintenance.png');
-    -fx-border-color: white;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 16px; /* Rayon de courbure des coins */
+}
+.labelHydrogene{
+    -fx-graphic: url('hydrogene.png');
+    -fx-border-color: black;
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
     -fx-background-radius: 16px; /* Rayon de courbure des coins */
 }
 .labelTourNikola{
     -fx-graphic: url('Nikola.png');
-    -fx-border-color: white;
+    -fx-border-color: black;
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
     -fx-background-radius: 16px; /* Rayon de courbure des coins */
 }
 .labelTourEdison{
     -fx-graphic: url('Edison.png');
-    -fx-border-color: white;
+    -fx-border-color: black;
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
     -fx-background-radius: 16px; /* Rayon de courbure des coins */
 }
 .labelTourppenheimer{
     -fx-graphic: url('Oppenheimer.png');
-    -fx-border-color: white;
+    -fx-border-color: black;
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
     -fx-background-radius: 16px; /* Rayon de courbure des coins */
 }
 .labelContour{
-    -fx-border-color: white;
+    -fx-border-color: black;
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
     -fx-background-radius: 16px; /* Rayon de courbure des coins */
-    -fx-text-fill: white;
+    -fx-text-fill: black;
     -fx-font-style: italic;
+    -fx-font-weight: bold;
     -fx-font-family: "UniversFont";
     -fx-alignment: center;
     -fx-font-size: 10pt;
 }
 .labelTitre{
-    -fx-border-color: white;
+    -fx-border-color: black;
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
     -fx-background-radius: 16px; /* Rayon de courbure des coins */
-    -fx-text-fill: white;
+    -fx-text-fill: black;
     -fx-font-style: italic;
+    -fx-font-weight: bold;
     -fx-font-family: "UniversFont";
     -fx-alignment: center;
     -fx-font-size: 25pt;
 }
+.labelFond{
+    -fx-graphic: url('fond2.jpg');
+}
+
 
 
 

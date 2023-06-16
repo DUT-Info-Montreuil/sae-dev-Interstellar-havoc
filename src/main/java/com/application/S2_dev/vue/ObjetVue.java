@@ -148,7 +148,6 @@ public class ObjetVue implements ListChangeListener<Objet> {
 
         LabelHydrogene.setOnMouseClicked(event -> {
             objetSelectionne = "Hydrogene";
-            System.out.println("hydrooo");
         });
 
         labelMur.setOnMouseClicked( h -> {

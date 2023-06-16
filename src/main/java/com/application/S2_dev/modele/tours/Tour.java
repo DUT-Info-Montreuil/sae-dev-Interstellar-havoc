@@ -4,7 +4,9 @@ import com.application.S2_dev.modele.data.TowerType;
 import com.application.S2_dev.modele.ennemis.Ennemi;
 import java.util.UUID;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.ImageView;
 
 /**
@@ -18,7 +20,8 @@ public abstract class Tour {
     private DoubleProperty x;
     private DoubleProperty y;
     private TowerType type;
-    private int vie;
+    public IntegerProperty vie;
+    public IntegerProperty vieMax;
     public ImageView vue = null;
     private int niveau;
     private int prix;
@@ -41,13 +44,13 @@ public abstract class Tour {
         this.x = new SimpleDoubleProperty(x);
         this.y = new SimpleDoubleProperty(y);
         this.type = type;
-        this.vie = 100;
         this.niveau = niveau;
         this.prix = prix;
         this.limites = new int[4];
         this.xCarte = (int)(x/16);
         this.yCarte = (int)(y/16);
         this.portee = portee;
+        this.vieMax = new SimpleIntegerProperty();
     }
 
     /**
@@ -55,13 +58,15 @@ public abstract class Tour {
      * @param ennemi Objet Ennemi
      */
     public abstract void attaquerTour(Ennemi ennemi);
+    public abstract IntegerProperty getVieMax();
 
     /**
      * Inflige des dégâts à la tour
      * @param valeur Valeur des dégâts
      */
     public void infligerDegats(int valeur) {
-        vie -= valeur;
+        System.out.println("infliger degat ");
+        vie.setValue(vie.getValue()-valeur);
     }
 
     /**
@@ -69,7 +74,7 @@ public abstract class Tour {
      * @return true si oui, sinon false
      */
     public boolean estDetruite() {
-        return vie <= 0;
+        return vie.getValue() <= 0;
     }
 
     public boolean estDansLimites(int x, int y) {
@@ -118,7 +123,7 @@ public abstract class Tour {
     }
 
     public int getPrix() {
-        return prix - (100 - vie);
+        return prix - (100 - vie.getValue());
     }
 
     public void setLimites(int x, int y, int largeur, int hauteur) {
@@ -145,8 +150,17 @@ public abstract class Tour {
     }
 
     public void meur(){
-        this.vie = 0;
+        this.vie.setValue(0);
     }
+
+    public int getVie() {
+        return vie.get();
+    }
+
+    public IntegerProperty vieProperty() {
+        return vie;
+    }
+
     public double getY() {
         return y.get();
     }

@@ -18,9 +18,9 @@ public class TerrainVue {
     Terrain terrain ;
     URL urlImageMur = Main.class.getResource("image/map/Mur.png");
     Image imageMur = new Image(String.valueOf(urlImageMur));
-    URL urlImageTerrain = Main.class.getResource("image/map/terrain.png");
+    URL urlImageTerrain = Main.class.getResource("image/map/terrain.jpg");
     Image imageTerrain = new Image(String.valueOf(urlImageTerrain));
-    URL urlImageChemin = Main.class.getResource("image/map/chemin.png");
+    URL urlImageChemin = Main.class.getResource("image/map/chemin.jpg");
     Image imageChemin = new Image(String.valueOf(urlImageChemin));
 
     URL urlBaseFinale = Main.class.getResource("image/map/base.png");

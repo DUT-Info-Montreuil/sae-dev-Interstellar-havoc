@@ -54,22 +54,6 @@ public class ControlleurMenu implements Initializable  {
             e.printStackTrace();
         }
     }
-    @FXML
-    void ButtonNiveau(ActionEvent event) {
-        Parent root;
-        try {
-            Stage stage1 = (Stage) lab.getScene().getWindow();
-            stage1.close();
-            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Niveau/Option.fxml"));
-            Stage stage = new Stage();
-            stage.setTitle("Niveau de jeu");
-            stage.setScene(new Scene(root, 1250, 800));
-            stage.show();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     @FXML
     void actionQuit(ActionEvent event) {

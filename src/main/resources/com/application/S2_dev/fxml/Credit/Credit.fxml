@@ -4,11 +4,14 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="800.0" prefWidth="1250.0" styleClass="my-anchor-pane" stylesheets="@Credit.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.S2_dev.controlleur.ControlleurCredit">
    <children>
-      <Label layoutX="8.0" layoutY="7.0" prefHeight="80.0" prefWidth="1232.0" styleClass="titre" text="CREDIT" AnchorPane.bottomAnchor="713.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="7.0" />
-      <Label fx:id="labelCredit" layoutX="8.0" layoutY="93.0" prefHeight="630.0" prefWidth="1232.0" styleClass="labelCosigne" AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="93.0" />
-      <Button layoutX="1117.0" layoutY="751.0" mnemonicParsing="false" onAction="#buttonRetour" prefHeight="35.0" prefWidth="119.0" styleClass="bouton" text="RETOUR" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="1117.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="751.0" />
+      <Label prefHeight="800.0" prefWidth="1250.0" styleClass="labelFond" stylesheets="@Credit.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Label layoutX="15.0" layoutY="7.0" prefHeight="80.0" prefWidth="1396.0" styleClass="titre" text="CREDIT" AnchorPane.bottomAnchor="713.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="7.0" />
+      <Button layoutX="1091.0" layoutY="751.0" mnemonicParsing="false" onAction="#buttonRetour" prefHeight="35.0" prefWidth="119.0" styleClass="bouton" text="RETOUR AU MENU" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="1091.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="751.0" />
+      <Label layoutX="15.0" layoutY="99.0" prefHeight="633.0" prefWidth="1396.0" styleClass="labelContour" AnchorPane.bottomAnchor="68.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="23.0" AnchorPane.topAnchor="99.0" />
+      <Label fx:id="labelCredit" layoutX="356.0" layoutY="242.0" prefHeight="186.0" prefWidth="519.0" styleClass="labelText" />
+      <Label fx:id="labelCredit1" layoutX="69.0" layoutY="189.0" prefHeight="58.0" prefWidth="332.0" styleClass="labelText" text="Au nom de l'équipe d'Interstellar Havoc," textAlignment="CENTER" />
+      <Label layoutX="637.0" layoutY="656.0" styleClass="labelText" text="Rabab BOULKRIAT, Elsa HADJADJ, Mehdi ISAF et Franço DORVAL" />
    </children>
 </AnchorPane>

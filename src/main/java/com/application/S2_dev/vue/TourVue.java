@@ -4,31 +4,26 @@ import com.application.S2_dev.Main;
 import com.application.S2_dev.Parametre;
 import com.application.S2_dev.modele.data.TerrainType;
 import com.application.S2_dev.modele.data.TowerType;
-import com.application.S2_dev.modele.ennemis.Balliste;
-import com.application.S2_dev.modele.ennemis.Behemoth;
-import com.application.S2_dev.modele.ennemis.Ennemi;
-import com.application.S2_dev.modele.ennemis.Scavenger;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.modele.tours.Tour;
 import com.application.S2_dev.modele.tours.EdisonCoil;
 import com.application.S2_dev.modele.tours.NikolaCoil;
 import com.application.S2_dev.modele.tours.OppenheimerCoil;
-import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
-import javafx.util.Duration;
 
 import javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TourVue implements ListChangeListener<Tour> {
     private Environnement env;
@@ -60,11 +55,13 @@ public class TourVue implements ListChangeListener<Tour> {
             System.out.println("les suppressions Tour: " + c.getRemoved());
         }
         for(int i =0; i<c.getAddedSubList().size();i++){
-           // soustraireArgent(c.getAddedSubList().get(i).getPrix());
+            // soustraireArgent(c.getAddedSubList().get(i).getPrix());
         }
         for (int i = 0; i < c.getRemoved().size(); i++) {
             ImageView sprite = (ImageView) pane.lookup("#" + c.getRemoved().get(i).getId());
             pane.getChildren().remove(sprite);
+            ProgressBar progressBar = (ProgressBar) pane.lookup("#"+c.getRemoved().get(i).getId());
+            pane.getChildren().remove(progressBar);
         }
     }
     public void lancerTourVue() {
@@ -177,6 +174,7 @@ public class TourVue implements ListChangeListener<Tour> {
         // URL de l'image de la tour
         URL urlTour;
 
+
         // Sélectionne l'URL de l'image en fonction du type de tour
         switch (tour.getType()) {
             case Nikola:
@@ -197,13 +195,27 @@ public class TourVue implements ListChangeListener<Tour> {
         Image imageTour = new Image(String.valueOf(urlTour));
         ImageView vueTour = new ImageView(imageTour);
 
+        ProgressBar progressBar = new ProgressBar();
+        progressBar.setProgress(tour.getVie());
+        double largeurSouhaitee = 100; // Définissez la largeur souhaitée en pixels
+        double hauteurSouhaitee = 10; // Définissez la hauteur souhaitée en pixels
+
+        progressBar.setPrefWidth(largeurSouhaitee);
+        progressBar.setPrefHeight(hauteurSouhaitee);
+
         // Lie les propriétés de translation de la tour aux propriétés de translation de la tour
         vueTour.translateXProperty().bind(tour.getXProperty());
         vueTour.translateYProperty().bind(tour.getYProperty());
 
+        // a revoir !!!!!!
+        progressBar.progressProperty().bind(tour.vieProperty());
+        //progressBar.progressProperty().bind(tour.vieProperty().divide(tour.getVieMax()));
+
+
         // Vérifie si l'ImageView est valide
         if (vueTour != null) {
             vueTour.setId(tour.getId());
+            progressBar.setId(tour.getId());
             int largeur = (int) vueTour.getImage().getWidth();
             int hauteur = (int) vueTour.getImage().getHeight();
             int x = (int) (tour.getX() - (largeur / 2));
@@ -212,7 +224,15 @@ public class TourVue implements ListChangeListener<Tour> {
             tour.getYProperty().set(y);
             tour.setLimites(x, y, largeur, hauteur);
             tour.setVue(vueTour);
+
+            // Position du progresseBar au-dessus de la tour
+            double progressBarX = x + (largeur / 2) - (progressBar.getWidth() / 2);
+            double progressBarY = y - progressBar.getHeight();
+            progressBar.setLayoutX(progressBarX);
+            progressBar.setLayoutY(progressBarY);
+
             pane.getChildren().add(vueTour);
+            pane.getChildren().add(progressBar);
 
             // Définit le gestionnaire d'événements sur le clic de l'ImageView de la tour
             vueTour.setOnMouseClicked(h -> {

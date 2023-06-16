@@ -38,7 +38,6 @@ public class ControlleurConsigne implements Initializable {
                 "Anticipez les mouvements des ennemis et ajustez votre stratégie en conséquence. Expérimentez différentes configurations de tours et d'objets spéciaux pour trouver celle qui vous convient le mieux.\n" +
                 "Restez vigilant et réactif ! Vous devrez peut-être ajuster votre défense en temps réel pour faire face à des situations inattendues ou à des ennemis particulièrement résistants.\n" +
                 "\n" +
-                "Le jeu enregistre votre performance en fonction de votre capacité à défendre la base. Visez un score élevé et essayez de vous hisser en tête du classement.\n" +
                 "Préparez-vous à une bataille spatiale épique dans notre Tower Defense à thème de l'univers. Faites preuve de stratégie, de précision et de rapidité pour protéger la base et sauver l'univers !\n" +
                 "\n" +
                 "Bonne chance !");
@@ -55,10 +54,19 @@ public class ControlleurConsigne implements Initializable {
             stage.setTitle("Menu de jeu");
             stage.setScene(new Scene(root, 1250, 800));
             stage.show();
-            //((Node)(event.getSource())).getScene().getWindow().hide();
         }
         catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    @FXML
+    void ButtonRetourJeu(ActionEvent event) {
+        try {
+            Stage stage1 = (Stage) labelConsigne.getScene().getWindow();
+            stage1.close();
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
         }
 
     }
