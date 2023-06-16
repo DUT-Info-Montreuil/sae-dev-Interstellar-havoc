@@ -7,8 +7,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class EdisonCoil extends Tour {
 
-    private int degats; // Dommages infligés aux ennemis
-    private int taux_tir; // Taux de tir de la tour (coups par seconde)
+    private int degats = 20; // Dommages infligés aux ennemis
+    private int taux_tir = 5; // Taux de tir de la tour (coups par seconde)
     private int tempsRecharge = 0;
 
     public EdisonCoil(int x, int y, int niveau) {
@@ -24,7 +24,7 @@ public class EdisonCoil extends Tour {
     }
 
     @Override
-    public void attaquerTour(Ennemi ennemi) {
+    public void attaquerEnnemi(Ennemi ennemi) {
         // Le temps de recharge fait attaquer la tour les ennemis en fonction de son taux de tir
         if (tempsRecharge == 0) {
             // Inflige des dommages à l'ennemi
@@ -33,10 +33,5 @@ public class EdisonCoil extends Tour {
         }
         if (tempsRecharge > 0)
             tempsRecharge--;
-    }
-    @Override
-    public IntegerProperty getVieMax(){
-        this.vieMax.setValue(250);
-        return this.vieMax;
     }
 }

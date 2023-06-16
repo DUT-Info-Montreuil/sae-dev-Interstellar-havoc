@@ -24,7 +24,7 @@ public class NikolaCoil extends Tour {
     }
 
     @Override
-    public void attaquerTour(Ennemi ennemi) {
+    public void attaquerEnnemi(Ennemi ennemi) {
         if (tempsRecharge == 0) {
             // Inflige des dommages à l'ennemi
             ennemi.subirDegats(DEGATS);
@@ -32,10 +32,5 @@ public class NikolaCoil extends Tour {
         }
         if (tempsRecharge > 0)
             tempsRecharge--;
-    }
-    @Override
-    public IntegerProperty getVieMax(){
-        this.vieMax.setValue(150);
-        return this.vieMax;
     }
 }

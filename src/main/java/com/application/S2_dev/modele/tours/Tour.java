@@ -50,22 +50,19 @@ public abstract class Tour {
         this.xCarte = (int)(x/16);
         this.yCarte = (int)(y/16);
         this.portee = portee;
-        this.vieMax = new SimpleIntegerProperty();
     }
 
     /**
      * Doit être implémentée dans la sous-classe
      * @param ennemi Objet Ennemi
      */
-    public abstract void attaquerTour(Ennemi ennemi);
-    public abstract IntegerProperty getVieMax();
+    public abstract void attaquerEnnemi(Ennemi ennemi);
 
     /**
      * Inflige des dégâts à la tour
      * @param valeur Valeur des dégâts
      */
     public void infligerDegats(int valeur) {
-        System.out.println("infliger degat ");
         vie.setValue(vie.getValue()-valeur);
     }
 
@@ -114,9 +111,6 @@ public abstract class Tour {
         this.vue = vue;
     }
 
-    public ImageView getVue() {
-        return vue;
-    }
 
     public int getNiveau() {
         return niveau;
@@ -146,7 +140,7 @@ public abstract class Tour {
     }
 
     public double getX() {
-        return x.get();
+        return this.x.getValue();
     }
 
     public void meur(){
@@ -154,7 +148,7 @@ public abstract class Tour {
     }
 
     public int getVie() {
-        return vie.get();
+        return this.vie.getValue();
     }
 
     public IntegerProperty vieProperty() {
@@ -162,7 +156,7 @@ public abstract class Tour {
     }
 
     public double getY() {
-        return y.get();
+        return this.y.getValue();
     }
 
     public TowerType getType() {

@@ -1,6 +1,7 @@
 package com.application.S2_dev.vue;
 
 import com.application.S2_dev.Main;
+import com.application.S2_dev.modele.Boutique;
 import com.application.S2_dev.modele.bfs.Cellule;
 import com.application.S2_dev.modele.data.TerrainType;
 import com.application.S2_dev.modele.ennemis.Ennemi;
@@ -11,6 +12,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -40,14 +42,12 @@ public class ObjetVue implements ListChangeListener<Objet> {
     private ImageView imageObjet;
     private String objetSelectionne;
     int[] pos;
-    int[] pos1;
-    int money ;
-    private Label prix;
+    Boutique boutique;
     private static Clip clipFond ;
     Queue<Ennemi> fileAttente = new LinkedList<>();
 
 
-    public ObjetVue(Pane pane, Environnement environnement, Label Bombe, Label LabelHydrogene, Label Mur, Label prix, Terrain terrain, TerrainVue terrainVue){
+    public ObjetVue(Pane pane, Environnement environnement, Label Bombe, Label LabelHydrogene, Label Mur, Terrain terrain, TerrainVue terrainVue, Boutique boutique){
         this.environnement = environnement;
         this.panneau_de_jeu = pane;
         this.labelBombe = Bombe;
@@ -55,8 +55,8 @@ public class ObjetVue implements ListChangeListener<Objet> {
         this.labelMur = Mur;
         this.terrain = terrain;
         this.terrainVue =  terrainVue;
-        this.money = Integer.parseInt(prix.getText());
-        this.prix = prix;
+        this.boutique = boutique;
+
 
         urlBombe = Main.class.getResource("image/objet/Bombe.png");
         ImageBombe = new javafx.scene.image.Image(String.valueOf(urlBombe));
@@ -76,7 +76,15 @@ public class ObjetVue implements ListChangeListener<Objet> {
             System.out.println("les suppressions Objet: " + c.getRemoved());
         }
         for(int i =0; i<c.getAddedSubList().size(); i++){
-            //soustraireMoney(c.getAddedSubList().get(i).getPrix());
+            if(c.getAddedSubList().get(i) instanceof Bombe){
+                boutique.setPrix(boutique.getPrix()-((Bombe) c.getAddedSubList().get(i)).getPrix());
+            }
+            else if(c.getAddedSubList().get(i) instanceof Hydrogene){
+                boutique.setPrix(boutique.getPrix()-((Hydrogene) c.getAddedSubList().get(i)).getPrix());
+            }
+            else if(c.getAddedSubList().get(i) instanceof Mur){
+                boutique.setPrix(boutique.getPrix()-((Mur) c.getAddedSubList().get(i)).getPrix());
+            }
         }
         for (int i = 0; i < c.getRemoved().size(); i++) {
             if(c.getRemoved().get(i) instanceof Bombe) {
@@ -101,27 +109,27 @@ public class ObjetVue implements ListChangeListener<Objet> {
                 String s = urlImageVaiL.getPath();
                 PlayMusicFond(s);
             }
-            for (Ennemi ennemi : environnement.getEnnemis()) {
+           /* for (Ennemi ennemi : environnement.getEnnemis()) {
                 fileAttente.add(ennemi); // Ajouter l'ennemi à la file d'attente
             }
-            declencherDeplacementProchainEnnemi();
+            declencherDeplacementProchainEnnemi();*/
             ImageView sprite = (ImageView) panneau_de_jeu.lookup("#" + c.getRemoved().get(i).getId());
             panneau_de_jeu.getChildren().remove(sprite);
         }
     }
-    public void declencherDeplacementProchainEnnemi() {
+   /* public void declencherDeplacementProchainEnnemi() {
         if (!fileAttente.isEmpty()) {
             Ennemi prochainEnnemi = fileAttente.peek(); // Obtenir le prochain ennemi sans le supprimer de la file
             Timeline timeline = new Timeline(
                     new KeyFrame(Duration.seconds(2), event -> {
-                        prochainEnnemi.agir(largeurCase, hauteurCase); // Faire agir le prochain ennemi
+                        prochainEnnemi.agir(); // Faire agir le prochain ennemi
                         fileAttente.poll(); // Supprimer l'ennemi de la file après son action
                         declencherDeplacementProchainEnnemi(); // Appeler récursivement pour le prochain ennemi
                     })
             );
             timeline.play();
         }
-    }
+    }*/
     public void annimationBombe(Objet objet){
         ImageView imageObjet = new ImageView(ImageExplosion);
         imageObjet.setX(objet.getX());
@@ -144,19 +152,28 @@ public class ObjetVue implements ListChangeListener<Objet> {
     public void AjoutObjet(){
         labelBombe.setOnMouseClicked(event -> {
             objetSelectionne = "Bombe";
+            obj();
         });
 
         LabelHydrogene.setOnMouseClicked(event -> {
             objetSelectionne = "Hydrogene";
+            obj();
         });
 
         labelMur.setOnMouseClicked( h -> {
             objetSelectionne = "Mur";
+            obj();
         });
 
         panneau_de_jeu.setOnMouseClicked( h -> {
             pos = terrain.getPosDansCarte((int)h.getX(), (int)h.getY());
-            apparitionObjet(pos[0], pos[1]);
+            if (boutique.getPrix() >= objet.getPrix()) {
+                apparitionObjet(pos[0], pos[1]);
+            }
+            else{
+                boutique.MessageArgent();
+            }
+
         });
       AfficherMur();
 
@@ -164,17 +181,17 @@ public class ObjetVue implements ListChangeListener<Objet> {
 
     void creerObjet(Objet objet) {
 
-        if (objet instanceof Bombe) {
-            imageObjet = new ImageView(ImageBombe);
+            if (objet instanceof Bombe) {
+                imageObjet = new ImageView(ImageBombe);
+            } else if (objet instanceof Hydrogene) {
+                imageObjet = new ImageView(ImageHydrogene);
+            }
+            if (imageObjet != null) {
+                imageObjet.setId(objet.getId());
+                panneau_de_jeu.getChildren().add(imageObjet);
+            }
         }
-        else if (objet instanceof Hydrogene) {
-            imageObjet = new ImageView(ImageHydrogene);
-        }
-        if (imageObjet != null) {
-            imageObjet.setId(objet.getId());
-            panneau_de_jeu.getChildren().add(imageObjet);
-        }
-    }
+
     public void apparitionMur(int ligne, int colonne) {
 
         double x = colonne * 16;
@@ -194,49 +211,50 @@ public class ObjetVue implements ListChangeListener<Objet> {
             }
         }
     }
+    public void obj(){
+        if (objetSelectionne.equals("Bombe")) {
+            objet = new Bombe(environnement, terrain);
+        }
+        else if (objetSelectionne.equals("Hydrogene")) {
+            objet = new Hydrogene(environnement, terrain);
+        }
+        else if (objetSelectionne.equals("Mur")) {
+            objet = new Mur(environnement, terrain);
+        }
+    }
     public void apparitionObjet(int ligne, int colonne) {
         double x = colonne * 16;
         double y = ligne * 16;
-        if(Integer.parseInt(prix.getText()) >0) {
             if (emplacementBombe(ligne, colonne)) {
-                if (objetSelectionne.equals("Bombe")) {
-                    objet = new Bombe(environnement, terrain);
-                    creerObjet(objet);
-                    imageObjet.setX(x);
-                    imageObjet.setY(y);
+                    if (objet instanceof Bombe) {
+                        creerObjet(objet);
+                        imageObjet.setX(x);
+                        imageObjet.setY(y);
 
-                } else if (objetSelectionne.equals("Hydrogene")) {
-                    objet = new Hydrogene(environnement, terrain);
-                    creerObjet(objet);
-                    imageObjet.setX(x);
-                    imageObjet.setY(y);
+                    } else if (objet instanceof Hydrogene) {
+                        creerObjet(objet);
+                        imageObjet.setX(x);
+                        imageObjet.setY(y);
 
-                } else if (objetSelectionne.equals("Mur")) {
-                    objet = new Mur(environnement, terrain);
-                    ((Mur) objet).PlacerMur(ligne, colonne);
-                    terrainVue.setImage(ligne, colonne,2);
+                    } else if (objet instanceof Mur) {
+                        ((Mur) objet).PlacerMur(ligne, colonne);
+                        terrainVue.setImage(ligne, colonne, 2);
 
-                }
-                objet.setX(x);
-                objet.setY(y);
-                environnement.ajoutObjet(objet);
-            } else {
+                    }
+                    objet.setX(x);
+                    objet.setY(y);
+                    environnement.ajoutObjet(objet);
+
+
+            }else {
                 System.out.println("Emplacement impossible");
             }
-        }
-        else if(objet.getPrix()>money){
-            JOptionPane.showMessageDialog(null, "Pas assez d'argent !");
-        }
     }
     public boolean emplacementBombe(int ligne, int colonne) {
         if (terrain.getCase(ligne, colonne) == TerrainType.chemin){
             return true;
         }
         return false;
-    }
-    void soustraireMoney(int val) {
-        money -= val;
-        prix.setText(String.valueOf(money));
     }
     public static void PlayMusicFond(String location){
         AudioInputStream audioInputStream = null;

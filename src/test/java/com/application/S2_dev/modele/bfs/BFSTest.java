@@ -12,8 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BFSTest {
     @Test
-    public void testCheminPlusCourt() {
-        // Créez une instance de la classe Terrain
+    public void testPlusCourtChemin2() {
         int grid[][] = {{1,0,1,1,1,1,1,1},
                         {1,1,1,1,1,1,1,1},
                         {1,1,0,0,0,0,0,1},
@@ -26,7 +25,6 @@ class BFSTest {
         Terrain terrain = new Terrain();
         BFS BFS = new BFS(grid, depart, fin);
 
-        // Obtenez le chemin le plus court à partir de la classe Terrain
         LinkedList<Cellule> cheminPlusCourt = BFS.getPlusCourtChemin();
 
         // Vérifiez si le chemin le plus court est valide
@@ -37,5 +35,62 @@ class BFSTest {
             System.out.println("Cellule : (" + cellule.getI() + ", " + cellule.getJ() + ")");
         }
     }
+    @Test
+    public void testLinkedListPlusCourtChemin() {
+        int[][] grid = {
+                {1, 0, 1, 1, 1, 1, 1, 1},
+                {1, 0, 1, 1, 1, 1, 1, 1},
+                {1, 1, 0, 0, 0, 0, 0, 1},
+                {0, 1, 0, 1, 1, 1, 1, 1},
+                {0, 1, 1, 1, 0, 0, 1, 1}
+        };
+
+        int[] depart = {0, 0};
+        int[] fin = {1, 7};
+        Terrain terrain = new Terrain();
+        BFS BFS = new BFS(grid, depart, fin);
+
+        LinkedList<Cellule> cheminPlusCourt = BFS.getPlusCourtChemin();
+
+        assertEquals(15, cheminPlusCourt.size());
+
+        boolean presentDansLinkedList = false;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                    for (Cellule cellule : cheminPlusCourt) {
+                        if (cellule.getI() == i && cellule.getJ() == j) {
+                            presentDansLinkedList = true;
+                            break;
+                        }
+                    }
+            }
+        }
+        for (Cellule cellule : cheminPlusCourt) {
+            System.out.println("Cellule : (" + cellule.getI() + " " + cellule.getJ() + ")");
+        }
+        assertTrue(presentDansLinkedList);
+    }
+
+    @Test
+    public void testLinkedListPlusCourtChemin2() {
+        int[][] grid = {
+                {1, 0, 1, 1, 1, 1, 1, 1},
+                {1, 0, 1, 1, 1, 1, 1, 1},
+                {1, 1, 0, 0, 0, 0, 0, 1},
+                {0, 1, 0, 1, 1, 1, 1, 1},
+                {0, 1, 1, 1, 0, 0, 1, 1}
+        };
+
+        int[] depart = {0, 0};
+        int[] fin = {1, 7};
+        Terrain terrain = new Terrain();
+        BFS BFS = new BFS(grid, depart, fin);
+
+        LinkedList<Cellule> cheminPlusCourt = BFS.getPlusCourtChemin();
+        assertEquals(15, cheminPlusCourt.size());
+
+
+    }
+
 
 }

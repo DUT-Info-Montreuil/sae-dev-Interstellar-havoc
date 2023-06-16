@@ -2,6 +2,7 @@ package com.application.S2_dev.vue;
 
 import com.application.S2_dev.Main;
 import com.application.S2_dev.Parametre;
+import com.application.S2_dev.modele.Boutique;
 import com.application.S2_dev.modele.ennemis.Behemoth;
 import com.application.S2_dev.modele.ennemis.Ennemi;
 import com.application.S2_dev.modele.ennemis.Scavenger;
@@ -19,20 +20,19 @@ import java.net.URL;
 public class EnnemiVue implements ListChangeListener<Ennemi> {
     private Pane panneau_de_jeu;
     Environnement env;
-    private Label LabelnbVivantScavenger, LabelnbVivantBalliste,  LabelnbVivantBehemoth, Credit;
+    private Label LabelnbVivantScavenger, LabelnbVivantBalliste,  LabelnbVivantBehemoth;
+    private Boutique boutique;
     int nbVivantScavenger = 0, nbVivantBalliste=0, nbVivantBehemoth=0, money;
     private URL urlScavenger,urlScavengerProximite, urlBalliste,urlBallisteProximite, urlBehemoth, urlBehemothProximite;
     private Image ImageScavenger, ImageScavengerProximite, ImageBalliste, ImageBallisteProximite, ImageBehemoth, ImageBehemothProximite;
 
-    public EnnemiVue(Pane pane, Label labelScavenger, Label labelBalliste, Label labelBehemoth, Label Credit, Environnement env) {
+    public EnnemiVue(Pane pane, Label labelScavenger, Label labelBalliste, Label labelBehemoth, Environnement env, Boutique boutique) {
         this.panneau_de_jeu = pane;
         this.LabelnbVivantScavenger =  labelScavenger;
         this.LabelnbVivantBalliste = labelBalliste;
         this.LabelnbVivantBehemoth =  labelBehemoth;
-        this.Credit = Credit;
-        this.money = Integer.parseInt(Credit.getText());
         this.env = env;
-
+        this.boutique = boutique;
 
         urlScavenger = Main.class.getResource("image/ennemis/Scavenger.png");
         ImageScavenger = new javafx.scene.image.Image(String.valueOf(urlScavenger));
@@ -63,14 +63,14 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
             panneau_de_jeu.getChildren().remove(sprite);
             if (c.getRemoved().get(i) instanceof Scavenger) {
                 nbVivantScavenger--;
-                addMoney(100);
+                boutique.setPrix(boutique.getPrix()+100);
             } else if (c.getRemoved().get(i) instanceof Balliste) {
                 nbVivantBalliste--;
-                addMoney(50);
+                boutique.setPrix(boutique.getPrix()+50);
             }
             else if(c.getRemoved().get(i) instanceof Behemoth){
                 nbVivantBehemoth--;
-                addMoney(50);
+                boutique.setPrix(boutique.getPrix()+200);
             }
 
         }
@@ -196,9 +196,5 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
             behemothProximite.setId(e.getId());
             panneau_de_jeu.getChildren().add(behemothProximite);
         }
-    }
-    void addMoney(int value) {
-        money += value;
-        Credit.setText(String.valueOf(money));
     }
 }

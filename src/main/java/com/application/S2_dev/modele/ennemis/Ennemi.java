@@ -24,6 +24,8 @@ public abstract class Ennemi {
     protected int degats;
     protected int portee;
     private Boolean enCoursAttaque;
+    Cellule celluleSuivante;
+    Cellule celluleCourante;
     public Ennemi(double valX, double valY, Terrain terr) {
         x = new SimpleDoubleProperty(valX);
         y = new SimpleDoubleProperty(valY);
@@ -84,9 +86,17 @@ public abstract class Ennemi {
         }
         enCoursAttaque = false;
     }
-    public void agir(double largeurCase, double hauteurCase) {
-        Cellule celluleCourante =null;
-        Cellule celluleSuivante = null;
+
+    public Cellule getCelluleSuivante() {
+        return celluleSuivante;
+    }
+    public Cellule getCelluleCourante() {
+        return celluleCourante;
+    }
+
+    public void agir() {
+        celluleCourante =null;
+        celluleSuivante = null;
         celluleCourante = terrain.getPlusCourtChemin().get(i);
         celluleSuivante = i > 0 ? terrain.getPlusCourtChemin().get(i - 1) : null;
 

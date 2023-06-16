@@ -2,6 +2,7 @@ package com.application.S2_dev.controlleur;
 
 import com.application.S2_dev.Main;
 import com.application.S2_dev.Parametre;
+import com.application.S2_dev.modele.Boutique;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.vue.ObjetVue;
@@ -64,6 +65,7 @@ TilePane tilePane;
     TerrainVue terrainVue;
     Terrain terrain;
     Environnement env;
+    Boutique boutique;
 
     @FXML
     private Label labelBombe;
@@ -80,18 +82,27 @@ TilePane tilePane;
         env = new Environnement(terrain); // Création de l'environnement
         terrainVue = new TerrainVue(tilePane, terrain, env);
         terrainVue.afficherTerrain();
-        labelCredit.setText("500");
-        EnnemiVue ennemiVue = new EnnemiVue(pane, labelScavenger, labelBalliste, labelBehemoth, labelCredit, env);
+        initAnimation();
+        boutique = new Boutique(gameLoop);
+
+        EnnemiVue ennemiVue = new EnnemiVue(pane, labelScavenger, labelBalliste, labelBehemoth, env, boutique);
         env.getEnnemis().addListener(ennemiVue);
 
-        ObjetVue objetVue = new ObjetVue(pane,env, labelBombe, LabelHydrogene, labelMur, labelCredit, terrain, terrainVue);
+        ObjetVue objetVue = new ObjetVue(pane,env, labelBombe, LabelHydrogene, labelMur, terrain, terrainVue, boutique);
         env.getObjets().addListener(objetVue);
         objetVue.AjoutObjet();
-        initAnimation();
-        TourVue tourVue = new TourVue(env,tilePane,terrain,pane,idBobineEdison,idBobineOppenheimer,idBobineNikola, labelCredit, gameLoop);
+
+        TourVue tourVue = new TourVue(env,tilePane,terrain,pane,idBobineEdison,idBobineOppenheimer,idBobineNikola, gameLoop, boutique);
         env.getTour().addListener(tourVue);
         tourVue.lancerTourVue();
-        tourVue.TestClickTourel();
+        //tourVue.TestClickTourel();
+
+
+        labelCredit.setText(String.valueOf(boutique.getPrix()));
+        this.boutique.prixProperty().addListener((observableValue, oldValue, nouvelleValeur) -> {
+            this.labelCredit.setText(String.valueOf(nouvelleValeur));
+                }
+        );
 
         labelLife.setText("5");
         this.env.getJoueursAtteintsProperty().addListener((observableValue, oldValue, nouvelleValeur) -> {

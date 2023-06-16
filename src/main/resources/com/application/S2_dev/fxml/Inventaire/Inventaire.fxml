@@ -8,7 +8,7 @@
       <Label prefHeight="600.0" prefWidth="1000.0" styleClass="labelFond" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Label layoutX="12.0" layoutY="14.0" prefHeight="62.0" prefWidth="294.0" styleClass="labelTitre" text="INVENTAIRE" />
       <Label layoutX="9.0" layoutY="369.0" prefHeight="55.0" prefWidth="982.0" styleClass="labelTitre" text="DESCRIPTION" />
-      <Label fx:id="labelGrandeImage" layoutX="321.0" layoutY="15.0" prefHeight="345.0" prefWidth="668.0" styleClass="labelContour" text="Sélectionnez un objet !" />
+      <Label fx:id="labelGrandeImage" layoutX="321.0" layoutY="15.0" prefHeight="345.0" prefWidth="668.0" styleClass="labelContour2" text="Sélectionnez un objet !" />
       <Label fx:id="labelDescription" layoutX="9.0" layoutY="432.0" prefHeight="159.0" prefWidth="982.0" styleClass="labelContour" text="Description de votre objet" />
       <Label fx:id="labelMaintenace" layoutX="106.0" layoutY="91.0" prefHeight="86.0" prefWidth="70.0" styleClass="labelMaintenance" />
       <Label fx:id="labelBombe" layoutX="14.0" layoutY="91.0" prefHeight="86.0" prefWidth="70.0" styleClass="labelBombe" />

@@ -10,7 +10,7 @@ public class Hydrogene extends Objet {
     public Hydrogene(Environnement environnement, Terrain terrain) {
 
         super(environnement, terrain);
-        this.prix = 200;
+        this.prix = 300;
     }
 
     @Override

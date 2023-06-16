@@ -14,9 +14,6 @@ public class Mur extends Objet{
     public void PlacerMur(int i , int j ){
         this.terrain.placementObjetMur(i,j);
     }
-    public void PlacerMur2(int i , int j ){
-        this.terrain.placementMur(i,j);
-    }
     @Override
     public void agit() {
     }
