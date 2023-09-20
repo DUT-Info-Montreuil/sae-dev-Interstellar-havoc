@@ -10,23 +10,23 @@ import java.net.URL;
 
 public class TerrainVue {
     private TilePane tilePane;
-    Terrain terrain ;
-    URL urlImageMur = Main.class.getResource("image/map/Mur.png");
-    Image imageMur = new Image(String.valueOf(urlImageMur));
-    URL urlImageTerrain = Main.class.getResource("image/map/terrain.jpg");
-    Image imageTerrain = new Image(String.valueOf(urlImageTerrain));
-    URL urlImageChemin = Main.class.getResource("image/map/chemin.jpg");
-    Image imageChemin = new Image(String.valueOf(urlImageChemin));
+    private Terrain terrain ;
+    private URL urlImageMur = Main.class.getResource("image/map/Mur.png");
+    private Image imageMur = new Image(String.valueOf(urlImageMur));
+    private URL urlImageTerrain = Main.class.getResource("image/map/terrain.jpg");
+    private Image imageTerrain = new Image(String.valueOf(urlImageTerrain));
+    private URL urlImageChemin = Main.class.getResource("image/map/chemin.jpg");
+    private Image imageChemin = new Image(String.valueOf(urlImageChemin));
 
-    URL urlBaseFinale = Main.class.getResource("image/map/base.png");
-    Image baseFinale = new Image(String.valueOf(urlBaseFinale));
+    private URL urlBaseFinale = Main.class.getResource("image/map/base.png");
+    private Image baseFinale = new Image(String.valueOf(urlBaseFinale));
 
-    URL urlBlockage = Main.class.getResource("image/map/blockage.jpg");
-    Image block = new Image(String.valueOf(urlBlockage));
+    private URL urlBlockage = Main.class.getResource("image/map/blockage.jpg");
+    private Image block = new Image(String.valueOf(urlBlockage));
 
-    URL urlTowerBase = Main.class.getResource("image/map/tour.png");
-    Image base = new Image(String.valueOf(urlTowerBase));
-    Environnement env;
+    private URL urlTowerBase = Main.class.getResource("image/map/tour.png");
+    private Image base = new Image(String.valueOf(urlTowerBase));
+    private Environnement env;
 
     public TerrainVue(TilePane tilePane, Terrain terr, Environnement env) {
         this.tilePane = tilePane;

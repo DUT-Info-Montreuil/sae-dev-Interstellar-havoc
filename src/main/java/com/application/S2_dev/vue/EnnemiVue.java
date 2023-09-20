@@ -9,6 +9,7 @@ import com.application.S2_dev.modele.ennemis.Balliste;
 import com.application.S2_dev.modele.map.Environnement;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -70,6 +71,7 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
                 nbVivantBehemoth--; // Mise à jour du compteur
                 boutique.setPrix(boutique.getPrix()+200); // La destruction des ennemis permet de gagner de l'argent
             }
+
         }
 
         for (int i = 0; i < c.getAddedSubList().size(); i++) {

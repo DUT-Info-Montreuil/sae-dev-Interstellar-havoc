@@ -12,6 +12,8 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.layout.Pane;
+
 import java.util.*;
 
 public class Environnement {
@@ -22,14 +24,18 @@ public class Environnement {
     private ObservableList<Tour> tours; // liste des tourelles presente sur le terrain
     private IntegerProperty ennemisAtteints ; // Nombre d'ennemi qui ont atteint la base finale
     public BooleanProperty aProximiteTour ; // ennemis a proximité d'une tour
+    private Map<Ennemi, BlastComponent> blast;
+    private Pane pane;
 
-    public Environnement(Terrain terrain) {
+    public Environnement(Terrain terrain, Pane pane) {
         this.terrain = terrain;
         this.ennemis = FXCollections.observableArrayList();
         this.tours = FXCollections.observableArrayList();
         this.objets = FXCollections.observableArrayList();
         this.ennemisAtteints = new SimpleIntegerProperty(0) ;
         this.aProximiteTour = new SimpleBooleanProperty(false);
+        this.blast = new HashMap<>();
+        this.pane = pane;
     }
 
     // Methode qui genere des vagues d'ennemis
@@ -125,6 +131,38 @@ public class Environnement {
                 System.out.println("Tour détruite : " + tour.getId());
                 tours.remove(tour);
             }
+        }
+        for (Tour tour : tours) {
+
+            List<Ennemi> tempEnnemis = this.getEnnemisDansPortee(tour);
+
+            for (Ennemi e : ennemis) {
+                if (!blast.containsKey(e) && tempEnnemis.contains(e)) {
+                    BlastComponent bc = new BlastComponent(tour, e);
+                    bc.add(pane);
+                    blast.put(e, bc);
+                } else if (blast.containsKey(e)) {
+                    if (!tempEnnemis.contains(e)) {
+                        BlastComponent bc = blast.get(e);
+                        bc.remove(pane);
+                        blast.remove(e);
+                    }
+                }
+            }
+        }
+
+        // remove blast animation if the ennemi is dead now
+        List<Ennemi> tempList = new ArrayList<>();
+        for (Ennemi e : blast.keySet()) {
+            if (!ennemis.contains(e)) {
+                BlastComponent bc = blast.get(e);
+                bc.remove(pane);
+                tempList.add(e);
+            }
+        }
+
+        for (Ennemi e : tempList) {
+            blast.remove(e);
         }
         ajouterVague(); // Ajout des vages d'ennemi
     }

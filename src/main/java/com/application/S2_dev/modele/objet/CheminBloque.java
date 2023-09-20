@@ -4,8 +4,8 @@ import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
 
 public class CheminBloque extends Objet{
-    private int ligne;
-    private int colonne;
+    private final int ligne;
+    private  final int colonne;
     public CheminBloque(Environnement environnement, Terrain terrain, int ligne, int colonne){
         super(environnement, terrain);
         this.prix = 50;

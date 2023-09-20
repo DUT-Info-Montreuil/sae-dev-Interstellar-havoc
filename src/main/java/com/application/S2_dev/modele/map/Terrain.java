@@ -9,6 +9,10 @@ public class Terrain {
     private int[][] terrain;
     private BFS bfs;
     private LinkedList<Cellule> cheminPlusCourt;
+    private int[] depart = {1, 0};
+    private int[] fin = {12, 60};
+
+
 
     public Terrain() {
         terrain = new int[][]{
@@ -49,10 +53,10 @@ public class Terrain {
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
         };
-        int[] depart = {1, 0};
-        int[] fin = {12, 60};
+
         bfs=new BFS(terrain, depart, fin);
     }
+
     public TerrainType getCase(int i, int j) {
         switch (terrain[i][j]) {
             case 0:

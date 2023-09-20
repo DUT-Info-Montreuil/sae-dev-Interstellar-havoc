@@ -50,28 +50,29 @@ public class TourVue implements ListChangeListener<Tour> {
         while (c.next()) {
             System.out.println("les ajouts Tour: " + c.getAddedSubList());
             System.out.println("les suppressions Tour: " + c.getRemoved());
-        }
-        for (int i = 0; i < c.getRemoved().size(); i++) {
-            ImageView sprite = (ImageView) pane.lookup("#" + c.getRemoved().get(i).getId());
-            pane.getChildren().remove(sprite);
-            ProgressBar progressBar = (ProgressBar) pane.lookup("#"+c.getRemoved().get(i).getId());
-            pane.getChildren().remove(progressBar);
+
+            for (int i = 0; i < c.getRemoved().size(); i++) {
+                ImageView sprite = (ImageView) pane.lookup("#" + c.getRemoved().get(i).getId());
+                pane.getChildren().remove(sprite);
+                ProgressBar progressBar = (ProgressBar) pane.lookup("#" + c.getRemoved().get(i).getId());
+                pane.getChildren().remove(progressBar);
+            }
         }
     }
     public void lancerTourVue() {
         MessagePlacementTour.setTitle("Placement de la tour");
         MessagePlacementTour.setHeaderText(null);
 
-            final int ennemiSquadSize = env.getEnnemis().size();
+        final int ennemiSquadSize = env.getEnnemis().size();
 
-            if (env.getEnnemis().size() < ennemiSquadSize)
-                ajouterArgent(100);
+        if (env.getEnnemis().size() < ennemiSquadSize)
+            ajouterArgent(100);
 
-            if (!env.getTour().contains(tourCliquee)) {
-                pane.getChildren().remove(this.niveauChoisi);
-                niveauChoisi = null;
-            }
-            TestClickTourel();
+        if (!env.getTour().contains(tourCliquee)) {
+            pane.getChildren().remove(this.niveauChoisi);
+            niveauChoisi = null;
+        }
+        TestClickTourel();
     }
 
     public void TestClickTourel() {
@@ -152,20 +153,14 @@ public class TourVue implements ListChangeListener<Tour> {
     }
     void soustraireArgent(int valeur) {
         boutique.setPrix(boutique.getPrix()-valeur);
-        //Parametre.argentDebutJoueur-= valeur; // Soustrait la valeur donnée à la variable argent
-        //labelCredit.setText(Parametre.argentDebutJoueur+ ""); // Met à jour le texte de l'étiquette pour afficher la nouvelle valeur de l'argent
     }
 
     void rembourserArgent(int valeur) {
         boutique.setPrix(boutique.getPrix()+valeur);
-        //Parametre.argentDebutJoueur+= valeur; // Ajoute la valeur donnée à la variable argent
-        //labelCredit.setText(Parametre.argentDebutJoueur+ ""); // Met à jour le texte de l'étiquette pour afficher la nouvelle valeur de l'argent
     }
 
     void ajouterArgent(int valeur) {
         boutique.setPrix(boutique.getPrix()+valeur);
-        //Parametre.argentDebutJoueur+= valeur; // Ajoute la valeur donnée à la variable argent
-        //labelCredit.setText(Parametre.argentDebutJoueur+ ""); // Met à jour le texte de l'étiquette pour afficher la nouvelle valeur de l'argent
     }
 
     double[] creerSprite(Tour tour) {
@@ -195,7 +190,7 @@ public class TourVue implements ListChangeListener<Tour> {
 
         ProgressBar progressBar = new ProgressBar();
         progressBar.setProgress(tour.getVie());
-        double largeurSouhaitee = 100; // Définissez la largeur souhaitée en pixels
+        double largeurSouhaitee = 50; // Définissez la largeur souhaitée en pixels
         double hauteurSouhaitee = 10; // Définissez la hauteur souhaitée en pixels
 
         progressBar.setPrefWidth(largeurSouhaitee);
@@ -204,11 +199,7 @@ public class TourVue implements ListChangeListener<Tour> {
         // Lie les propriétés de translation de la tour aux propriétés de translation de la tour
         vueTour.translateXProperty().bind(tour.getXProperty());
         vueTour.translateYProperty().bind(tour.getYProperty());
-
-        // a revoir !!!!!!
-        progressBar.progressProperty().bind(tour.vieProperty());
-        //progressBar.progressProperty().bind(tour.vieProperty().divide(tour.getVieMax()));
-
+        progressBar.prefWidthProperty().bind(tour.vieProperty());
 
         // Vérifie si l'ImageView est valide
         if (vueTour != null) {

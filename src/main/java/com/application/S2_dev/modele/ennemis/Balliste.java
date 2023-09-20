@@ -2,6 +2,7 @@ package com.application.S2_dev.modele.ennemis;
 
 import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.modele.tours.Tour;
+import javafx.beans.property.SimpleIntegerProperty;
 
 // La classe Balliste hérite de la classe Ennemi.
 public class Balliste extends Ennemi {
@@ -11,7 +12,7 @@ public class Balliste extends Ennemi {
         super(Posx, Posy, terrain);
         this.degats= 5; // Portée de la tour
         this.portee=30; // Dommages infligés aux tours
-        this.vie = 20;
+        this.vie =  new SimpleIntegerProperty(20);
     }
     @Override
     public void attaquerTour(Tour tour) {

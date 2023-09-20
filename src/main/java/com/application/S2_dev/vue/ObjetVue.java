@@ -27,7 +27,7 @@ public class ObjetVue implements ListChangeListener<Objet> {
     private Pane panneau_de_jeu;
     private Terrain terrain;
     private Objet objet;
-    private Label labelBombe, labelMur, LabelHydrogene;
+    private Label labelBombe, labelMur, LabelHydrogene, LabelMaintenance;
     private URL urlBombe, urlHydrogene, urlExplosion;
     private Image ImageBombe, ImageHydrogene, ImageExplosion;
     private ImageView imageObjet;
@@ -37,7 +37,7 @@ public class ObjetVue implements ListChangeListener<Objet> {
     private static Clip clipFond ;// music pour les annimations
 
 
-    public ObjetVue(Pane pane, Environnement environnement, Label Bombe, Label LabelHydrogene, Label Mur, Terrain terrain, TerrainVue terrainVue, Boutique boutique){
+    public ObjetVue(Pane pane, Environnement environnement, Label Bombe, Label LabelHydrogene, Label Mur, Terrain terrain, TerrainVue terrainVue, Boutique boutique, Label labelMaintenance){
         this.environnement = environnement;
         this.panneau_de_jeu = pane;
         this.labelBombe = Bombe;
@@ -46,6 +46,7 @@ public class ObjetVue implements ListChangeListener<Objet> {
         this.terrain = terrain;
         this.terrainVue =  terrainVue;
         this.boutique = boutique;
+        this.LabelMaintenance = labelMaintenance;
 
 
         /* URL et image des sprites */
@@ -75,6 +76,9 @@ public class ObjetVue implements ListChangeListener<Objet> {
             }
             else if(c.getAddedSubList().get(i) instanceof Mur){
                 boutique.setPrix(boutique.getPrix()-((Mur) c.getAddedSubList().get(i)).getPrix()); // Mise à jour du prix
+            }
+            else if(c.getAddedSubList().get(i) instanceof Maintenance){
+                boutique.setPrix(boutique.getPrix()-((Maintenance) c.getAddedSubList().get(i)).getPrix()); // Mise à jour du prix
             }
         }
         for (int i = 0; i < c.getRemoved().size(); i++) {
@@ -142,6 +146,18 @@ public class ObjetVue implements ListChangeListener<Objet> {
             setObjetSelectionne();
         });
 
+        LabelMaintenance.setOnMouseClicked( h -> {
+            if(environnement.getTour().size() == 0){
+                boutique.MessagePasDeTour();
+            }
+            else {
+                objetSelectionne = "Maintenance";
+                boutique.MessageMaintenance();
+                setObjetSelectionne();
+            }
+
+        });
+
         panneau_de_jeu.setOnMouseClicked( h -> {
             pos = terrain.getPosDansCarte((int)h.getX(), (int)h.getY());
             if (boutique.getPrix() >= objet.getPrix()) {
@@ -150,7 +166,6 @@ public class ObjetVue implements ListChangeListener<Objet> {
             else{
                 boutique.MessageArgent();
             }
-
         });
         AfficherCheminBloque();
     }
@@ -196,6 +211,10 @@ public class ObjetVue implements ListChangeListener<Objet> {
         else if (objetSelectionne.equals("Mur")) {
             objet = new Mur(environnement, terrain);
         }
+        else if (objetSelectionne.equals("Maintenance")) {
+            objet = new Maintenance(environnement, terrain);
+
+        }
     }
     public void apparitionObjet(int ligne, int colonne) {
         /* Apparition d'un objet sur la grille.*/
@@ -215,6 +234,13 @@ public class ObjetVue implements ListChangeListener<Objet> {
                     } else if (objet instanceof Mur) {
                         ((Mur) objet).PlacerMur(ligne, colonne);
                         terrainVue.setImage(ligne, colonne, 2);
+
+                    } else if (objet instanceof Maintenance) {
+
+                        for(int i = 0; i < environnement.getTour().size(); i++){
+                            environnement.getTour().get(i).setVie();
+                        }
+
 
                     }
                     objet.setX(x);

@@ -20,7 +20,7 @@ public abstract class Tour {
     private DoubleProperty y;
     private TowerType type;
     public IntegerProperty vie;
-    public IntegerProperty vieMax;
+    public int vieMax;
     public ImageView vue = null;
     private int niveau;
     private int prix;
@@ -150,8 +150,15 @@ public abstract class Tour {
         return this.vie.getValue();
     }
 
+    public void setVie() {
+        this.vie.setValue(vieMax);
+    }
+
     public IntegerProperty vieProperty() {
         return vie;
+    }
+    public ImageView getVue() {
+        return vue;
     }
 
     public double getY() {

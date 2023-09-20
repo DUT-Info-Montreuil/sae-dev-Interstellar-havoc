@@ -1,11 +1,13 @@
 package com.application.S2_dev.modele.ennemis;
 
+import com.application.S2_dev.modele.bfs.BFS;
 import com.application.S2_dev.modele.bfs.Cellule;
 import com.application.S2_dev.modele.données.PixelMoveTimeEvent;
 import com.application.S2_dev.modele.objet.Objet;
 import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.modele.tours.Tour;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 public abstract class Ennemi {
@@ -16,7 +18,7 @@ public abstract class Ennemi {
     private int i = 0; // Index de la cellule dans le chemin le plus court
     private String id; // Identifiant de l'ennemi
     public static int compteur = 0; // Compteur d'ennemis pour générer l'identifiant unique
-    public int vie; // Points de vie de l'ennemi
+    public IntegerProperty vie; // Points de vie de l'ennemi
     protected int degats;
     protected int portee;
     private Boolean enCoursAttaque;
@@ -32,11 +34,20 @@ public abstract class Ennemi {
         compteur++;
     }
 
+    public int getVie() {
+        return vie.getValue();
+    }
+
+    public IntegerProperty getVieProperty() {
+        return vie;
+    }
+
+
     public void subirDegats(int degats) {
-        vie -= degats;
+        vie.setValue(vie.getValue() - degats) ;
     }
     public boolean estVivant() {
-        return vie > 0;
+        return vie.getValue() > 0;
     }
     public abstract void attaquerTour(Tour tour);
     public abstract boolean estDansPortee(Tour tour);
@@ -61,28 +72,33 @@ public abstract class Ennemi {
         enCoursAttaque = false;
     }
     public void agir() {
-        celluleCourante =null;
-        celluleSuivante = null;
+        //celluleCourante =null;
+        //celluleSuivante = null;
         celluleCourante = terrain.getPlusCourtChemin().get(i);
         celluleSuivante = i > 0 ? terrain.getPlusCourtChemin().get(i - 1) : null;
 
-        if (celluleSuivante != null) {
-            if(terrain.getCase1(celluleSuivante.getI(),celluleSuivante.getJ())==1) {
-                int diffX = celluleCourante.getI() - celluleSuivante.getI();
-                int diffY = celluleCourante.getJ() - celluleSuivante.getJ();
-                PixelMoveTimeEvent.initAnimation(this,diffX,diffY);
-            }
-            else if(terrain.getCase1(celluleSuivante.getI(),celluleSuivante.getJ())==2){
-                while(AttaquerObjet()){
-                    return;
+            if (celluleSuivante != null) {
+                if(terrain.getCase1(celluleSuivante.getI(),celluleSuivante.getJ())==1) {
+                    int diffX = celluleCourante.getI() - celluleSuivante.getI();
+                    int diffY = celluleCourante.getJ() - celluleSuivante.getJ();
+                    PixelMoveTimeEvent.initAnimation(this,diffX,diffY);    
                 }
+                else if(terrain.getCase1(celluleSuivante.getI(),celluleSuivante.getJ())==2){
+                    
+                        while(AttaquerObjet()){
+                            return;
+                        }
+                }
+                 
             }
-        }
+        
+        
         i++;
         this.toString();
     }
+
     public void meur(){
-        this.vie = 0;
+        this.vie.setValue(0);
     }
 
     // Verifie si l'ennemi a atteint la base finale

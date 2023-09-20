@@ -1,7 +1,9 @@
 package com.application.S2_dev.modele.tours;
 
+import com.application.S2_dev.Main;
 import com.application.S2_dev.modele.données.TowerType;
 import com.application.S2_dev.modele.ennemis.Ennemi;
+import com.application.S2_dev.modele.sound.Sound;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class OppenheimerCoil extends Tour {
@@ -13,6 +15,7 @@ public class OppenheimerCoil extends Tour {
     public OppenheimerCoil(int x, int y, int niveau) {
         super("OppenheimerCoil", x, y, TowerType.Oppenheimer, niveau, 100 * niveau, 150 + (niveau * 5));
         this.vie = new SimpleIntegerProperty(350);
+        this.vieMax = 350;
         this.TAUX_TIR = 10 - niveau;
         this.DEGATS = 55 + (niveau * 3);
 
@@ -25,9 +28,14 @@ public class OppenheimerCoil extends Tour {
             // Inflige des dommages à l'ennemi
             ennemi.subirDegats(DEGATS);
             tempsRecharge = TAUX_TIR;
+            playAttackSound();
         }
         if (tempsRecharge > 0)
             tempsRecharge--;
+    }
+    public void playAttackSound() {
+        Sound s = new Sound(Main.class.getResource("sons/bruit.wav"));
+        s.start();
     }
 
 }

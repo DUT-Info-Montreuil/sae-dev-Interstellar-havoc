@@ -1,7 +1,9 @@
 package com.application.S2_dev.modele.tours;
 
+import com.application.S2_dev.Main;
 import com.application.S2_dev.modele.données.TowerType;
 import com.application.S2_dev.modele.ennemis.Ennemi;
+import com.application.S2_dev.modele.sound.Sound;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class NikolaCoil extends Tour {
@@ -14,6 +16,7 @@ public class NikolaCoil extends Tour {
 
         super("NikolaCoil", x, y, TowerType.Nikola, niveau, 100 * niveau, 50 + (niveau * 5));
         this.vie = new SimpleIntegerProperty(150);
+        this.vieMax = 150;
 
         this.TAUX_TIR = 2 - niveau;
         this.DEGATS = 10 + (niveau * 3);
@@ -27,8 +30,13 @@ public class NikolaCoil extends Tour {
             // Inflige des dommages à l'ennemi
             ennemi.subirDegats(DEGATS);
             tempsRecharge = TAUX_TIR;
+            playAttackSound();
         }
         if (tempsRecharge > 0)
             tempsRecharge--;
+    }
+    public void playAttackSound() {
+        Sound s = new Sound(Main.class.getResource("sons/bruit.wav"));
+        s.start();
     }
 }

@@ -2,6 +2,7 @@ package com.application.S2_dev.modele.ennemis;
 
 import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.modele.tours.Tour;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class Scavenger extends Ennemi {
 
@@ -9,7 +10,7 @@ public class Scavenger extends Ennemi {
         super(x, y, terrain);
         this.degats= 10; // Portée de la tour
         this.portee=40; // Dommages infligés aux tours
-        this.vie = 50;
+        this.vie =  new SimpleIntegerProperty(50);
     }
     @Override
     public void attaquerTour(Tour tour) {

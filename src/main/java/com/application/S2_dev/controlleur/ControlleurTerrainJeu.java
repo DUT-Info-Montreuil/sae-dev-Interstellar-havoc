@@ -1,7 +1,7 @@
 package com.application.S2_dev.controlleur;
 
 import com.application.S2_dev.Main;
-import com.application.S2_dev.Parametre;
+import com.application.S2_dev.modele.Parametre;
 import com.application.S2_dev.modele.Boutique;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
@@ -75,18 +75,20 @@ public class ControlleurTerrainJeu implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         terrain = new Terrain(); // Création du terrain
-        env = new Environnement(terrain); // Création de l'environnement
+        env = new Environnement(terrain, pane); // Création de l'environnement
+
+        
         terrainVue = new TerrainVue(tilePane, terrain, env);
         terrainVue.afficherTerrain(); // Affichage du terrain
         initAnimation();
         boutique = new Boutique(gameLoop); // Boutique pour l'achat de chaque des defences ou objets
 
         /* Affichage des ennemis */
-        EnnemiVue ennemiVue = new EnnemiVue(pane, labelScavenger, labelBalliste, labelBehemoth, env, boutique);
+        ennemiVue = new EnnemiVue(pane, labelScavenger, labelBalliste, labelBehemoth, env, boutique);
         env.getEnnemis().addListener(ennemiVue);
 
         /* Affichage des objets */
-        objetVue = new ObjetVue(pane, env, labelBombe, LabelHydrogene, labelMur, terrain, terrainVue, boutique);
+        objetVue = new ObjetVue(pane, env, labelBombe, LabelHydrogene, labelMur, terrain, terrainVue, boutique, labelMaintenace);
         env.getObjets().addListener(objetVue);
         objetVue.AjoutObjet();
 

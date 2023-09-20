@@ -1,9 +1,16 @@
 package com.application.S2_dev.modele.bfs;
 
 import java.util.*;
+
+import com.application.S2_dev.modele.ennemis.Balliste;
+import com.application.S2_dev.modele.ennemis.Behemoth;
+import com.application.S2_dev.modele.ennemis.Scavenger;
+import com.application.S2_dev.modele.map.Environnement;
 public class BFS {
+
     public BFS(int[][] matrice, int[] debut, int[] fin) {
      plusCourtChemin2(matrice, debut, fin);
+
     }
     private LinkedList<Cellule> plusCourtChemin;
     private void visiter(Cellule[][] cellules, LinkedList<Cellule> file, int x, int y, Cellule parent) {
@@ -38,11 +45,12 @@ public class BFS {
 
             for (int i = 0; i < m; i++) {
                 for (int j = 0; j < n; j++) {
-                    if (matrice[i][j] == 1 || matrice[i][j] == 2) {  // Changer ici
-                        cellules[i][j] = new Cellule(i, j, Integer.MAX_VALUE, null);
-                    }
+                        if (matrice[i][j] == 1|| matrice[i][j] ==2) {  // Changer ici
+                            cellules[i][j] = new Cellule(i, j, Integer.MAX_VALUE, null);
+                        }
                 }
             }
+
 
             // parcours en largeur d'abord
             LinkedList<Cellule> file = new LinkedList<>();

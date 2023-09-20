@@ -1,7 +1,9 @@
 package com.application.S2_dev.modele.tours;
 
+import com.application.S2_dev.Main;
 import com.application.S2_dev.modele.données.TowerType;
 import com.application.S2_dev.modele.ennemis.Ennemi;
+import com.application.S2_dev.modele.sound.Sound;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class EdisonCoil extends Tour {
@@ -14,6 +16,7 @@ public class EdisonCoil extends Tour {
 
         super("EdisonCoil", x, y, TowerType.Edison, niveau, 100 * niveau, 50 + (niveau * 5));
         this.vie = new SimpleIntegerProperty(250);
+        this.vieMax = 250;
 
         this.taux_tir = 6 - niveau;
         this.degats = 25 + (niveau * 3);
@@ -28,8 +31,13 @@ public class EdisonCoil extends Tour {
             // Inflige des dommages à l'ennemi
             ennemi.subirDegats(degats);
             tempsRecharge = taux_tir;
+            playAttackSound();
         }
         if (tempsRecharge > 0)
             tempsRecharge--;
+    }
+    public void playAttackSound() {
+        Sound s = new Sound(Main.class.getResource("sons/bruit.wav"));
+        s.start();
     }
 }
