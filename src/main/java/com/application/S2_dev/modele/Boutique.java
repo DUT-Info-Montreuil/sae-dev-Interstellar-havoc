@@ -1,19 +1,20 @@
 package com.application.S2_dev.modele;
 
-import com.application.S2_dev.modele.Parametre;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Alert;
 
 public class Boutique {
-    private IntegerProperty prix ; // prix de base à chaque debut de jeu
-    private Timeline gameLoop;
-    public Boutique(Timeline gameLoop){
+    private final IntegerProperty prix; // prix de base à chaque debut de jeu
+    private final Timeline gameLoop;
+
+    public Boutique(Timeline gameLoop) {
         prix = new SimpleIntegerProperty(Parametre.argentDebutJoueur);
         this.gameLoop = gameLoop;
     }
-    public void MessageArgent(){
+
+    public void MessageArgent() {
         /* Affichage d'un message en cas de manque d'argent */
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Message");
@@ -28,7 +29,7 @@ public class Boutique {
         alert.showAndWait();
     }
 
-        public void MessageMaintenance(){
+    public void MessageMaintenance() {
         /* Affichage d'un message en cas de manque d'argent */
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Message");
@@ -43,7 +44,8 @@ public class Boutique {
         });
         alert.showAndWait();
     }
-    public void MessagePasDeTour(){
+
+    public void MessagePasDeTour() {
         /* Affichage d'un message en cas de manque d'argent */
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Message");
@@ -62,9 +64,11 @@ public class Boutique {
     public int getPrix() {
         return prix.getValue();
     }
+
     public IntegerProperty prixProperty() {
         return prix;
     }
+
     public void setPrix(int prix) {
         this.prix.setValue(prix);
     }

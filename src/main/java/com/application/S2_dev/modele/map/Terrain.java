@@ -1,17 +1,17 @@
 package com.application.S2_dev.modele.map;
 
-import com.application.S2_dev.modele.bfs.Cellule;
 import com.application.S2_dev.modele.bfs.BFS;
+import com.application.S2_dev.modele.bfs.Cellule;
 import com.application.S2_dev.modele.données.TerrainType;
+
 import java.util.LinkedList;
 
 public class Terrain {
-    private int[][] terrain;
-    private BFS bfs;
+    private final int[][] terrain;
+    private final BFS bfs;
     private LinkedList<Cellule> cheminPlusCourt;
-    private int[] depart = {1, 0};
-    private int[] fin = {12, 60};
-
+    private final int[] depart = {1, 0};
+    private final int[] fin = {12, 60};
 
 
     public Terrain() {
@@ -54,7 +54,7 @@ public class Terrain {
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
         };
 
-        bfs=new BFS(terrain, depart, fin);
+        bfs = new BFS(terrain, depart, fin);
     }
 
     public TerrainType getCase(int i, int j) {
@@ -75,55 +75,61 @@ public class Terrain {
                 return null;
         }
     }
+
     public void setCheminNull(LinkedList<Cellule> cheminPlusCourt) {
         this.cheminPlusCourt = null;
     }
+
     public int[] getPosDansCarte(int x, int y) {
         // on recupere l'emplacement par rapport au terrain
-        return new int[]{(int)(y/16), (int)(x/16)};
+        return new int[]{y / 16, x / 16};
     }
+
     public int getCase1(int i, int j) {
         return terrain[i][j];
     }
+
     public void placementObjetMur(int i, int j) {
         /* Remplacement du chemin en chemin Bloqué quand le joueur place un mur */
         if (terrain[i][j] == 1) {
             terrain[i][j] = 2;
             setCheminNull(cheminPlusCourt);
-        }
-        else if(terrain[i][j] == 2) {
+        } else if (terrain[i][j] == 2) {
             terrain[i][j] = 1;
         }
     }
+
     public void placementMur(int i, int j) {
         /* Remplacement du chemin Bloqué en chemin quand l'ennemi casse le mur' */
         if (terrain[i][j] == 2) {
             terrain[i][j] = 1;
             setCheminNull(cheminPlusCourt);
-        }
-        else if(terrain[i][j] == 1) {
+        } else if (terrain[i][j] == 1) {
             terrain[i][j] = 2;
         }
     }
+
     LinkedList<Cellule> calculerCheminPlusCourt() {
         int[] start = {1, 0};
         int[] end = {12, 60};
 
         BFS bfs = new BFS(terrain, start, end);
-        cheminPlusCourt= bfs.getPlusCourtChemin();
+        cheminPlusCourt = bfs.getPlusCourtChemin();
         return cheminPlusCourt;
     }
 
     /* les getter et setter */
     public LinkedList<Cellule> getCheminPlusCourt() {
-        if (cheminPlusCourt==null){
-            return cheminPlusCourt=calculerCheminPlusCourt();
+        if (cheminPlusCourt == null) {
+            return cheminPlusCourt = calculerCheminPlusCourt();
         }
         return cheminPlusCourt;
     }
+
     public LinkedList<Cellule> getPlusCourtChemin() {
         return bfs.getPlusCourtChemin();
     }
+
     public int[][] getTerrain() {
         return terrain;
     }

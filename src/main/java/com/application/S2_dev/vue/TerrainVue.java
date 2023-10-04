@@ -11,7 +11,7 @@ import java.net.URL;
 public class TerrainVue {
     private TilePane tilePane;
     private Terrain terrain ;
-    private URL urlImageMur = Main.class.getResource("image/map/Mur.png");
+    private URL urlImageMur = Main.class.getResource("image/map/mur.png");
     private Image imageMur = new Image(String.valueOf(urlImageMur));
     private URL urlImageTerrain = Main.class.getResource("image/map/terrain.jpg");
     private Image imageTerrain = new Image(String.valueOf(urlImageTerrain));

@@ -8,15 +8,16 @@ import javafx.beans.property.SimpleDoubleProperty;
 public abstract class Objet {
     public static Environnement environnement;
     public static Terrain terrain;
-    private DoubleProperty x, y;
+    private final DoubleProperty x;
+    private final DoubleProperty y;
     public int pv;
-    private String id;
+    private final String id;
     public static int compteur = 0;
     public static int prix;
 
-    public Objet(Environnement environnement, Terrain terrain){
-        this.environnement = environnement;
-        this.terrain = terrain;
+    public Objet(Environnement environnement, Terrain terrain) {
+        Objet.environnement = environnement;
+        Objet.terrain = terrain;
         this.x = new SimpleDoubleProperty();
         this.y = new SimpleDoubleProperty();
         this.id = "Ob" + compteur;
@@ -32,11 +33,11 @@ public abstract class Objet {
         return id;
     }
 
-    public double getX () {
+    public double getX() {
         return x.getValue();
     }
 
-    public double getY () {
+    public double getY() {
         return y.getValue();
     }
 
@@ -48,16 +49,20 @@ public abstract class Objet {
         this.y.set(y);
     }
 
-    public boolean estVivant () {
+    public boolean estVivant() {
         return pv > 0;
     }
+
     public abstract void agit();
+
     public abstract void degat(int value);
+
     public int getPrix() {
         return prix;
     }
+
     @Override
-    public String toString () {
+    public String toString() {
         return "id " + id;
     }
 
