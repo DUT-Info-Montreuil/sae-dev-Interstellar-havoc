@@ -1,18 +1,16 @@
 package com.application.S2_dev.modele.bfs;
 
-import java.util.*;
+import java.util.LinkedList;
 
-import com.application.S2_dev.modele.ennemis.Balliste;
-import com.application.S2_dev.modele.ennemis.Behemoth;
-import com.application.S2_dev.modele.ennemis.Scavenger;
-import com.application.S2_dev.modele.map.Environnement;
 public class BFS {
 
     public BFS(int[][] matrice, int[] debut, int[] fin) {
-     plusCourtChemin2(matrice, debut, fin);
+        plusCourtChemin2(matrice, debut, fin);
 
     }
+
     private LinkedList<Cellule> plusCourtChemin;
+
     private void visiter(Cellule[][] cellules, LinkedList<Cellule> file, int x, int y, Cellule parent) {
         // hors des limites ou cellule différente de 1
         if (x < 0 || x >= cellules.length || y < 0 || y >= cellules[0].length || cellules[x][y] == null || (cellules[x][y].distance == 2 || cellules[x][y].distance == 3)) {
@@ -29,6 +27,7 @@ public class BFS {
             file.add(p);
         }
     }
+
     public void plusCourtChemin2(int[][] matrice, int[] debut, int[] fin) {
 
         int dx = debut[0], dy = debut[1];
@@ -45,9 +44,9 @@ public class BFS {
 
             for (int i = 0; i < m; i++) {
                 for (int j = 0; j < n; j++) {
-                        if (matrice[i][j] == 1|| matrice[i][j] ==2) {  // Changer ici
-                            cellules[i][j] = new Cellule(i, j, Integer.MAX_VALUE, null);
-                        }
+                    if (matrice[i][j] == 1 || matrice[i][j] == 2) {  // Changer ici
+                        cellules[i][j] = new Cellule(i, j, Integer.MAX_VALUE, null);
+                    }
                 }
             }
 
@@ -85,7 +84,7 @@ public class BFS {
                     chemin.addFirst(p);
                 } while ((p = p.precedente) != null);
 
-                 plusCourtChemin=chemin;
+                plusCourtChemin = chemin;
             }
         }
 

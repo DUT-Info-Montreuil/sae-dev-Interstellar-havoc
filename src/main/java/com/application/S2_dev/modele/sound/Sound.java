@@ -1,13 +1,11 @@
-
 package com.application.S2_dev.modele.sound;
 
 import javax.sound.sampled.*;
-import java.io.File;
 import java.net.URL;
 
 public class Sound extends Thread {
 
-    private URL fileURL; // The URL of the file to play
+    private final URL fileURL; // The URL of the file to play
     private boolean loop = false;
 
     public Sound(URL fileURL) {

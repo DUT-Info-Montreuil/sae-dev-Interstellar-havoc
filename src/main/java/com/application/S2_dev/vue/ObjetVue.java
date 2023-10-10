@@ -51,7 +51,7 @@ public class ObjetVue implements ListChangeListener<Objet> {
 
 
         /* URL et image des sprites */
-        urlBombe = Main.class.getResource("image/objet/Bombe.png");
+        urlBombe = Main.class.getResource("image/objet/bombe.png");
         ImageBombe = new javafx.scene.image.Image(String.valueOf(urlBombe));
 
         urlHydrogene = Main.class.getResource("image/objet/hydrogene.png");

@@ -14,28 +14,17 @@ public class EdisonCoil extends Tour {
 
     public EdisonCoil(int x, int y, int niveau) {
 
-        super("EdisonCoil", x, y, TowerType.Edison, niveau, 100 * niveau, 50 + (niveau * 5));
-        this.vie = new SimpleIntegerProperty(250);
-        this.vieMax = 250;
+        super(new SimpleIntegerProperty(250),(25 + (niveau * 3)),(6-niveau),"EdisonCoil", x, y, TowerType.Edison, niveau, 100 * niveau, 50 + (niveau * 5));
 
-        this.taux_tir = 6 - niveau;
-        this.degats = 25 + (niveau * 3);
+        this.vieMax = getVie();
 
         if (taux_tir < 1)
             taux_tir = 1;
     }
+
     @Override
-    public void attaquerEnnemi(Ennemi ennemi) {
-        // Le temps de recharge fait attaquer la tour les ennemis en fonction de son taux de tir
-        if (tempsRecharge == 0) {
-            // Inflige des dommages à l'ennemi
-            ennemi.subirDegats(degats);
-            tempsRecharge = taux_tir;
-            playAttackSound();
-        }
-        if (tempsRecharge > 0)
-            tempsRecharge--;
-    }
+
+
     public void playAttackSound() {
         Sound s = new Sound(Main.class.getResource("sons/bruit.wav"));
         s.start();

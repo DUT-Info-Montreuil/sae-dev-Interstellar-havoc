@@ -2,11 +2,12 @@ package com.application.S2_dev.modele.tours;
 
 import com.application.S2_dev.modele.données.TowerType;
 import com.application.S2_dev.modele.ennemis.Ennemi;
-import java.util.UUID;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.image.ImageView;
+
+import java.util.UUID;
 
 /**
  * Classe Tour
@@ -14,30 +15,40 @@ import javafx.scene.image.ImageView;
  */
 public abstract class Tour {
 
-    private String id;
-    private String nom;
-    private DoubleProperty x;
-    private DoubleProperty y;
-    private TowerType type;
+    private final String id;
+    private final String nom;
+    private final DoubleProperty x;
+    private final DoubleProperty y;
+    private final TowerType type;
     public IntegerProperty vie;
     public int vieMax;
     public ImageView vue = null;
-    private int niveau;
-    private int prix;
-    private int[] limites;
-    private int xCarte, yCarte;
-    private int portee; // Portée de la tour
+    private final int niveau;
+    private final int prix;
+    private final int[] limites;
+    private final int xCarte;
+    private final int yCarte;
+    private final int portee; // Portée de la tour
+    private int degats ; // Dommages infligés aux ennemis
+    private int TAUX_TIR ; // Taux de tir de la tour (coups par seconde)
+    private int tempsRecharge ;
+
+
 
     /**
      * Construit un objet Tour
-     * @param x Position X
-     * @param y Position Y
-     * @param type Type de tour
+     *
+     * @param x      Position X
+     * @param y      Position Y
+     * @param type   Type de tour
      * @param niveau Niveau de la tour
-     * @param prix Prix de la tour
+     * @param prix   Prix de la tour
      * @param portee Portée de la tour
      */
-    public Tour(String nom, double x, double y, TowerType type, int niveau, int prix, int portee) {
+    public Tour(IntegerProperty vie,int degats,int tauxDeTir,String nom, double x, double y, TowerType type, int niveau, int prix, int portee) {
+        this.vie = vie;
+        this.degats=degats;
+        this.TAUX_TIR = tauxDeTir;
         this.id = UUID.randomUUID().toString();
         this.nom = nom;
         this.x = new SimpleDoubleProperty(x);
@@ -46,27 +57,30 @@ public abstract class Tour {
         this.niveau = niveau;
         this.prix = prix;
         this.limites = new int[4];
-        this.xCarte = (int)(x/16);
-        this.yCarte = (int)(y/16);
+        this.xCarte = (int) (x / 16);
+        this.yCarte = (int) (y / 16);
         this.portee = portee;
     }
 
     /**
      * Doit être implémentée dans la sous-classe
+     *
      * @param ennemi Objet Ennemi
      */
-    public abstract void attaquerEnnemi(Ennemi ennemi);
+
 
     /**
      * Inflige des dégâts à la tour
+     *
      * @param valeur Valeur des dégâts
      */
     public void infligerDegats(int valeur) {
-        vie.setValue(vie.getValue()-valeur);
+        vie.setValue(vie.getValue() - valeur);
     }
 
     /**
      * Vérifie si la tour est détruite
+     *
      * @return true si oui, sinon false
      */
     public boolean estDetruite() {
@@ -79,6 +93,7 @@ public abstract class Tour {
 
     /**
      * Vérifie si l'ennemi donné est dans la portée de la tour
+     *
      * @param ennemi Objet Ennemi
      * @return true si dans la portée, sinon false
      */
@@ -89,8 +104,21 @@ public abstract class Tour {
     }
 
     private double calculerDistance(double xVal, double yVal) {
-        return Math.sqrt(Math.pow((xVal-getX()), 2) + Math.pow((yVal-getY()), 2));
+        return Math.sqrt(Math.pow((xVal - getX()), 2) + Math.pow((yVal - getY()), 2));
     }
+    public void attaquerEnnemi(Ennemi ennemi) {
+        if (this.tempsRecharge == 0) {
+            // Inflige des dommages à l'ennemi
+            ennemi.subirDegats(degats);
+            tempsRecharge = TAUX_TIR;
+            this.playAttackSound();
+        }
+        if (tempsRecharge > 0)
+            tempsRecharge--;
+    }
+
+    protected abstract void playAttackSound();
+
 
     /********************** Getter/Setter **********************/
 
@@ -142,7 +170,7 @@ public abstract class Tour {
         return this.x.getValue();
     }
 
-    public void meur(){
+    public void meur() {
         this.vie.setValue(0);
     }
 
@@ -157,6 +185,7 @@ public abstract class Tour {
     public IntegerProperty vieProperty() {
         return vie;
     }
+
     public ImageView getVue() {
         return vue;
     }

@@ -1,19 +1,19 @@
-
 package com.application.S2_dev.modele.map;
 
 import com.application.S2_dev.Main;
 import com.application.S2_dev.modele.ennemis.Ennemi;
 import com.application.S2_dev.modele.tours.Tour;
-import java.net.URL;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
+import java.net.URL;
+
 public class BlastComponent extends Canvas {
 
-    private Tour tour;
-    private Ennemi ennemi;
+    private final Tour tour;
+    private final Ennemi ennemi;
     private ImageView vueBlast;
 
     public BlastComponent(Tour tour, Ennemi ennemi) {
@@ -23,7 +23,7 @@ public class BlastComponent extends Canvas {
     }
 
     public void add(Pane pane) {
-        
+
         URL uriBlast = Main.class.getResource("image/ennemis/explode.png");
 
         // Charge l'image de la tour
@@ -40,7 +40,7 @@ public class BlastComponent extends Canvas {
             pane.getChildren().add(vueBlast);
         }
     }
-    
+
     public void remove(Pane pane) {
         pane.getChildren().remove(vueBlast);
     }

@@ -1,9 +1,10 @@
 package com.application.S2_dev.modele.bfs;
+
 public class Cellule {
 
     int i;
     int j;
-    int distance;  	// distance
+    int distance;    // distance
     Cellule precedente;  // cellule parent dans le chemin
 
     public Cellule(int i, int j, int distance, Cellule precedente) {
