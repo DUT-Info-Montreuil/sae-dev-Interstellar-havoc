@@ -1,9 +1,13 @@
 package com.application.S2_dev.modele.map;
 
+import com.application.S2_dev.modele.Parametre;
 import com.application.S2_dev.modele.ennemis.Balliste;
-import com.application.S2_dev.modele.ennemis.Behemoth;
 import com.application.S2_dev.modele.ennemis.Ennemi;
-import com.application.S2_dev.modele.ennemis.Scavenger;
+import com.application.S2_dev.modele.EnnemiFactory.BallisteFactory;
+import com.application.S2_dev.modele.EnnemiFactory.BehemothFactory;
+import com.application.S2_dev.modele.EnnemiFactory.EnnemiFactory;
+import com.application.S2_dev.modele.EnnemiFactory.ScavengerFactory;
+import com.application.S2_dev.modele.objet.Mur;
 import com.application.S2_dev.modele.objet.Objet;
 import com.application.S2_dev.modele.tours.Tour;
 import javafx.beans.property.BooleanProperty;
@@ -21,11 +25,13 @@ public class Environnement {
     private Terrain terrain;
     private  ObservableList<Ennemi> ennemis; // liste des ennemis present sur le terrain
     private  ObservableList<Objet> objets; // liste des objets present sur le terrain
+    private  ObservableList<Objet> objetsMort; // liste des objets present sur le terrain
     private ObservableList<Tour> tours; // liste des tourelles presente sur le terrain
     private IntegerProperty ennemisAtteints ; // Nombre d'ennemi qui ont atteint la base finale
     public BooleanProperty aProximiteTour ; // ennemis a proximité d'une tour
     private Map<Ennemi, BlastComponent> blast;
     private Pane pane;
+    private EnnemiFactory ennemiFactory ;
 
     public Environnement(Terrain terrain, Pane pane) {
         this.terrain = terrain;
@@ -39,10 +45,12 @@ public class Environnement {
     }
 
     // Methode qui genere des vagues d'ennemis
+    //classe vague design strat
     public void ajouterVague() {
         boolean spawnPossible = true;
         int ennemisMax = 5; // Maximum d'ennemis sur le terrain
         int ennemisActuels = ennemis.size();
+        ennemiFactory = null;
 
         if (ennemisActuels >= ennemisMax) {
             spawnPossible = false;
@@ -52,8 +60,9 @@ public class Environnement {
 
             /* on créer un ennemi si la liste est vide */
             if (ennemisActuels == 0) {
-                Ennemi en = new Balliste(5,21, terrain);
-                ennemis.add(en);
+                ennemiFactory = new BallisteFactory();
+                Ennemi ennemi = ennemiFactory.créerEnnemi(terrain);
+                ennemis.add(ennemi);
                 ennemisAAjouter--;
             }
             /* On parcour le nombre d'ennemi à ajouter pour on fait un random */
@@ -61,21 +70,25 @@ public class Environnement {
                 int spawnRate = random.nextInt(150) + 1;
                 switch (spawnRate) {
                     case 1:
-                        Ennemi Behemoth = new Behemoth(5,21, terrain);
-                        ennemis.add(Behemoth);
+                        ennemiFactory = new BehemothFactory();
+                        Ennemi ennemi = ennemiFactory.créerEnnemi(terrain);
+                        ennemis.add(ennemi);
                         break;
                     case 2:
-                        Ennemi Scavenger = new Scavenger(5,21, terrain);
-                        ennemis.add(Scavenger);
+                        ennemiFactory = new ScavengerFactory();
+                        Ennemi ennemi1 = ennemiFactory.créerEnnemi(terrain);
+                        ennemis.add(ennemi1);
                         break;
                     case 3:
-                        Ennemi Balliste = new Balliste(5,21,terrain);
-                        ennemis.add(Balliste);
+                        ennemiFactory = new BallisteFactory();
+                        Ennemi ennemi2 = ennemiFactory.créerEnnemi(terrain);
+                        ennemis.add(ennemi2);
                         break;
                 }
             }
         }
     }
+
     private void traiterEnnemi(Ennemi ennemi) {
         /* methode qui traite les actions de l'ennemi pour eviter de la redondence de code */
         if (!ennemi.estVivant()) {
@@ -116,6 +129,9 @@ public class Environnement {
             objet.agit(); // explision des bombes
             if (!objet.estVivant()) {
                 objets.remove(objet); // retirer les mort de la liste
+                if(objet instanceof Mur) {
+                    objetsMort.add(objet);
+                }
             }
         }
         for (int i = 0; i < tours.size(); i++) {
@@ -182,6 +198,10 @@ public class Environnement {
     }
     public IntegerProperty getennemisAtteintsProperty() {
         return ennemisAtteints;
+    }
+
+    public ObservableList<Objet> getObjetsMort() {
+        return objetsMort;
     }
 
     public ObservableList<Tour> getTour() {

@@ -27,11 +27,12 @@ public class ObjetVue implements ListChangeListener<Objet> {
     private Pane panneau_de_jeu;
     private Terrain terrain;
     private Objet objet;
+    Objet MurMort;
     private Label labelBombe, labelMur, LabelHydrogene, LabelMaintenance;
     private URL urlBombe, urlHydrogene, urlExplosion;
     private Image ImageBombe, ImageHydrogene, ImageExplosion;
     private ImageView imageObjet;
-    private String objetSelectionne;
+
     private  int[] pos;
     private Boutique boutique;
     private static Clip clipFond ;// music pour les annimations
@@ -68,6 +69,7 @@ public class ObjetVue implements ListChangeListener<Objet> {
             System.out.println("les suppressions Objet: " + c.getRemoved());
         }
         for(int i =0; i<c.getAddedSubList().size(); i++){
+
             if(c.getAddedSubList().get(i) instanceof Bombe){
                 boutique.setPrix(boutique.getPrix()-((Bombe) c.getAddedSubList().get(i)).getPrix()); // Mise à jour du prix
             }
@@ -86,9 +88,11 @@ public class ObjetVue implements ListChangeListener<Objet> {
                 animationBombe(c.getRemoved().get(i)); /* Chargement de l'image d'animation pour la bombe */
             }
             if(c.getRemoved().get(i) instanceof Mur) {
+                MurMort = c.getRemoved().get(i);
                 /* Placement du chemin apres la destruction du mur */
-                ((Mur) objet).PlacerMur(pos[0], pos[1]);
-                terrainVue.setImage(pos[0], pos[1],1);
+                //System.out.println("je suis la Rabab !!");
+                //((Mur) objet).PlacerMur(pos[0], pos[1]);
+                //terrainVue.setImage(pos[0], pos[1],1);
             }
             if(c.getRemoved().get(i) instanceof CheminBloque) {
                 /* Placement du chemin apres la destruction du mur */
@@ -129,58 +133,8 @@ public class ObjetVue implements ListChangeListener<Objet> {
         timeline.play();
         timeline.setOnFinished(event -> panneau_de_jeu.getChildren().remove(imageObjet)); /* Suppression de l'image du panneau de jeu */
     }
-    public void AjoutObjet(){
-        /* Méthode appelée lors de l'ajout d'un objet.*/
-        labelBombe.setOnMouseClicked(event -> {
-            objetSelectionne = "Bombe";
-            setObjetSelectionne();
-        });
 
-        LabelHydrogene.setOnMouseClicked(event -> {
-            objetSelectionne = "Hydrogene";
-            setObjetSelectionne();
-        });
 
-        labelMur.setOnMouseClicked( h -> {
-            objetSelectionne = "Mur";
-            setObjetSelectionne();
-        });
-
-        LabelMaintenance.setOnMouseClicked( h -> {
-            if(environnement.getTour().size() == 0){
-                boutique.MessagePasDeTour();
-            }
-            else {
-                objetSelectionne = "Maintenance";
-                boutique.MessageMaintenance();
-                setObjetSelectionne();
-            }
-
-        });
-
-        panneau_de_jeu.setOnMouseClicked( h -> {
-            pos = terrain.getPosDansCarte((int)h.getX(), (int)h.getY());
-            if (boutique.getPrix() >= objet.getPrix()) {
-                apparitionObjet(pos[0], pos[1]);
-            }
-            else{
-                boutique.MessageArgent();
-            }
-        });
-        AfficherCheminBloque();
-    }
-    void creerObjet(Objet objet) {
-        /* Crée un objet en fonction de l'objet sélectionné.*/
-            if (objet instanceof Bombe) {
-                imageObjet = new ImageView(ImageBombe);
-            } else if (objet instanceof Hydrogene) {
-                imageObjet = new ImageView(ImageHydrogene);
-            }
-            if (imageObjet != null) {
-                imageObjet.setId(objet.getId());
-                panneau_de_jeu.getChildren().add(imageObjet);
-            }
-        }
     public void apparitionCheminBloque(int ligne, int colonne) {
         /* Apparition du chemin bloqué sur la grille.*/
         double x = colonne * 16;
@@ -200,23 +154,27 @@ public class ObjetVue implements ListChangeListener<Objet> {
             }
         }
     }
-    public void setObjetSelectionne(){
-       /* Définit l'objet sélectionné en fonction de l'option choisie.*/
-        if (objetSelectionne.equals("Bombe")) {
-            objet = new Bombe(environnement, terrain);
-        }
-        else if (objetSelectionne.equals("Hydrogene")) {
-            objet = new Hydrogene(environnement, terrain);
-        }
-        else if (objetSelectionne.equals("Mur")) {
-            objet = new Mur(environnement, terrain);
-        }
-        else if (objetSelectionne.equals("Maintenance")) {
-            objet = new Maintenance(environnement, terrain);
 
+    void creerObjet(Objet objet) {
+        /* Crée un objet en fonction de l'objet sélectionné.*/
+        if (objet instanceof Bombe) {
+            imageObjet = new ImageView(ImageBombe);
+        } else if (objet instanceof Hydrogene) {
+            imageObjet = new ImageView(ImageHydrogene);
+        }
+        if (imageObjet != null) {
+            imageObjet.setId(objet.getId());
+            panneau_de_jeu.getChildren().add(imageObjet);
         }
     }
-    public void apparitionObjet(int ligne, int colonne) {
+    public boolean emplacementObjet(int ligne, int colonne) {
+        /* verifie sur l'emplacement de l'objet est possible */
+        if (terrain.getCase(ligne, colonne) == TerrainType.chemin){
+            return true;
+        }
+        return false;
+    }
+    public void apparitionObjet(int ligne, int colonne, Objet objet) {
         /* Apparition d'un objet sur la grille.*/
         double x = colonne * 16;
         double y = ligne * 16;
@@ -240,8 +198,6 @@ public class ObjetVue implements ListChangeListener<Objet> {
                         for(int i = 0; i < environnement.getTour().size(); i++){
                             environnement.getTour().get(i).setVie();
                         }
-
-
                     }
                     objet.setX(x);
                     objet.setY(y);
@@ -251,13 +207,6 @@ public class ObjetVue implements ListChangeListener<Objet> {
             }else {
                 System.out.println("Emplacement impossible");
             }
-    }
-    public boolean emplacementObjet(int ligne, int colonne) {
-        /* verifie sur l'emplacement de l'objet est possible */
-        if (terrain.getCase(ligne, colonne) == TerrainType.chemin){
-            return true;
-        }
-        return false;
     }
     public static void PlayMusicFond(String location){
         /* music de fond */
@@ -283,5 +232,9 @@ public class ObjetVue implements ListChangeListener<Objet> {
             throw new RuntimeException(e);
         }
         clipFond.start();
+    }
+
+    public Objet getMurMort() {
+        return MurMort;
     }
 }

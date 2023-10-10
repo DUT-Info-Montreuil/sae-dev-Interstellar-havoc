@@ -5,6 +5,7 @@ import com.application.S2_dev.modele.Parametre;
 import com.application.S2_dev.modele.Boutique;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
+import com.application.S2_dev.modele.objet.*;
 import com.application.S2_dev.vue.ObjetVue;
 import com.application.S2_dev.vue.EnnemiVue;
 import com.application.S2_dev.vue.TerrainVue;
@@ -71,6 +72,8 @@ public class ControlleurTerrainJeu implements Initializable {
     private Terrain terrain;
     private Environnement env;
     private Boutique boutique;
+    private  int[] pos;
+    private Objet objet;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -90,7 +93,10 @@ public class ControlleurTerrainJeu implements Initializable {
         /* Affichage des objets */
         objetVue = new ObjetVue(pane, env, labelBombe, LabelHydrogene, labelMur, terrain, terrainVue, boutique, labelMaintenace);
         env.getObjets().addListener(objetVue);
-        objetVue.AjoutObjet();
+        AjoutObjet();
+
+        // objetVue->
+        //this.Placement();
 
         /* Affichage des tourelles */
         TourVue tourVue = new TourVue(env, tilePane, terrain, pane, idBobineEdison, idBobineOppenheimer, idBobineNikola, gameLoop, boutique);
@@ -128,6 +134,50 @@ public class ControlleurTerrainJeu implements Initializable {
         gameLoop.play();
     }
 
+    public void AjoutObjet(){
+        final int[] var1 = new int[1];
+        final int[] var2 = new int[1];
+        /* Méthode appelée lors de l'ajout d'un objet.*/
+        labelBombe.setOnMouseClicked(event -> {
+            objet = new Bombe(env, terrain);
+        });
+
+        LabelHydrogene.setOnMouseClicked(event -> {
+            objet = new Hydrogene(env, terrain);
+        });
+
+        labelMur.setOnMouseClicked( h -> {
+            objet = new Mur(env, terrain);
+        });
+
+        labelMaintenace.setOnMouseClicked( h -> {
+            if(env.getTour().size() == 0){
+                boutique.MessagePasDeTour();
+            }
+            else {
+                boutique.MessageMaintenance();
+                objet = new Maintenance(env, terrain);
+            }
+
+        });
+
+        pane.setOnMouseClicked( h -> {
+            this.pos = terrain.getPosDansCarte((int)h.getX(), (int)h.getY());
+            if (boutique.getPrix() >= objet.getPrix()) {
+                objetVue.apparitionObjet(pos[0],pos[1], objet);
+            }
+            else{
+                boutique.MessageArgent();
+            }
+        });
+        objetVue.AfficherCheminBloque();
+
+    }
+
+    public void Placement(){
+        ((Mur)objetVue.getMurMort()).PlacerMur(pos[0], pos[1]);
+        terrainVue.setImage(pos[0], pos[1], 1);
+    }
     @FXML
     void ButtonInventaire(ActionEvent event) {
         /* Inventaire de jeu */
