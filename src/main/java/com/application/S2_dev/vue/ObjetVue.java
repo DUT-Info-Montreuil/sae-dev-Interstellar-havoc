@@ -27,28 +27,19 @@ public class ObjetVue implements ListChangeListener<Objet> {
     private Pane panneau_de_jeu;
     private Terrain terrain;
     private Objet objet;
-    Objet MurMort;
-    private Label labelBombe, labelMur, LabelHydrogene, LabelMaintenance;
     private URL urlBombe, urlHydrogene, urlExplosion;
     private Image ImageBombe, ImageHydrogene, ImageExplosion;
     private ImageView imageObjet;
-
-    private  int[] pos;
     private Boutique boutique;
     private static Clip clipFond ;// music pour les annimations
 
 
-    public ObjetVue(Pane pane, Environnement environnement, Label Bombe, Label LabelHydrogene, Label Mur, Terrain terrain, TerrainVue terrainVue, Boutique boutique, Label labelMaintenance){
+    public ObjetVue(Pane pane, Environnement environnement, Terrain terrain, TerrainVue terrainVue, Boutique boutique){
         this.environnement = environnement;
         this.panneau_de_jeu = pane;
-        this.labelBombe = Bombe;
-        this.LabelHydrogene = LabelHydrogene;
-        this.labelMur = Mur;
         this.terrain = terrain;
         this.terrainVue =  terrainVue;
         this.boutique = boutique;
-        this.LabelMaintenance = labelMaintenance;
-
 
         /* URL et image des sprites */
         urlBombe = Main.class.getResource("image/objet/bombe.png");
@@ -88,7 +79,6 @@ public class ObjetVue implements ListChangeListener<Objet> {
                 animationBombe(c.getRemoved().get(i)); /* Chargement de l'image d'animation pour la bombe */
             }
             if(c.getRemoved().get(i) instanceof Mur) {
-                MurMort = c.getRemoved().get(i);
                 /* Placement du chemin apres la destruction du mur */
                 //System.out.println("je suis la Rabab !!");
                 //((Mur) objet).PlacerMur(pos[0], pos[1]);
@@ -234,7 +224,4 @@ public class ObjetVue implements ListChangeListener<Objet> {
         clipFond.start();
     }
 
-    public Objet getMurMort() {
-        return MurMort;
-    }
 }

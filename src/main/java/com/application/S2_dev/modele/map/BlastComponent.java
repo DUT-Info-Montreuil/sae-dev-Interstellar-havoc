@@ -1,8 +1,8 @@
 package com.application.S2_dev.modele.map;
 
 import com.application.S2_dev.Main;
-import com.application.S2_dev.modele.ennemis.Ennemi;
-import com.application.S2_dev.modele.tours.Tour;
+import com.application.S2_dev.modele.acteurs.ennemis.Ennemi;
+import com.application.S2_dev.modele.acteurs.tours.Tour;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

@@ -70,7 +70,7 @@ public class ControlleurTerrainJeu implements Initializable {
     private TerrainVue terrainVue;
     private ObjetVue objetVue;
     private Terrain terrain;
-    private Environnement env;
+    public Environnement env;
     private Boutique boutique;
     private  int[] pos;
     private Objet objet;
@@ -80,7 +80,6 @@ public class ControlleurTerrainJeu implements Initializable {
         terrain = new Terrain(); // Création du terrain
         env = new Environnement(terrain, pane); // Création de l'environnement
 
-        
         terrainVue = new TerrainVue(tilePane, terrain, env);
         terrainVue.afficherTerrain(); // Affichage du terrain
         initAnimation();
@@ -91,12 +90,9 @@ public class ControlleurTerrainJeu implements Initializable {
         env.getEnnemis().addListener(ennemiVue);
 
         /* Affichage des objets */
-        objetVue = new ObjetVue(pane, env, labelBombe, LabelHydrogene, labelMur, terrain, terrainVue, boutique, labelMaintenace);
+        objetVue = new ObjetVue(pane, env, terrain, terrainVue, boutique);
         env.getObjets().addListener(objetVue);
         AjoutObjet();
-
-        // objetVue->
-        //this.Placement();
 
         /* Affichage des tourelles */
         TourVue tourVue = new TourVue(env, tilePane, terrain, pane, idBobineEdison, idBobineOppenheimer, idBobineNikola, gameLoop, boutique);
@@ -135,8 +131,6 @@ public class ControlleurTerrainJeu implements Initializable {
     }
 
     public void AjoutObjet(){
-        final int[] var1 = new int[1];
-        final int[] var2 = new int[1];
         /* Méthode appelée lors de l'ajout d'un objet.*/
         labelBombe.setOnMouseClicked(event -> {
             objet = new Bombe(env, terrain);
@@ -174,10 +168,6 @@ public class ControlleurTerrainJeu implements Initializable {
 
     }
 
-    public void Placement(){
-        ((Mur)objetVue.getMurMort()).PlacerMur(pos[0], pos[1]);
-        terrainVue.setImage(pos[0], pos[1], 1);
-    }
     @FXML
     void ButtonInventaire(ActionEvent event) {
         /* Inventaire de jeu */

@@ -1,9 +1,9 @@
 package com.application.S2_dev.modele.map;
 
-import com.application.S2_dev.modele.ennemis.Balliste;
-import com.application.S2_dev.modele.ennemis.Behemoth;
-import com.application.S2_dev.modele.ennemis.Ennemi;
-import com.application.S2_dev.modele.ennemis.Scavenger;
+import com.application.S2_dev.modele.acteurs.ennemis.Balliste;
+import com.application.S2_dev.modele.acteurs.ennemis.Behemoth;
+import com.application.S2_dev.modele.acteurs.ennemis.Ennemi;
+import com.application.S2_dev.modele.acteurs.ennemis.Scavenger;
 import javafx.scene.layout.Pane;
 
 import java.util.Random;

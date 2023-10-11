@@ -1,15 +1,13 @@
 package com.application.S2_dev.modele.map;
 
-import com.application.S2_dev.modele.Parametre;
-import com.application.S2_dev.modele.ennemis.Balliste;
-import com.application.S2_dev.modele.ennemis.Ennemi;
+import com.application.S2_dev.modele.acteurs.ennemis.Ennemi;
 import com.application.S2_dev.modele.EnnemiFactory.BallisteFactory;
 import com.application.S2_dev.modele.EnnemiFactory.BehemothFactory;
 import com.application.S2_dev.modele.EnnemiFactory.EnnemiFactory;
 import com.application.S2_dev.modele.EnnemiFactory.ScavengerFactory;
 import com.application.S2_dev.modele.objet.Mur;
 import com.application.S2_dev.modele.objet.Objet;
-import com.application.S2_dev.modele.tours.Tour;
+import com.application.S2_dev.modele.acteurs.tours.Tour;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -91,7 +89,7 @@ public class Environnement {
 
     private void traiterEnnemi(Ennemi ennemi) {
         /* methode qui traite les actions de l'ennemi pour eviter de la redondence de code */
-        if (!ennemi.estVivant()) {
+        if (!ennemi.estDetruite()) {
             System.out.println("Mort de : " + ennemi.getId());
             ennemis.remove(ennemi); // on retire les morts de la liste
         } else if (ennemi.destinationFinaleAtteinte()) {
@@ -100,7 +98,7 @@ public class Environnement {
             System.out.println("Joueurs atteints : " + ennemisAtteints);
         } else {
             for (Tour t : tours) {
-                ennemi.attaquerTour(t); // attaque des tours
+                ennemi.attaquerActeur(t); // attaque des tours
             }
             for (Objet o : objets) {
                 ennemi.attaqueObjet(o); // attaque des objets (mur et chemin bloquer)
@@ -141,7 +139,7 @@ public class Environnement {
                 List<Ennemi> ennemisDansPortee = getEnnemisDansPortee(tour);
                 for (Ennemi e : ennemisDansPortee) {
                     // Remarque : l'attaque est basée sur le taux de tir de la tour
-                    tour.attaquerEnnemi(e);
+                    tour.attaquerActeur(e);
                 }
             } else {
                 System.out.println("Tour détruite : " + tour.getId());
@@ -223,7 +221,7 @@ public class Environnement {
         List<Ennemi> temp = new ArrayList<>();
 
         for (Ennemi e : ennemis) {
-            if (tour.estDansportee(e)) {
+            if (tour.estDansPortee(e)) {
                 this.aProximiteTour.setValue(true);
                 temp.add(e);
             }

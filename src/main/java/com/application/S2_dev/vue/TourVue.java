@@ -7,10 +7,10 @@ import com.application.S2_dev.modele.données.TerrainType;
 import com.application.S2_dev.modele.données.TowerType;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
-import com.application.S2_dev.modele.tours.Tour;
-import com.application.S2_dev.modele.tours.EdisonCoil;
-import com.application.S2_dev.modele.tours.NikolaCoil;
-import com.application.S2_dev.modele.tours.OppenheimerCoil;
+import com.application.S2_dev.modele.acteurs.tours.Tour;
+import com.application.S2_dev.modele.acteurs.tours.EdisonCoil;
+import com.application.S2_dev.modele.acteurs.tours.NikolaCoil;
+import com.application.S2_dev.modele.acteurs.tours.OppenheimerCoil;
 import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.Alert;
@@ -132,6 +132,7 @@ public class TourVue implements ListChangeListener<Tour> {
                     break;
                 case Edison:
                     tour = new EdisonCoil((int)cologne*16, (int)ligne*16, level);
+                    System.out.println("VIE DE LA TOUR " + tour.getVie());
                     break;
                 case Oppenheimer:
                     tour = new OppenheimerCoil((int)cologne*16, (int)ligne*16, level);
@@ -139,7 +140,6 @@ public class TourVue implements ListChangeListener<Tour> {
                 default:
                     return;
             }
-
             if (boutique.getPrix()< tour.getPrix()) {
                 boutique.MessageArgent();
                 return;

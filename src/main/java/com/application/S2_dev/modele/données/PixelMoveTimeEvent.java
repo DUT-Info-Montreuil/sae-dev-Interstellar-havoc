@@ -1,7 +1,7 @@
 package com.application.S2_dev.modele.données;
 
 import com.application.S2_dev.modele.Parametre;
-import com.application.S2_dev.modele.ennemis.Ennemi;
+import com.application.S2_dev.modele.acteurs.ennemis.Ennemi;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;

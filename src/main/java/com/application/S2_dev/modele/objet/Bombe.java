@@ -1,6 +1,6 @@
 package com.application.S2_dev.modele.objet;
 
-import com.application.S2_dev.modele.ennemis.Ennemi;
+import com.application.S2_dev.modele.acteurs.ennemis.Ennemi;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
 

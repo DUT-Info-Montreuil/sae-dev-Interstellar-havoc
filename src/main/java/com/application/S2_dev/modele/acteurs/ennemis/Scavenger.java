@@ -1,8 +1,7 @@
-package com.application.S2_dev.modele.ennemis;
+package com.application.S2_dev.modele.acteurs.ennemis;
 
-import com.application.S2_dev.modele.données.PixelMoveTimeEvent;
+import com.application.S2_dev.modele.bfs.Cellule;
 import com.application.S2_dev.modele.map.Terrain;
-import com.application.S2_dev.modele.tours.Tour;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class Scavenger extends Ennemi {
@@ -14,9 +13,6 @@ public class Scavenger extends Ennemi {
         this.portee=40; // Dommages infligés aux tours
         this.vie =  new SimpleIntegerProperty(50);
     }
-    @Override
-    public void attaque() {
 
-    }
 
 }

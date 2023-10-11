@@ -2,14 +2,13 @@ package com.application.S2_dev.vue;
 
 import com.application.S2_dev.Main;
 import com.application.S2_dev.modele.Boutique;
-import com.application.S2_dev.modele.ennemis.Behemoth;
-import com.application.S2_dev.modele.ennemis.Ennemi;
-import com.application.S2_dev.modele.ennemis.Scavenger;
-import com.application.S2_dev.modele.ennemis.Balliste;
+import com.application.S2_dev.modele.acteurs.ennemis.Behemoth;
+import com.application.S2_dev.modele.acteurs.ennemis.Ennemi;
+import com.application.S2_dev.modele.acteurs.ennemis.Scavenger;
+import com.application.S2_dev.modele.acteurs.ennemis.Balliste;
 import com.application.S2_dev.modele.map.Environnement;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
