@@ -6,16 +6,18 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 public abstract class Objet {
-    public static Environnement environnement;
-    public static Terrain terrain;
+    protected Comportement comportement;
+    protected static Environnement environnement;
+    protected static Terrain terrain;
     private final DoubleProperty x;
     private final DoubleProperty y;
     public int pv;
     private final String id;
     public static int compteur = 0;
     public static int prix;
-
+    protected static int PORTE=0;
     public Objet(Environnement environnement, Terrain terrain) {
+
         Objet.environnement = environnement;
         Objet.terrain = terrain;
         this.x = new SimpleDoubleProperty();
@@ -53,9 +55,9 @@ public abstract class Objet {
         return pv > 0;
     }
 
-    public abstract void agit();
+    public void agit(){comportement.agit(this);};
 
-    public abstract void degat(int value);
+    public void degat(int value){comportement.degats(value,this);}
 
     public int getPrix() {
         return prix;
@@ -64,6 +66,9 @@ public abstract class Objet {
     @Override
     public String toString() {
         return "id " + id;
+    }
+    public void setComportement(Comportement c) {
+        comportement = c;
     }
 
 }

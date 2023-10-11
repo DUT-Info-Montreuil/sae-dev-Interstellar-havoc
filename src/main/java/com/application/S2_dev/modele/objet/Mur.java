@@ -7,13 +7,7 @@ public class Mur extends Objet {
     public Mur(Environnement environnement, Terrain terrain) {
         super(environnement, terrain);
         prix = 50; // prix de l'objet
-
-    }
-
-    @Override
-    public void degat(int value) {
-        /* degats infligés au mur */
-        this.pv -= value;
+        setComportement(new ComportementMur());
     }
 
     public void PlacerMur(int i, int j) {
@@ -21,8 +15,5 @@ public class Mur extends Objet {
         terrain.placementObjetMur(i, j);
     }
 
-    @Override
-    public void agit() {
-        /* Cet objet n'agit pas */
-    }
+
 }

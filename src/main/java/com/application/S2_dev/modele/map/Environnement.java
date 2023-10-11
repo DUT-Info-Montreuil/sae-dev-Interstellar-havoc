@@ -1,9 +1,6 @@
 package com.application.S2_dev.modele.map;
 
-import com.application.S2_dev.modele.ennemis.Balliste;
-import com.application.S2_dev.modele.ennemis.Behemoth;
 import com.application.S2_dev.modele.ennemis.Ennemi;
-import com.application.S2_dev.modele.ennemis.Scavenger;
 import com.application.S2_dev.modele.objet.Objet;
 import com.application.S2_dev.modele.tours.Tour;
 import javafx.beans.property.BooleanProperty;
@@ -18,6 +15,7 @@ import java.util.*;
 
 
 public class Environnement {
+
     private static Environnement instance; // Instance unique de la classe
     private final Random random = new Random();
     private final Terrain terrain;
@@ -30,7 +28,7 @@ public class Environnement {
     private final Pane pane;
 
     // Constructeur privé pour empêcher l'instanciation directe depuis l'extérieur de la classe
-    private Environnement(Terrain terrain, Pane pane) {
+    public Environnement(Terrain terrain, Pane pane) {
         this.terrain = terrain;
         this.ennemis = FXCollections.observableArrayList();
         this.tours = FXCollections.observableArrayList();
@@ -39,6 +37,7 @@ public class Environnement {
         this.aProximiteTour = new SimpleBooleanProperty(false);
         this.blast = new HashMap<>();
         this.pane = pane;
+
     }
 
     // Méthode publique pour obtenir l'instance unique de la classe
@@ -49,44 +48,7 @@ public class Environnement {
         return instance;
     }
 
-    // Methode qui genere des vagues d'ennemis
-    public void ajouterVague() {
-        boolean spawnPossible = true;
-        int ennemisMax = 5; // Maximum d'ennemis sur le terrain
-        int ennemisActuels = ennemis.size();
 
-        if (ennemisActuels >= ennemisMax) {
-            spawnPossible = false;
-        }
-        if (spawnPossible) {
-            int ennemisAAjouter = ennemisMax - ennemisActuels; // ennemis à ajouter dans la liste
-
-            /* on créer un ennemi si la liste est vide */
-            if (ennemisActuels == 0) {
-                Ennemi en = new Balliste(5, 21, terrain);
-                ennemis.add(en);
-                ennemisAAjouter--;
-            }
-            /* On parcour le nombre d'ennemi à ajouter pour on fait un random */
-            for (int compteur = 0; compteur < ennemisAAjouter; compteur++) {
-                int spawnRate = random.nextInt(150) + 1;
-                switch (spawnRate) {
-                    case 1:
-                        Ennemi Behemoth = new Behemoth(5, 21, terrain);
-                        ennemis.add(Behemoth);
-                        break;
-                    case 2:
-                        Ennemi Scavenger = new Scavenger(5, 21, terrain);
-                        ennemis.add(Scavenger);
-                        break;
-                    case 3:
-                        Ennemi Balliste = new Balliste(5, 21, terrain);
-                        ennemis.add(Balliste);
-                        break;
-                }
-            }
-        }
-    }
 
     private void traiterEnnemi(Ennemi ennemi) {
         /* methode qui traite les actions de l'ennemi pour eviter de la redondence de code */
@@ -177,7 +139,7 @@ public class Environnement {
         for (Ennemi e : tempList) {
             blast.remove(e);
         }
-        ajouterVague(); // Ajout des vages d'ennemi
+
     }
 
     public void ajouterTour(Tour tour) {
