@@ -1,4 +1,4 @@
-package com.application.S2_dev.modele.ennemis;
+package com.application.S2_dev.modele.vagueFactory;
 
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;

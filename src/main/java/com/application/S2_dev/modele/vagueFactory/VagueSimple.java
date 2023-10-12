@@ -1,9 +1,10 @@
-package com.application.S2_dev.modele.ennemis;
+package com.application.S2_dev.modele.vagueFactory;
 
+import com.application.S2_dev.modele.acteurs.ennemis.Balliste;
+import com.application.S2_dev.modele.acteurs.ennemis.Ennemi;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
-
-import java.util.Random;
+import com.application.S2_dev.modele.vagueFactory.VagueStrategy;
 
 public class VagueSimple implements VagueStrategy {
     @Override
