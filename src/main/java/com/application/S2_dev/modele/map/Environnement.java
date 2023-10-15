@@ -19,6 +19,7 @@ import javafx.scene.layout.Pane;
 import java.util.*;
 
 public class Environnement {
+    private static Environnement uniqueInstance = null;
     private Random random = new Random(); // Random pour calculer les vagues d'ennemis
     private Terrain terrain;
     private  ObservableList<Ennemi> ennemis; // liste des ennemis present sur le terrain
@@ -31,7 +32,7 @@ public class Environnement {
     private Pane pane;
     private EnnemiFactory ennemiFactory ;
 
-    public Environnement(Terrain terrain, Pane pane) {
+    private Environnement(Terrain terrain, Pane pane) {
         this.terrain = terrain;
         this.ennemis = FXCollections.observableArrayList();
         this.tours = FXCollections.observableArrayList();
@@ -40,6 +41,13 @@ public class Environnement {
         this.aProximiteTour = new SimpleBooleanProperty(false);
         this.blast = new HashMap<>();
         this.pane = pane;
+    }
+
+    public static Environnement getInstance(Terrain terrain ,Pane pane){
+        if(uniqueInstance==null){
+            uniqueInstance= new Environnement(terrain,pane);
+        }
+        return uniqueInstance;
     }
 
     // Methode qui genere des vagues d'ennemis
@@ -89,7 +97,7 @@ public class Environnement {
 
     private void traiterEnnemi(Ennemi ennemi) {
         /* methode qui traite les actions de l'ennemi pour eviter de la redondence de code */
-        if (!ennemi.estDetruite()) {
+        if (!ennemi.estVivante()) {
             System.out.println("Mort de : " + ennemi.getId());
             ennemis.remove(ennemi); // on retire les morts de la liste
         } else if (ennemi.destinationFinaleAtteinte()) {
@@ -134,7 +142,7 @@ public class Environnement {
         }
         for (int i = 0; i < tours.size(); i++) {
             Tour tour = tours.get(i);
-            if (!tour.estDetruite()) {
+            if (tour.estVivante()) {
                 // Récupère les ennemis à portée et les attaque
                 List<Ennemi> ennemisDansPortee = getEnnemisDansPortee(tour);
                 for (Ennemi e : ennemisDansPortee) {

@@ -78,7 +78,7 @@ public class ControlleurTerrainJeu implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         terrain = new Terrain(); // Création du terrain
-        env = new Environnement(terrain, pane); // Création de l'environnement
+        env = Environnement.getInstance(terrain, pane); // Création de l'environnement
 
         terrainVue = new TerrainVue(tilePane, terrain, env);
         terrainVue.afficherTerrain(); // Affichage du terrain
@@ -156,7 +156,10 @@ public class ControlleurTerrainJeu implements Initializable {
         });
 
         pane.setOnMouseClicked( h -> {
-            this.pos = terrain.getPosDansCarte((int)h.getX(), (int)h.getY());
+           this.pos = terrain.getPosDansCarte((int)h.getX(), (int)h.getY());
+           if(boutique==null || objet == null){
+               return;
+           }
             if (boutique.getPrix() >= objet.getPrix()) {
                 objetVue.apparitionObjet(pos[0],pos[1], objet);
             }

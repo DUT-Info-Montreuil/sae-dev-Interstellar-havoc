@@ -6,6 +6,7 @@ import com.application.S2_dev.modele.acteurs.ennemis.Ennemi;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.ImageView;
 
 import java.util.UUID;
@@ -41,6 +42,7 @@ public abstract class Tour extends Acteur {
         this.xCarte = (int) (valX / 16);
         this.yCarte = (int) (valY / 16);
         this.portee = portee;
+        this.vie = new SimpleIntegerProperty(10);
     }
 
 

@@ -32,7 +32,7 @@ public abstract class Acteur {
         vie.setValue(vie.getValue() - valeur);
     }
 
-    public boolean estDetruite() {
+    public boolean estVivante() {
         return vie.getValue() > 0;
     }
     public void meur(){
