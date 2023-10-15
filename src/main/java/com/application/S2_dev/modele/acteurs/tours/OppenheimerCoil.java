@@ -7,9 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class OppenheimerCoil extends Tour {
 
-    private int DEGATS; // Dommages infligés aux ennemis
-    private int TAUX_TIR ; // Taux de tir de la tour (coups par seconde)
-    private int tempsRecharge = 0;
+    private int TAUX_TIR = 3; // Taux de tir de la tour (coups par seconde)
 
     public OppenheimerCoil(int x, int y, int niveau) {
         super((10-niveau),"OppenheimerCoil", x, y, TowerType.Oppenheimer, niveau, 100 * niveau, 150 + (niveau * 5));

@@ -198,10 +198,6 @@ public class Environnement {
         return ennemisAtteints;
     }
 
-    public ObservableList<Objet> getObjetsMort() {
-        return objetsMort;
-    }
-
     public ObservableList<Tour> getTour() {
         return tours;
     }
