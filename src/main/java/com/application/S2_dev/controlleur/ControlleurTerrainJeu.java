@@ -72,7 +72,7 @@ public class ControlleurTerrainJeu implements Initializable {
     private Terrain terrain;
     public Environnement env;
     private Boutique boutique;
-    private  int[] pos;
+
     private Objet objet;
 
     @Override
@@ -90,9 +90,9 @@ public class ControlleurTerrainJeu implements Initializable {
         env.getEnnemis().addListener(ennemiVue);
 
         /* Affichage des objets */
-        objetVue = new ObjetVue(pane, env, terrain, terrainVue, boutique);
+        objetVue = new ObjetVue(pane, env, terrain, terrainVue, boutique, labelBombe, labelMaintenace, labelMur, LabelHydrogene);
         env.getObjets().addListener(objetVue);
-        AjoutObjet();
+        objetVue.AjoutObjet();
 
         /* Affichage des tourelles */
         TourVue tourVue = new TourVue(env, tilePane, terrain, pane, idBobineEdison, idBobineOppenheimer, idBobineNikola, gameLoop, boutique);
@@ -128,44 +128,6 @@ public class ControlleurTerrainJeu implements Initializable {
         });
         gameLoop.getKeyFrames().add(kf);
         gameLoop.play();
-    }
-
-    public void AjoutObjet(){
-        /* Méthode appelée lors de l'ajout d'un objet.*/
-        labelBombe.setOnMouseClicked(event -> {
-            objet = new Bombe(env, terrain);
-        });
-
-        LabelHydrogene.setOnMouseClicked(event -> {
-            objet = new Hydrogene(env, terrain);
-        });
-
-        labelMur.setOnMouseClicked( h -> {
-            objet = new Mur(env, terrain);
-        });
-
-        labelMaintenace.setOnMouseClicked( h -> {
-            if(env.getTour().size() == 0){
-                boutique.MessagePasDeTour();
-            }
-            else {
-                boutique.MessageMaintenance();
-                objet = new Maintenance(env, terrain);
-            }
-
-        });
-
-        pane.setOnMouseClicked( h -> {
-            this.pos = terrain.getPosDansCarte((int)h.getX(), (int)h.getY());
-            if (boutique.getPrix() >= objet.getPrix()) {
-                objetVue.apparitionObjet(pos[0],pos[1], objet);
-            }
-            else{
-                boutique.MessageArgent();
-            }
-        });
-        objetVue.AfficherCheminBloque();
-
     }
 
     @FXML

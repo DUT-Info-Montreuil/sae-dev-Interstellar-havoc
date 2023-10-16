@@ -23,13 +23,11 @@ public class Environnement {
     private Terrain terrain;
     private  ObservableList<Ennemi> ennemis; // liste des ennemis present sur le terrain
     private  ObservableList<Objet> objets; // liste des objets present sur le terrain
-    private  ObservableList<Objet> objetsMort; // liste des objets present sur le terrain
     private ObservableList<Tour> tours; // liste des tourelles presente sur le terrain
     private IntegerProperty ennemisAtteints ; // Nombre d'ennemi qui ont atteint la base finale
     public BooleanProperty aProximiteTour ; // ennemis a proximité d'une tour
     private Map<Ennemi, BlastComponent> blast;
     private Pane pane;
-    private EnnemiFactory ennemiFactory ;
 
     public Environnement(Terrain terrain, Pane pane) {
         this.terrain = terrain;
@@ -48,7 +46,9 @@ public class Environnement {
         boolean spawnPossible = true;
         int ennemisMax = 5; // Maximum d'ennemis sur le terrain
         int ennemisActuels = ennemis.size();
-        ennemiFactory = null;
+        EnnemiFactory ennemiBallisteFactory = new BallisteFactory();
+        EnnemiFactory ennemiBehemothFactory =  new BehemothFactory();
+        EnnemiFactory ennemiScavengerFactory = new ScavengerFactory();
 
         if (ennemisActuels >= ennemisMax) {
             spawnPossible = false;
@@ -58,8 +58,7 @@ public class Environnement {
 
             /* on créer un ennemi si la liste est vide */
             if (ennemisActuels == 0) {
-                ennemiFactory = new BallisteFactory();
-                Ennemi ennemi = ennemiFactory.créerEnnemi(terrain);
+                Ennemi ennemi = ennemiBallisteFactory.créerEnnemi(terrain);
                 ennemis.add(ennemi);
                 ennemisAAjouter--;
             }
@@ -68,18 +67,15 @@ public class Environnement {
                 int spawnRate = random.nextInt(150) + 1;
                 switch (spawnRate) {
                     case 1:
-                        ennemiFactory = new BehemothFactory();
-                        Ennemi ennemi = ennemiFactory.créerEnnemi(terrain);
+                        Ennemi ennemi = ennemiBehemothFactory.créerEnnemi(terrain);
                         ennemis.add(ennemi);
                         break;
                     case 2:
-                        ennemiFactory = new ScavengerFactory();
-                        Ennemi ennemi1 = ennemiFactory.créerEnnemi(terrain);
+                        Ennemi ennemi1 = ennemiScavengerFactory.créerEnnemi(terrain);
                         ennemis.add(ennemi1);
                         break;
                     case 3:
-                        ennemiFactory = new BallisteFactory();
-                        Ennemi ennemi2 = ennemiFactory.créerEnnemi(terrain);
+                        Ennemi ennemi2 = ennemiBallisteFactory.créerEnnemi(terrain);
                         ennemis.add(ennemi2);
                         break;
                 }
@@ -89,7 +85,7 @@ public class Environnement {
 
     private void traiterEnnemi(Ennemi ennemi) {
         /* methode qui traite les actions de l'ennemi pour eviter de la redondence de code */
-        if (!ennemi.estDetruite()) {
+        if (!ennemi.estVivant()) {
             System.out.println("Mort de : " + ennemi.getId());
             ennemis.remove(ennemi); // on retire les morts de la liste
         } else if (ennemi.destinationFinaleAtteinte()) {
@@ -127,14 +123,12 @@ public class Environnement {
             objet.agit(); // explision des bombes
             if (!objet.estVivant()) {
                 objets.remove(objet); // retirer les mort de la liste
-                if(objet instanceof Mur) {
-                    objetsMort.add(objet);
-                }
+
             }
         }
         for (int i = 0; i < tours.size(); i++) {
             Tour tour = tours.get(i);
-            if (!tour.estDetruite()) {
+            if (tour.estVivant()) {
                 // Récupère les ennemis à portée et les attaque
                 List<Ennemi> ennemisDansPortee = getEnnemisDansPortee(tour);
                 for (Ennemi e : ennemisDansPortee) {
@@ -196,10 +190,6 @@ public class Environnement {
     }
     public IntegerProperty getennemisAtteintsProperty() {
         return ennemisAtteints;
-    }
-
-    public ObservableList<Objet> getObjetsMort() {
-        return objetsMort;
     }
 
     public ObservableList<Tour> getTour() {

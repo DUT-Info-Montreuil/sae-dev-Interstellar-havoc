@@ -22,7 +22,7 @@ public class Bombe extends Objet {
     public void agit() {
         for (int i = 0; i < environnement.getEnnemis().size(); i++) {
             if (ennemisProximite(environnement.getEnnemis().get(i))) {
-                environnement.getEnnemis().get(i).meur();
+                environnement.getEnnemis().get(i).meurt();
                 this.pv = 0; // mort de l'ennemi à proximité de la bombe
             }
         }

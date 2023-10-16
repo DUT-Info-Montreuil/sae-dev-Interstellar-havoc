@@ -9,7 +9,7 @@ import com.application.S2_dev.modele.map.Terrain;
 
 import java.util.Random;
 
-public class VagueDifficile implements com.application.S2_dev.modele.vagueFactory.VagueStrategy {
+public class VagueDifficile implements VagueStrategy {
     private final Random random = new Random();
 
     @Override

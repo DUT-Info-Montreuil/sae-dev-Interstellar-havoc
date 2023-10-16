@@ -28,18 +28,25 @@ public class ObjetVue implements ListChangeListener<Objet> {
     private Terrain terrain;
     private Objet objet;
     private URL urlBombe, urlHydrogene, urlExplosion;
+    private Label labelBombe, LabelHydrogene, labelMur, labelMaintenace;
     private Image ImageBombe, ImageHydrogene, ImageExplosion;
     private ImageView imageObjet;
     private Boutique boutique;
+    private  int[] pos;
     private static Clip clipFond ;// music pour les annimations
 
 
-    public ObjetVue(Pane pane, Environnement environnement, Terrain terrain, TerrainVue terrainVue, Boutique boutique){
+    public ObjetVue(Pane pane, Environnement environnement, Terrain terrain, TerrainVue terrainVue, Boutique boutique, Label labelBombe, Label labelMaintenace, Label labelMur, Label labelHydrogene){
         this.environnement = environnement;
         this.panneau_de_jeu = pane;
         this.terrain = terrain;
         this.terrainVue =  terrainVue;
         this.boutique = boutique;
+
+        this.labelMur = labelMur;
+        this.labelBombe = labelBombe;
+        this.LabelHydrogene = labelHydrogene;
+        this.labelMaintenace = labelMaintenace;
 
         /* URL et image des sprites */
         urlBombe = Main.class.getResource("image/objet/bombe.png");
@@ -81,8 +88,8 @@ public class ObjetVue implements ListChangeListener<Objet> {
             if(c.getRemoved().get(i) instanceof Mur) {
                 /* Placement du chemin apres la destruction du mur */
                 //System.out.println("je suis la Rabab !!");
-                //((Mur) objet).PlacerMur(pos[0], pos[1]);
-                //terrainVue.setImage(pos[0], pos[1],1);
+                ((Mur) objet).PlacerMur(pos[0], pos[1]);
+                terrainVue.setImage(pos[0], pos[1],1);
             }
             if(c.getRemoved().get(i) instanceof CheminBloque) {
                 /* Placement du chemin apres la destruction du mur */
@@ -124,6 +131,43 @@ public class ObjetVue implements ListChangeListener<Objet> {
         timeline.setOnFinished(event -> panneau_de_jeu.getChildren().remove(imageObjet)); /* Suppression de l'image du panneau de jeu */
     }
 
+    public void AjoutObjet(){
+        /* Méthode appelée lors de l'ajout d'un objet.*/
+        labelBombe.setOnMouseClicked(event -> {
+            objet = new Bombe(environnement, terrain);
+        });
+
+        LabelHydrogene.setOnMouseClicked(event -> {
+            objet = new Hydrogene(environnement, terrain);
+        });
+
+        labelMur.setOnMouseClicked( h -> {
+            objet = new Mur(environnement, terrain);
+        });
+
+        labelMaintenace.setOnMouseClicked( h -> {
+            if(environnement.getTour().size() == 0){
+                boutique.MessagePasDeTour();
+            }
+            else {
+                boutique.MessageMaintenance();
+                objet = new Maintenance(environnement, terrain);
+            }
+
+        });
+
+        panneau_de_jeu.setOnMouseClicked( h -> {
+            this.pos = terrain.getPosDansCarte((int)h.getX(), (int)h.getY());
+            if (boutique.getPrix() >= objet.getPrix()) {
+                this.apparitionObjet(pos[0],pos[1], objet);
+            }
+            else{
+                boutique.MessageArgent();
+            }
+        });
+        this.AfficherCheminBloque();
+
+    }
 
     public void apparitionCheminBloque(int ligne, int colonne) {
         /* Apparition du chemin bloqué sur la grille.*/

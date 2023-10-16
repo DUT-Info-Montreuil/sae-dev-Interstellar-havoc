@@ -32,10 +32,10 @@ public abstract class Acteur {
         vie.setValue(vie.getValue() - valeur);
     }
 
-    public boolean estDetruite() {
+    public boolean estVivant() {
         return vie.getValue() > 0;
     }
-    public void meur(){
+    public void meurt(){
         this.vie.setValue(0);
     }
     /* les getter et setter */

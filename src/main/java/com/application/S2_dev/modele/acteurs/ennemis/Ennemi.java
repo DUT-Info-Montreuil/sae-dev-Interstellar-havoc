@@ -29,6 +29,8 @@ public abstract class Ennemi extends Acteur {
             tour.infligerDegats(degats);
         }
     }
+
+
     public boolean objetProximite(Objet objet) {
         // Verifie si un objet est a proximité de l'ennemi
         double distance = calculerDistance(objet.getX(), objet.getY());
