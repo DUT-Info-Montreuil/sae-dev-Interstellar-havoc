@@ -137,7 +137,7 @@ public class ControlleurTerrainJeu implements Initializable {
         this.gameLoop.play();
         try {
             this.gameLoop.pause(); // pause de jeu
-            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Inventaire/Inventaire.fxml"));
+            root = FXMLLoader.load(Main.class.getResource("com/application/S2_dev/fxml/Inventaire/Inventaire.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Inventaire");
             stage.setScene(new Scene(root, 1000, 600));
@@ -172,7 +172,7 @@ public class ControlleurTerrainJeu implements Initializable {
         Parent root;
         try {
             this.gameLoop.pause(); // Pause du jeu
-            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Consigne/Consigne.fxml"));
+            root = FXMLLoader.load(Main.class.getResource("com/application/S2_dev/fxml/Consigne/Consigne.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Consigne du jeu");
             stage.setScene(new Scene(root, 1250, 800));

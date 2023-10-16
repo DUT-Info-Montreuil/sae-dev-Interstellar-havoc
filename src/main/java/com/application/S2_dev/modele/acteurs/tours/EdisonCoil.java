@@ -8,7 +8,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class EdisonCoil extends Tour {
 
     private int taux_tir = 5; // Taux de tir de la tour (coups par seconde)
-    private int tempsRecharge = 0;
 
     public EdisonCoil(int x, int y, int niveau) {
 

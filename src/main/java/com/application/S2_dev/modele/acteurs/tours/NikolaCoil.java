@@ -9,7 +9,6 @@ public class NikolaCoil extends Tour {
 
 
     private int TAUX_TIR = 2; // Taux de tir de la tour (coups par seconde)
-    private int tempsRecharge = 0;
 
     public NikolaCoil(int x, int y, int niveau) {
         super((2-niveau), "NikolaCoil", x, y, TowerType.Nikola, niveau, 100 * niveau, 50 + (niveau * 5));
