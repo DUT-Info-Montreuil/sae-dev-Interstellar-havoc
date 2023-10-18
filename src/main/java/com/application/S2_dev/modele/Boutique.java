@@ -1,17 +1,27 @@
 package com.application.S2_dev.modele;
 
+import com.application.S2_dev.modele.map.Environnement;
+import com.application.S2_dev.modele.map.Terrain;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.Pane;
 
 public class Boutique {
     private final IntegerProperty prix; // prix de base à chaque debut de jeu
     private final Timeline gameLoop;
+    private static Boutique uniqueInstance = null;
 
-    public Boutique(Timeline gameLoop) {
+    private Boutique(Timeline gameLoop) {
         prix = new SimpleIntegerProperty(Parametre.argentDebutJoueur);
         this.gameLoop = gameLoop;
+    }
+    public static Boutique getInstance(Timeline gameLoop){
+        if(uniqueInstance==null){
+            uniqueInstance= new Boutique(gameLoop);
+        }
+        return uniqueInstance;
     }
 
     public void MessageArgent() {

@@ -83,7 +83,7 @@ public class ControlleurTerrainJeu implements Initializable {
         terrainVue = new TerrainVue(tilePane, terrain, env);
         terrainVue.afficherTerrain(); // Affichage du terrain
         initAnimation();
-        boutique = new Boutique(gameLoop); // Boutique pour l'achat de chaque des defences ou objets
+        boutique = Boutique.getInstance(gameLoop); // Boutique pour l'achat de chaque des defences ou objets
 
         /* Affichage des ennemis */
         ennemiVue = new EnnemiVue(pane, labelScavenger, labelBalliste, labelBehemoth, env, boutique);
