@@ -1,54 +1,87 @@
 package com.application.S2_dev.modele.map;
 
-import com.application.S2_dev.modele.ennemis.Ennemi;
+import com.application.S2_dev.modele.acteurs.ennemis.Ennemi;
+import com.application.S2_dev.modele.EnnemiFactory.BallisteFactory;
+import com.application.S2_dev.modele.EnnemiFactory.BehemothFactory;
+import com.application.S2_dev.modele.EnnemiFactory.EnnemiFactory;
+import com.application.S2_dev.modele.EnnemiFactory.ScavengerFactory;
+import com.application.S2_dev.modele.objet.Mur;
 import com.application.S2_dev.modele.objet.Objet;
-import com.application.S2_dev.modele.tours.Tour;
+import com.application.S2_dev.modele.acteurs.tours.Tour;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.layout.Pane;
 
 import java.util.*;
 
-
 public class Environnement {
+    private Random random = new Random(); // Random pour calculer les vagues d'ennemis
+    private Terrain terrain;
+    private  ObservableList<Ennemi> ennemis; // liste des ennemis present sur le terrain
+    private  ObservableList<Objet> objets; // liste des objets present sur le terrain
+    private ObservableList<Tour> tours; // liste des tourelles presente sur le terrain
+    private IntegerProperty ennemisAtteints ; // Nombre d'ennemi qui ont atteint la base finale
+    public BooleanProperty aProximiteTour ; // ennemis a proximité d'une tour
+    private Map<Ennemi, BlastComponent> blast;
+    private Pane pane;
 
-    private static Environnement instance; // Instance unique de la classe
-    private final Random random = new Random();
-    private final Terrain terrain;
-    private final ObservableList<Ennemi> ennemis;
-    private final ObservableList<Objet> objets;
-    private final ObservableList<Tour> tours;
-    private final IntegerProperty ennemisAtteints;
-    public BooleanProperty aProximiteTour;
-    private final Map<Ennemi, BlastComponent> blast;
-    private final Pane pane;
-
-    // Constructeur privé pour empêcher l'instanciation directe depuis l'extérieur de la classe
     public Environnement(Terrain terrain, Pane pane) {
         this.terrain = terrain;
         this.ennemis = FXCollections.observableArrayList();
         this.tours = FXCollections.observableArrayList();
         this.objets = FXCollections.observableArrayList();
-        this.ennemisAtteints = new SimpleIntegerProperty(0);
+        this.ennemisAtteints = new SimpleIntegerProperty(0) ;
         this.aProximiteTour = new SimpleBooleanProperty(false);
         this.blast = new HashMap<>();
         this.pane = pane;
-
     }
 
-    // Méthode publique pour obtenir l'instance unique de la classe
-    public static Environnement getInstance(Terrain terrain, Pane pane) {
-        if (instance == null) {
-            instance = new Environnement(terrain, pane);
+    // Methode qui genere des vagues d'ennemis
+    //classe vague design strat
+    public void ajouterVague() {
+        boolean spawnPossible = true;
+        int ennemisMax = 5; // Maximum d'ennemis sur le terrain
+        int ennemisActuels = ennemis.size();
+        EnnemiFactory ennemiBallisteFactory = new BallisteFactory();
+        EnnemiFactory ennemiBehemothFactory =  new BehemothFactory();
+        EnnemiFactory ennemiScavengerFactory = new ScavengerFactory();
+
+        if (ennemisActuels >= ennemisMax) {
+            spawnPossible = false;
         }
-        return instance;
+        if (spawnPossible) {
+            int ennemisAAjouter =  ennemisMax - ennemisActuels; // ennemis à ajouter dans la liste
+
+            /* on créer un ennemi si la liste est vide */
+            if (ennemisActuels == 0) {
+                Ennemi ennemi = ennemiBallisteFactory.créerEnnemi(terrain);
+                ennemis.add(ennemi);
+                ennemisAAjouter--;
+            }
+            /* On parcour le nombre d'ennemi à ajouter pour on fait un random */
+            for (int compteur = 0; compteur < ennemisAAjouter; compteur++) {
+                int spawnRate = random.nextInt(150) + 1;
+                switch (spawnRate) {
+                    case 1:
+                        Ennemi ennemi = ennemiBehemothFactory.créerEnnemi(terrain);
+                        ennemis.add(ennemi);
+                        break;
+                    case 2:
+                        Ennemi ennemi1 = ennemiScavengerFactory.créerEnnemi(terrain);
+                        ennemis.add(ennemi1);
+                        break;
+                    case 3:
+                        Ennemi ennemi2 = ennemiBallisteFactory.créerEnnemi(terrain);
+                        ennemis.add(ennemi2);
+                        break;
+                }
+            }
+        }
     }
-
-
 
     private void traiterEnnemi(Ennemi ennemi) {
         /* methode qui traite les actions de l'ennemi pour eviter de la redondence de code */
@@ -61,14 +94,13 @@ public class Environnement {
             System.out.println("Joueurs atteints : " + ennemisAtteints);
         } else {
             for (Tour t : tours) {
-                ennemi.attaquerTour(t); // attaque des tours
+                ennemi.attaquerActeur(t); // attaque des tours
             }
             for (Objet o : objets) {
                 ennemi.attaqueObjet(o); // attaque des objets (mur et chemin bloquer)
             }
         }
     }
-
     public void unTour() {
 
         for (int i = 0; i < ennemis.size(); i++) {
@@ -91,16 +123,17 @@ public class Environnement {
             objet.agit(); // explision des bombes
             if (!objet.estVivant()) {
                 objets.remove(objet); // retirer les mort de la liste
+
             }
         }
         for (int i = 0; i < tours.size(); i++) {
             Tour tour = tours.get(i);
-            if (!tour.estDetruite()) {
+            if (tour.estVivant()) {
                 // Récupère les ennemis à portée et les attaque
                 List<Ennemi> ennemisDansPortee = getEnnemisDansPortee(tour);
                 for (Ennemi e : ennemisDansPortee) {
                     // Remarque : l'attaque est basée sur le taux de tir de la tour
-                    tour.attaquerEnnemi(e);
+                    tour.attaquerActeur(e);
                 }
             } else {
                 System.out.println("Tour détruite : " + tour.getId());
@@ -139,17 +172,14 @@ public class Environnement {
         for (Ennemi e : tempList) {
             blast.remove(e);
         }
-
+        ajouterVague(); // Ajout des vages d'ennemi
     }
-
     public void ajouterTour(Tour tour) {
         tours.add(tour); /* Ajouter des tours à la liste */
     }
-
     public void ajoutObjet(Objet objet) {
         this.objets.add(objet); /* Ajouter des objets a la liste */
     }
-
     public BooleanProperty aProximiteTourProperty() {
         return this.aProximiteTour;
     }
@@ -158,7 +188,6 @@ public class Environnement {
     public int getennemisAtteints() {
         return this.ennemisAtteints.getValue();
     }
-
     public IntegerProperty getennemisAtteintsProperty() {
         return ennemisAtteints;
     }
@@ -166,18 +195,14 @@ public class Environnement {
     public ObservableList<Tour> getTour() {
         return tours;
     }
-
     public ObservableList<Objet> getObjets() {
         return objets;
     }
-
     public ObservableList<Ennemi> getEnnemis() {
         return ennemis;
     }
-
     /**
      * Renvoie une liste d'ennemis à portée de cette tour
-     *
      * @param tour Objet Tour représentant la tour
      * @return liste d'ennemis à portée
      */
@@ -186,10 +211,11 @@ public class Environnement {
         List<Ennemi> temp = new ArrayList<>();
 
         for (Ennemi e : ennemis) {
-            if (tour.estDansportee(e)) {
+            if (tour.estDansPortee(e)) {
                 this.aProximiteTour.setValue(true);
                 temp.add(e);
-            } else {
+            }
+            else{
                 this.aProximiteTour.setValue(false);
             }
         }
