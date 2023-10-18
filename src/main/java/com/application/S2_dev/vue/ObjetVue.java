@@ -5,8 +5,8 @@ import com.application.S2_dev.modele.Boutique;
 import com.application.S2_dev.modele.données.TerrainType;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
-import com.application.S2_dev.modele.objet.*;
-import com.application.S2_dev.modele.objet.Mur;
+import com.application.S2_dev.modele.acteurs.objet.*;
+import com.application.S2_dev.modele.acteurs.objet.Mur;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -204,7 +204,6 @@ public class ObjetVue implements ListChangeListener<Objet> {
     public void setObjetSelectionne(){
        /* Définit l'objet sélectionné en fonction de l'option choisie.*/
         if (objetSelectionne.equals("Bombe")) {
-            Comportement com = new ComportementBombe();
             objet = new Bombe(environnement, terrain);
         }
         else if (objetSelectionne.equals("Hydrogene")) {

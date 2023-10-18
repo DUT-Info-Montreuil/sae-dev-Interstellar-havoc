@@ -62,6 +62,10 @@ public abstract class Acteur {
         return vie;
     }
 
+    public void setVie(int vie) {
+        this.vie.set(vie);
+    }
+
     public void setX(double x1) {
         this.x.setValue(x1);
     }

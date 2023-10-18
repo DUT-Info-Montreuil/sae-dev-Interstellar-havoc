@@ -3,7 +3,7 @@ package com.application.S2_dev.modele.acteurs.ennemis;
 import com.application.S2_dev.modele.acteurs.Acteur;
 import com.application.S2_dev.modele.bfs.Cellule;
 import com.application.S2_dev.modele.données.PixelMoveTimeEvent;
-import com.application.S2_dev.modele.objet.Objet;
+import com.application.S2_dev.modele.acteurs.objet.Objet;
 import com.application.S2_dev.modele.map.Terrain;
 
 public abstract class Ennemi extends Acteur {
