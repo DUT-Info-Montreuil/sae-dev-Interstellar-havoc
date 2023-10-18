@@ -77,7 +77,7 @@ public class ControlleurTerrainJeu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        terrain = new Terrain(); // Création du terrain
+        terrain = Terrain.getInstance(); // Création du terrain
         env = Environnement.getInstance(terrain, pane); // Création de l'environnement
 
         terrainVue = new TerrainVue(tilePane, terrain, env);
