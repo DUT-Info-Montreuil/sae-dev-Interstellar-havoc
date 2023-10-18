@@ -14,21 +14,13 @@ public class CheminBloque extends Objet {
         this.colonne = colonne;
     }
 
-    @Override
-    public void degat(int value) {
-        /* degats infligés au mur */
-        this.pv -= value;
-    }
+
 
     public void PlacerMur(int i, int j) {
         /* Placement du chemin apres destruction du mur */
         terrain.placementMur(i, j);
     }
 
-    @Override
-    public void agit() {
-        /* Cet objet n'agit pas */
-    }
 
     /* les getter et setter */
     public int getLigne() {
@@ -37,5 +29,10 @@ public class CheminBloque extends Objet {
 
     public int getColonne() {
         return colonne;
+    }
+
+    @Override
+    public void agit() {
+
     }
 }

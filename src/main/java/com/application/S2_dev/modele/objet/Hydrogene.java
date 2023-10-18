@@ -9,21 +9,7 @@ public class Hydrogene extends Objet {
 
         super(environnement, terrain);
         prix = 300; // prix de l'objet
+        setComportement(new ComportementHydrogène());
     }
 
-    @Override
-    public void degat(int value) {
-        /* Cet objet n'est pas endommageable */
-    }
-
-    @Override
-    public void agit() {
-        for (int i = 0; i < environnement.getEnnemis().size(); i++) {
-            environnement.getEnnemis().get(i).meurt(); // mort de tous les ennemis
-        }
-        for (int i = 0; i < environnement.getTour().size(); i++) {
-            environnement.getTour().get(i).meurt(); // mort de toites les tourelles
-        }
-        this.pv = 0;
-    }
 }
