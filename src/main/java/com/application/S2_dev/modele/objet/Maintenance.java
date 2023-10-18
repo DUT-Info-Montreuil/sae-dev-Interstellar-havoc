@@ -9,12 +9,4 @@ public class Maintenance extends Objet {
         prix = 300; // prix de l'objet
 
     }
-
-    @Override
-    public void agit() {
-    }
-
-    @Override
-    public void degat(int value) {
-    }
 }

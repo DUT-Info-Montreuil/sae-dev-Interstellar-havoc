@@ -5,7 +5,7 @@ import com.application.S2_dev.modele.map.Terrain;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
-public abstract class Objet {
+public class Objet {
     protected Comportement comportement;
     protected static Environnement environnement;
     protected static Terrain terrain;
@@ -25,6 +25,7 @@ public abstract class Objet {
         this.id = "Ob" + compteur;
         compteur++;
         this.pv = 20;
+
     }
 
     public int getPv() {
@@ -55,7 +56,7 @@ public abstract class Objet {
         return pv > 0;
     }
 
-    public void agit(){comportement.agit(this);};
+    public void agit(){comportement.agit(this);}
 
     public void degat(int value){comportement.degats(value,this);}
 
@@ -71,4 +72,7 @@ public abstract class Objet {
         comportement = c;
     }
 
+    public Comportement getComportement() {
+        return comportement;
+    }
 }

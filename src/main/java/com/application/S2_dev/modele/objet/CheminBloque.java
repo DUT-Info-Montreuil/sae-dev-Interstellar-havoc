@@ -31,8 +31,4 @@ public class CheminBloque extends Objet {
         return colonne;
     }
 
-    @Override
-    public void agit() {
-
-    }
 }

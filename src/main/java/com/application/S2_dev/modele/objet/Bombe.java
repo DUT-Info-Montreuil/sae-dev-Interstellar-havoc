@@ -13,8 +13,6 @@ public class Bombe extends Objet {
         prix = 50; // prix de l'objet
         setComportement(new ComportementBombe());
     }
-
-
 }
 
 

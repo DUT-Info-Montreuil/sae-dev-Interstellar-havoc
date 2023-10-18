@@ -203,6 +203,7 @@ public class ObjetVue implements ListChangeListener<Objet> {
     public void setObjetSelectionne(){
        /* Définit l'objet sélectionné en fonction de l'option choisie.*/
         if (objetSelectionne.equals("Bombe")) {
+            Comportement com = new ComportementBombe();
             objet = new Bombe(environnement, terrain);
         }
         else if (objetSelectionne.equals("Hydrogene")) {
