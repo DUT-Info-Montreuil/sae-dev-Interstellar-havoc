@@ -7,10 +7,10 @@ public class ComportementHydrogène implements Comportement{
     @Override
     public void agit(Objet obj) {
         for (int i = 0; i < environnement.getEnnemis().size(); i++) {
-            environnement.getEnnemis().get(i).meur(); // mort de tous les ennemis
+            environnement.getEnnemis().get(i).meurt(); // mort de tous les ennemis
         }
         for (int i = 0; i < environnement.getTour().size(); i++) {
-            environnement.getTour().get(i).meur(); // mort de toites les tourelles
+            environnement.getTour().get(i).meurt(); // mort de toites les tourelles
         }
         obj.pv = 0;
     }

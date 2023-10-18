@@ -7,7 +7,7 @@ public class ComportementBombe implements Comportement {
     public void agit( Objet obj) {
         for (int i = 0; i < environnement.getEnnemis().size(); i++) {
             if (ennemisProximite(environnement.getEnnemis().get(i),obj)) {
-                environnement.getEnnemis().get(i).meur();
+                environnement.getEnnemis().get(i).meurt();
                 obj.pv = 0;
             }
         }

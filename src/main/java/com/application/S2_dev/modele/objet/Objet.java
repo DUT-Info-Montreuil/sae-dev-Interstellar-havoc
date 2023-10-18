@@ -56,9 +56,9 @@ public class Objet {
         return pv > 0;
     }
 
-    public void agit(){comportement.agit(this);}
+    public void agit(){if(comportement!=null)comportement.agit(this);}
 
-    public void degat(int value){comportement.degats(value,this);}
+    public void degat(int value){if(comportement!=null)comportement.degats(value,this);}
 
     public int getPrix() {
         return prix;

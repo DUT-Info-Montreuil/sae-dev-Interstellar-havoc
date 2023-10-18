@@ -1,6 +1,7 @@
 package com.application.S2_dev.modele.objet;
 
-import com.application.S2_dev.modele.ennemis.Ennemi;
+import com.application.S2_dev.modele.acteurs.ennemis.Ennemi;
+
 
 
 public interface Comportement {
@@ -14,7 +15,7 @@ public interface Comportement {
     default boolean ennemisProximite(Ennemi ennemi, Objet obj) {
         // ennemis à proximité de la bombe
         double distance = calculaterDistance(ennemi.getX(), ennemi.getY(),obj);
-        return distance <= obj.PORTE;
+        return distance <= ennemi.getPortee();
     }
 
 

@@ -90,7 +90,7 @@ public class ControlleurTerrainJeu implements Initializable {
         env.getEnnemis().addListener(ennemiVue);
 
         /* Affichage des objets */
-        objetVue = new ObjetVue(pane, env, terrain, terrainVue, boutique, labelBombe, labelMaintenace, labelMur, LabelHydrogene);
+        objetVue = new ObjetVue(pane, env, labelBombe,  LabelHydrogene,labelMur,terrain,terrainVue,boutique,labelMaintenace);
         env.getObjets().addListener(objetVue);
         objetVue.AjoutObjet();
 

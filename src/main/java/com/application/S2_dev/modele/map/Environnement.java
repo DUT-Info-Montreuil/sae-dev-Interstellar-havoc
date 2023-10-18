@@ -184,6 +184,7 @@ public class Environnement {
         return this.aProximiteTour;
     }
 
+
     /* les getter et setter */
     public int getennemisAtteints() {
         return this.ennemisAtteints.getValue();

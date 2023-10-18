@@ -72,4 +72,8 @@ public abstract class Acteur {
     public String toString() {
         return "id "+id;
     }
+
+    public int getPortee() {
+        return portee;
+    }
 }
