@@ -5,7 +5,6 @@ import com.application.S2_dev.modele.EnnemiFactory.BallisteFactory;
 import com.application.S2_dev.modele.EnnemiFactory.BehemothFactory;
 import com.application.S2_dev.modele.EnnemiFactory.EnnemiFactory;
 import com.application.S2_dev.modele.EnnemiFactory.ScavengerFactory;
-import com.application.S2_dev.modele.objet.Mur;
 import com.application.S2_dev.modele.objet.Objet;
 import com.application.S2_dev.modele.acteurs.tours.Tour;
 import javafx.beans.property.BooleanProperty;

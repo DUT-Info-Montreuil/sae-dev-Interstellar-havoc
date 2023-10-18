@@ -6,6 +6,7 @@ import com.application.S2_dev.modele.données.TerrainType;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.modele.objet.*;
+import com.application.S2_dev.modele.objet.Mur;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
