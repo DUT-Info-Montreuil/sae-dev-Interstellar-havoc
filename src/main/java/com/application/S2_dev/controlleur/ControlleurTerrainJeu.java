@@ -5,6 +5,7 @@ import com.application.S2_dev.modele.Parametre;
 import com.application.S2_dev.modele.Boutique;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
+import com.application.S2_dev.modele.objet.*;
 import com.application.S2_dev.vue.ObjetVue;
 import com.application.S2_dev.vue.EnnemiVue;
 import com.application.S2_dev.vue.TerrainVue;
@@ -69,15 +70,16 @@ public class ControlleurTerrainJeu implements Initializable {
     private TerrainVue terrainVue;
     private ObjetVue objetVue;
     private Terrain terrain;
-    private Environnement env;
+    public Environnement env;
     private Boutique boutique;
+
+    private Objet objet;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         terrain = new Terrain(); // Création du terrain
         env = new Environnement(terrain, pane); // Création de l'environnement
 
-        
         terrainVue = new TerrainVue(tilePane, terrain, env);
         terrainVue.afficherTerrain(); // Affichage du terrain
         initAnimation();
@@ -88,7 +90,7 @@ public class ControlleurTerrainJeu implements Initializable {
         env.getEnnemis().addListener(ennemiVue);
 
         /* Affichage des objets */
-        objetVue = new ObjetVue(pane, env, labelBombe, LabelHydrogene, labelMur, terrain, terrainVue, boutique, labelMaintenace);
+        objetVue = new ObjetVue(pane, env, labelBombe,  LabelHydrogene,labelMur,terrain,terrainVue,boutique,labelMaintenace);
         env.getObjets().addListener(objetVue);
         objetVue.AjoutObjet();
 
@@ -135,7 +137,7 @@ public class ControlleurTerrainJeu implements Initializable {
         this.gameLoop.play();
         try {
             this.gameLoop.pause(); // pause de jeu
-            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Inventaire/Inventaire.fxml"));
+            root = FXMLLoader.load(Main.class.getResource("com/application/S2_dev/fxml/Inventaire/Inventaire.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Inventaire");
             stage.setScene(new Scene(root, 1000, 600));
@@ -170,7 +172,7 @@ public class ControlleurTerrainJeu implements Initializable {
         Parent root;
         try {
             this.gameLoop.pause(); // Pause du jeu
-            root = FXMLLoader.load(Main.class.getResource("/com/application/S2_dev/fxml/Consigne/Consigne.fxml"));
+            root = FXMLLoader.load(Main.class.getResource("com/application/S2_dev/fxml/Consigne/Consigne.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Consigne du jeu");
             stage.setScene(new Scene(root, 1250, 800));
