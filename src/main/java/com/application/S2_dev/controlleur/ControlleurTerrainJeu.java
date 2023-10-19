@@ -5,7 +5,6 @@ import com.application.S2_dev.modele.Parametre;
 import com.application.S2_dev.modele.Boutique;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
-import com.application.S2_dev.modele.objet.*;
 import com.application.S2_dev.vue.ObjetVue;
 import com.application.S2_dev.vue.EnnemiVue;
 import com.application.S2_dev.vue.TerrainVue;
@@ -72,8 +71,6 @@ public class ControlleurTerrainJeu implements Initializable {
     private Terrain terrain;
     public Environnement env;
     private Boutique boutique;
-
-    private Objet objet;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

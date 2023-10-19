@@ -4,9 +4,10 @@ import com.application.S2_dev.modele.acteurs.ennemis.Ennemi;
 import com.application.S2_dev.modele.designPattern.EnnemiFactory.BallisteFactory;
 import com.application.S2_dev.modele.designPattern.EnnemiFactory.BehemothFactory;
 import com.application.S2_dev.modele.designPattern.EnnemiFactory.EnnemiFactory;
-import com.application.S2_dev.modele.designPattern.EnnemiFactory.ScavengerFactory;
+
 import com.application.S2_dev.modele.acteurs.objet.Objet;
 import com.application.S2_dev.modele.acteurs.tours.Tour;
+import com.application.S2_dev.modele.designPattern.EnnemiFactory.ScavengerFactory;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
