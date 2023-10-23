@@ -3,18 +3,20 @@ package com.application.S2_dev.modele.map;
 import com.application.S2_dev.modele.bfs.BFS;
 import com.application.S2_dev.modele.bfs.Cellule;
 import com.application.S2_dev.modele.données.TerrainType;
+import javafx.scene.layout.Pane;
 
 import java.util.LinkedList;
 
 public class Terrain {
     private final int[][] terrain;
+    private static Terrain uniqueInstance = null;
     private final BFS bfs;
     private LinkedList<Cellule> cheminPlusCourt;
     private final int[] depart = {1, 0};
     private final int[] fin = {12, 60};
 
 
-    public Terrain() {
+    private Terrain() {
         terrain = new int[][]{
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 {1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -55,6 +57,13 @@ public class Terrain {
         };
 
         bfs = new BFS(terrain, depart, fin);
+    }
+
+    public static Terrain getInstance(){
+        if(uniqueInstance==null){
+            uniqueInstance= new Terrain();
+        }
+        return uniqueInstance;
     }
 
     public TerrainType getCase(int i, int j) {

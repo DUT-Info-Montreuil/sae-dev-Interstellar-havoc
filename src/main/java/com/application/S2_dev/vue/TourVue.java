@@ -3,14 +3,12 @@ package com.application.S2_dev.vue;
 import com.application.S2_dev.Main;
 import com.application.S2_dev.modele.Boutique;
 import com.application.S2_dev.modele.Parametre;
+import com.application.S2_dev.modele.TourFactory.TourFactory;
 import com.application.S2_dev.modele.données.TerrainType;
 import com.application.S2_dev.modele.données.TowerType;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
 import com.application.S2_dev.modele.acteurs.tours.Tour;
-import com.application.S2_dev.modele.acteurs.tours.EdisonCoil;
-import com.application.S2_dev.modele.acteurs.tours.NikolaCoil;
-import com.application.S2_dev.modele.acteurs.tours.OppenheimerCoil;
 import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
 import javafx.scene.control.Alert;
@@ -116,30 +114,14 @@ public class TourVue implements ListChangeListener<Tour> {
     /**
      * Place une tour sur la carte
      * @param ligne Position de ligne dans la carte en tuiles
-     * @param cologne Position de cologneonne dans la carte en tuiles
+     * @param colonne Position de colonne dans la carte en tuiles
      * @param level Niveau de la tour
      */
-    public void placerTour(int ligne, int cologne, int level) {
+    public void placerTour(int ligne, int colonne, int level) {
         // Vérifier si la tour peut être placée aux coordonnées spécifiées
-        if (peutPlacerTourA(ligne, cologne)) {
+        if (peutPlacerTourA(ligne, colonne)) {
+            Tour tour = TourFactory.creerTour(colonne,ligne,level,selectedTowerType);
 
-            Tour tour;
-
-            // Créer l'objet tour en fonction du type de tour
-            switch (selectedTowerType) {
-                case Nikola:
-                    tour = new NikolaCoil((int)cologne*16, (int)ligne*16, level);
-                    break;
-                case Edison:
-                    tour = new EdisonCoil((int)cologne*16, (int)ligne*16, level);
-                    System.out.println("VIE DE LA TOUR " + tour.getVie());
-                    break;
-                case Oppenheimer:
-                    tour = new OppenheimerCoil((int)cologne*16, (int)ligne*16, level);
-                    break;
-                default:
-                    return;
-            }
             if (boutique.getPrix()< tour.getPrix()) {
                 boutique.MessageArgent();
                 return;
@@ -151,7 +133,7 @@ public class TourVue implements ListChangeListener<Tour> {
             soustraireArgent(tour.getPrix());
         } else {
             // Placement de la tour non autorisé aux coordonnées spécifiées
-            System.out.println("Placement de la tour non autorisé aux coordonnées (" + ligne + ", " + cologne + ")");
+            System.out.println("Placement de la tour non autorisé aux coordonnées (" + ligne + ", " + colonne + ")");
         }
     }
     void soustraireArgent(int valeur) {

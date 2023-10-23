@@ -5,13 +5,21 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Alert;
 
-public class Boutique {
-    private final IntegerProperty prix; // prix de base à chaque debut de jeu
-    private final Timeline gameLoop;
 
-    public Boutique(Timeline gameLoop) {
+public class Boutique {
+    private final IntegerProperty prix;
+    private final Timeline gameLoop;
+    private static Boutique uniqueInstance = null;
+
+    private Boutique(Timeline gameLoop) {
         prix = new SimpleIntegerProperty(Parametre.argentDebutJoueur);
         this.gameLoop = gameLoop;
+    }
+    public static Boutique getInstance(Timeline gameLoop){
+        if(uniqueInstance==null){
+            uniqueInstance= new Boutique(gameLoop);
+        }
+        return uniqueInstance;
     }
 
     public void MessageArgent() {

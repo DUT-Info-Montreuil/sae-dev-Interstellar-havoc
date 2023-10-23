@@ -22,7 +22,7 @@ class BFSTest {
         };
         int[] depart = {1, 0};
         int[] fin = {1,7};
-        Terrain terrain = new Terrain();
+        Terrain terrain = Terrain.getInstance();
         BFS BFS = new BFS(grid, depart, fin);
 
         LinkedList<Cellule> cheminPlusCourt = BFS.getPlusCourtChemin();
@@ -47,7 +47,7 @@ class BFSTest {
 
         int[] depart = {0, 0};
         int[] fin = {1, 7};
-        Terrain terrain = new Terrain();
+        Terrain terrain = Terrain.getInstance();
         BFS BFS = new BFS(grid, depart, fin);
 
         LinkedList<Cellule> cheminPlusCourt = BFS.getPlusCourtChemin();
