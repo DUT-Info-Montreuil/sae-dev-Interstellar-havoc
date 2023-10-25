@@ -20,6 +20,7 @@ import java.util.*;
 
 public class Environnement {
     private Random random = new Random(); // Random pour calculer les vagues d'ennemis
+    private  static Environnement uniqueInstance = null;
     private Terrain terrain;
     private  ObservableList<Ennemi> ennemis; // liste des ennemis present sur le terrain
     private  ObservableList<Objet> objets; // liste des objets present sur le terrain
@@ -38,6 +39,13 @@ public class Environnement {
         this.aProximiteTour = new SimpleBooleanProperty(false);
         this.blast = new HashMap<>();
         this.pane = pane;
+    }
+
+    public static Environnement getInstance(Terrain terrain, Pane pane) {
+        if(uniqueInstance == null){
+            uniqueInstance = new Environnement(terrain, pane);
+        }
+        return uniqueInstance;
     }
 
     // Methode qui genere des vagues d'ennemis

@@ -6,7 +6,6 @@ public class BFS {
 
     public BFS(int[][] matrice, int[] debut, int[] fin) {
         plusCourtChemin2(matrice, debut, fin);
-
     }
 
     private LinkedList<Cellule> plusCourtChemin;

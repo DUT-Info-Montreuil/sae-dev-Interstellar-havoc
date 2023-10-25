@@ -24,7 +24,6 @@ public abstract class Ennemi extends Acteur {
     public void attaquerActeur(Acteur tour) {
 
         if (this.estDansPortee(tour)) {
-            System.out.println("JATTAQUE");
             // Infliger des dégâts à la tour
             tour.infligerDegats(degats);
         }
@@ -54,27 +53,25 @@ public abstract class Ennemi extends Acteur {
     public void agir() {
         celluleCourante = terrain.getPlusCourtChemin().get(i);
         celluleSuivante = i > 0 ? terrain.getPlusCourtChemin().get(i - 1) : null;
+
         if (celluleSuivante != null) {
-            if(terrain.getCase1(celluleSuivante.getI(),celluleSuivante.getJ())==1) {
+            if (terrain.getCase1(celluleSuivante.getI(), celluleSuivante.getJ()) == 1) {
                 int diffX = celluleCourante.getI() - celluleSuivante.getI();
                 int diffY = celluleCourante.getJ() - celluleSuivante.getJ();
-                PixelMoveTimeEvent.initAnimation(this,diffX,diffY);
+                PixelMoveTimeEvent.initAnimation(this, diffX, diffY);
             }
-            if(terrain.getCase1(celluleSuivante.getI(),celluleSuivante.getJ())==2) {
-                while(AttaquerObjet()){
+            if (terrain.getCase1(celluleSuivante.getI(), celluleSuivante.getJ()) == 2) {
+                while (AttaquerObjet()) {
                     return;
                 }
             }
         }
-        i++;
+                i++;
         this.toString();
     }
+
     public Cellule getCelluleCourante() {
         return celluleCourante;
     }
-
-
-
-
 
 }

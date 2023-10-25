@@ -5,7 +5,6 @@ import com.application.S2_dev.modele.Parametre;
 import com.application.S2_dev.modele.Boutique;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
-import com.application.S2_dev.modele.objet.*;
 import com.application.S2_dev.vue.ObjetVue;
 import com.application.S2_dev.vue.EnnemiVue;
 import com.application.S2_dev.vue.TerrainVue;
@@ -72,13 +71,11 @@ public class ControlleurTerrainJeu implements Initializable {
     private Terrain terrain;
     public Environnement env;
     private Boutique boutique;
-    private  int[] pos;
-    private Objet objet;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         terrain = Terrain.getInstance(); // Création du terrain
-        env = Environnement.getInstance(terrain, pane); // Création de l'environnement
+        env = Environnement.getInstance(terrain,pane); // Création de l'environnement
 
         terrainVue = new TerrainVue(tilePane, terrain, env);
         terrainVue.afficherTerrain(); // Affichage du terrain
@@ -90,9 +87,9 @@ public class ControlleurTerrainJeu implements Initializable {
         env.getEnnemis().addListener(ennemiVue);
 
         /* Affichage des objets */
-        objetVue = new ObjetVue(pane, env, terrain, terrainVue, boutique);
+        objetVue = new ObjetVue(pane, env, labelBombe, LabelHydrogene, labelMur, terrain, terrainVue, boutique, labelMaintenace);
         env.getObjets().addListener(objetVue);
-        AjoutObjet();
+        objetVue.AjoutObjet();
 
         /* Affichage des tourelles */
         TourVue tourVue = new TourVue(env, tilePane, terrain, pane, idBobineEdison, idBobineOppenheimer, idBobineNikola, gameLoop, boutique);
@@ -129,48 +126,6 @@ public class ControlleurTerrainJeu implements Initializable {
         gameLoop.getKeyFrames().add(kf);
         gameLoop.play();
     }
-
-    public void AjoutObjet(){
-        /* Méthode appelée lors de l'ajout d'un objet.*/
-        labelBombe.setOnMouseClicked(event -> {
-            objet = new Bombe(env, terrain);
-        });
-
-        LabelHydrogene.setOnMouseClicked(event -> {
-            objet = new Hydrogene(env, terrain);
-        });
-
-        labelMur.setOnMouseClicked( h -> {
-            objet = new Mur(env, terrain);
-        });
-
-        labelMaintenace.setOnMouseClicked( h -> {
-            if(env.getTour().size() == 0){
-                boutique.MessagePasDeTour();
-            }
-            else {
-                boutique.MessageMaintenance();
-                objet = new Maintenance(env, terrain);
-            }
-
-        });
-
-        pane.setOnMouseClicked( h -> {
-           this.pos = terrain.getPosDansCarte((int)h.getX(), (int)h.getY());
-           if(boutique==null || objet == null){
-               return;
-           }
-            if (boutique.getPrix() >= objet.getPrix()) {
-                objetVue.apparitionObjet(pos[0],pos[1], objet);
-            }
-            else{
-                boutique.MessageArgent();
-            }
-        });
-        objetVue.AfficherCheminBloque();
-
-    }
-
     @FXML
     void ButtonInventaire(ActionEvent event) {
         /* Inventaire de jeu */

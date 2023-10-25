@@ -15,4 +15,5 @@ public class Behemoth extends Ennemi {
         this.vie =  new SimpleIntegerProperty(100);
     }
 
+
 }
