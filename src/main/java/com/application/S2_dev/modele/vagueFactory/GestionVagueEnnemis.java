@@ -9,9 +9,10 @@ public class GestionVagueEnnemis {
     private final Terrain terrain;
     private VagueStrategy vagueStrategy;
 
-    public GestionVagueEnnemis(Environnement environnement, Terrain terrain) {
+    public GestionVagueEnnemis(Environnement environnement, Terrain terrain,VagueStrategy vg) {
         this.environnement = environnement;
         this.terrain = terrain;
+        this.vagueStrategy = vg;
     }
 
     public void setVagueStrategy(VagueStrategy vagueStrategy) {
