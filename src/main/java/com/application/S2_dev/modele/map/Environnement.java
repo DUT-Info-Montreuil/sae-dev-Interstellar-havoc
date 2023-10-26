@@ -50,44 +50,10 @@ public class Environnement {
     // Methode qui genere des vagues d'ennemis
     //classe vague design strat
     public void ajouterVague() {
-        boolean spawnPossible = true;
-        int ennemisMax = 5; // Maximum d'ennemis sur le terrain
-        int ennemisActuels = ennemis.size();
-        EnnemiFactory ennemiBallisteFactory = new BallisteFactory();
-        EnnemiFactory ennemiBehemothFactory =  new BehemothFactory();
-        EnnemiFactory ennemiScavengerFactory = new ScavengerFactory();
+        GestionnaireProbabilite gestionnaireProbabilite = new GestionnaireProbabilite();
+        GestionVagueEnnemis gestionVagueEnnemis = new GestionVagueEnnemis(this, terrain, gestionnaireProbabilite.choisirVagueStrategy());
 
-        if (ennemisActuels >= ennemisMax) {
-            spawnPossible = false;
-        }
-        if (spawnPossible) {
-            int ennemisAAjouter =  ennemisMax - ennemisActuels; // ennemis à ajouter dans la liste
-
-            /* on créer un ennemi si la liste est vide */
-            if (ennemisActuels == 0) {
-                Ennemi ennemi = ennemiBallisteFactory.créerEnnemi(terrain);
-                ennemis.add(ennemi);
-                ennemisAAjouter--;
-            }
-            /* On parcour le nombre d'ennemi à ajouter pour on fait un random */
-            for (int compteur = 0; compteur < ennemisAAjouter; compteur++) {
-                int spawnRate = random.nextInt(150) + 1;
-                switch (spawnRate) {
-                    case 1:
-                        Ennemi ennemi = ennemiBehemothFactory.créerEnnemi(terrain);
-                        ennemis.add(ennemi);
-                        break;
-                    case 2:
-                        Ennemi ennemi1 = ennemiScavengerFactory.créerEnnemi(terrain);
-                        ennemis.add(ennemi1);
-                        break;
-                    case 3:
-                        Ennemi ennemi2 = ennemiBallisteFactory.créerEnnemi(terrain);
-                        ennemis.add(ennemi2);
-                        break;
-                }
-            }
-        }
+        gestionVagueEnnemis.ajouterVague();
     }
     private void traiterEnnemiSuivantSiMemePosition(int index) {
         /* On verifie sur l'ennemi d'apres est a la meme position que l'ennemis actuel */
@@ -213,6 +179,8 @@ public class Environnement {
         return ennemis;
     }
 
+import com.application.S2_dev.modele.vagueFactory.GestionVagueEnnemis;
+import com.application.S2_dev.modele.vagueFactory.GestionnaireProbabilite;
 }
 
 
