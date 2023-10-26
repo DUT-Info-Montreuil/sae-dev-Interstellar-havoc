@@ -12,7 +12,7 @@ public class Behemoth extends Ennemi {
         this.i = 0;
         this.degats= 20; // Portée de la tour
         this.portee=50; // Dommages infligés aux tours
-        this.vie =  new SimpleIntegerProperty(100);
+        this.vie =  new SimpleIntegerProperty(150);
     }
 
 

@@ -4,7 +4,6 @@ import com.application.S2_dev.modele.acteurs.ennemis.Ennemi;
 import com.application.S2_dev.modele.designPattern.EnnemiFactory.BallisteFactory;
 import com.application.S2_dev.modele.designPattern.EnnemiFactory.BehemothFactory;
 import com.application.S2_dev.modele.designPattern.EnnemiFactory.EnnemiFactory;
-
 import com.application.S2_dev.modele.acteurs.objet.Objet;
 import com.application.S2_dev.modele.acteurs.tours.Tour;
 import com.application.S2_dev.modele.designPattern.EnnemiFactory.ScavengerFactory;
@@ -90,96 +89,101 @@ public class Environnement {
             }
         }
     }
-
-    private void traiterEnnemi(Ennemi ennemi) {
-        /* methode qui traite les actions de l'ennemi pour eviter de la redondence de code */
-        if (!ennemi.estVivant()) {
-            System.out.println("Mort de : " + ennemi.getId());
-            ennemis.remove(ennemi); // on retire les morts de la liste
-        } else if (ennemi.destinationFinaleAtteinte()) {
-            ennemis.remove(ennemi);
-            ennemisAtteints.setValue(ennemisAtteints.getValue() + 1); // on incremente les ennemisAtteints
-            System.out.println("Joueurs atteints : " + ennemisAtteints);
-        } else {
-            for (Tour t : tours) {
-                ennemi.attaquerActeur(t); // attaque des tours
-            }
-            for (Objet o : objets) {
-                ennemi.attaqueObjet(o); // attaque des objets (mur et chemin bloquer)
+    private void traiterEnnemiSuivantSiMemePosition(int index) {
+        /* On verifie sur l'ennemi d'apres est a la meme position que l'ennemis actuel */
+        if (index + 1 < ennemis.size()) {
+            Ennemi ennemi = ennemis.get(index);
+            Ennemi prochainEnnemi = ennemis.get(index + 1);
+            if (prochainEnnemi.getCelluleCourante() == ennemi.getCelluleCourante()) {
+                prochainEnnemi.agir(); // l'ennemi agit pour éviter qu'il ne s'entasse
+                traiterEnnemi(prochainEnnemi);
             }
         }
     }
-    public void unTour() {
+    private void traiterEnnemi(Ennemi ennemi) {
+        if (!ennemi.estVivant()) {
+            ennemis.remove(ennemi);
+        } else if (ennemi.destinationFinaleAtteinte()) {
+            ennemis.remove(ennemi);
+            ennemisAtteints.setValue(ennemisAtteints.getValue() + 1);
+        } else {
+            for (Tour t : tours) {
+                ennemi.attaquerActeur(t);
+            }
+            for (Objet o : objets) {
+                ennemi.attaqueObjet(o);
+            }
+        }
+    }
 
+
+    private void gérerEnnemis() {
         for (int i = 0; i < ennemis.size(); i++) {
             Ennemi ennemi = ennemis.get(i);
             ennemi.agir();
-
-            /* On verifie sur l'ennemi d'apres est a la meme position que l'ennemis actuel */
-            if (i + 1 < ennemis.size()) {
-                Ennemi prochainEnnemi = ennemis.get(i + 1);
-                if (prochainEnnemi.getCelluleCourante() == ennemi.getCelluleCourante()) {
-                    prochainEnnemi.agir(); // l'ennemi agit pour eviter qu'il s'entasse
-                    traiterEnnemi(prochainEnnemi);
-                }
-            }
             traiterEnnemi(ennemi);
+            traiterEnnemiSuivantSiMemePosition(i);
+
         }
+    }
 
-        for (int i = 0; i < objets.size(); i++) {
-            Objet objet = objets.get(i);
-            objet.agit(); // explision des bombes
-            if (!objet.estVivant()) {
-                objets.remove(objet); // retirer les mort de la liste
+    private void gérerBlastComponents(Tour tour) {
+        List<Ennemi> ennemisDansPortee = tour.getEnnemisDansPortee(aProximiteTour, ennemis);
+        Set<Ennemi> ennemisAvecBlast = new HashSet<>(blast.keySet());
 
+        for (Ennemi ennemi : ennemisDansPortee) {
+            if (!blast.containsKey(ennemi)) {
+                BlastComponent bc = new BlastComponent(tour, ennemi);
+                bc.add(pane);
+                blast.put(ennemi, bc);
             }
         }
-        for (int i = 0; i < tours.size(); i++) {
-            Tour tour = tours.get(i);
+
+        ennemisAvecBlast.removeAll(ennemisDansPortee);
+
+        for (Ennemi ennemi : ennemisAvecBlast) {
+            BlastComponent bc = blast.get(ennemi);
+            bc.remove(pane);
+            blast.remove(ennemi);
+        }
+    }
+    private void attaquerEnnemisAProximité(Tour tour) {
+        List<Ennemi> ennemisDansPortee = tour.getEnnemisDansPortee(aProximiteTour, ennemis);
+        for (Ennemi ennemi : ennemisDansPortee) {
+            tour.attaquerActeur(ennemi);
+        }
+    }
+    private void gérerTours() {
+        List<Tour> toursÀSupprimer = new ArrayList<>();
+
+        for (Tour tour : tours) {
             if (tour.estVivant()) {
-                // Récupère les ennemis à portée et les attaque
-                List<Ennemi> ennemisDansPortee = getEnnemisDansPortee(tour);
-                for (Ennemi e : ennemisDansPortee) {
-                    // Remarque : l'attaque est basée sur le taux de tir de la tour
-                    tour.attaquerActeur(e);
-                }
+                attaquerEnnemisAProximité(tour);
             } else {
                 System.out.println("Tour détruite : " + tour.getId());
-                tours.remove(tour);
+                toursÀSupprimer.add(tour);
+            }
+            gérerBlastComponents(tour);
+        }
+
+        tours.removeAll(toursÀSupprimer);
+    }
+
+    private void gérerObjets() {
+        Iterator<Objet> iterator = objets.iterator();
+        while (iterator.hasNext()) {
+            Objet objet = iterator.next();
+            objet.agit(); // Explosion des bombes
+            if (!objet.estVivant()) {
+                iterator.remove(); // Retirez les objets morts de la liste en utilisant l'itérateur
             }
         }
-        for (Tour tour : tours) {
+    }
 
-            List<Ennemi> tempEnnemis = this.getEnnemisDansPortee(tour);
-
-            for (Ennemi e : ennemis) {
-                if (!blast.containsKey(e) && tempEnnemis.contains(e)) {
-                    BlastComponent bc = new BlastComponent(tour, e);
-                    bc.add(pane);
-                    blast.put(e, bc);
-                } else if (blast.containsKey(e)) {
-                    if (!tempEnnemis.contains(e)) {
-                        BlastComponent bc = blast.get(e);
-                        bc.remove(pane);
-                        blast.remove(e);
-                    }
-                }
-            }
-        }
-
-        // remove blast animation if the ennemi is dead now
-        List<Ennemi> tempList = new ArrayList<>();
-        for (Ennemi e : blast.keySet()) {
-            if (!ennemis.contains(e)) {
-                BlastComponent bc = blast.get(e);
-                bc.remove(pane);
-                tempList.add(e);
-            }
-        }
-
-        for (Ennemi e : tempList) {
-            blast.remove(e);
-        }
+    public void unTour() {
+        gérerEnnemis();
+        gérerObjets();
+        gérerTours();
         ajouterVague(); // Ajout des vages d'ennemi
     }
     public void ajouterTour(Tour tour) {
@@ -192,7 +196,6 @@ public class Environnement {
         return this.aProximiteTour;
     }
 
-
     /* les getter et setter */
     public int getennemisAtteints() {
         return this.ennemisAtteints.getValue();
@@ -200,7 +203,6 @@ public class Environnement {
     public IntegerProperty getennemisAtteintsProperty() {
         return ennemisAtteints;
     }
-
     public ObservableList<Tour> getTour() {
         return tours;
     }
@@ -210,26 +212,7 @@ public class Environnement {
     public ObservableList<Ennemi> getEnnemis() {
         return ennemis;
     }
-    /**
-     * Renvoie une liste d'ennemis à portée de cette tour
-     * @param tour Objet Tour représentant la tour
-     * @return liste d'ennemis à portée
-     */
-    public List<Ennemi> getEnnemisDansPortee(Tour tour) {
 
-        List<Ennemi> temp = new ArrayList<>();
-
-        for (Ennemi e : ennemis) {
-            if (tour.estDansPortee(e)) {
-                this.aProximiteTour.setValue(true);
-                temp.add(e);
-            }
-            else{
-                this.aProximiteTour.setValue(false);
-            }
-        }
-        return temp;
-    }
 }
 
 

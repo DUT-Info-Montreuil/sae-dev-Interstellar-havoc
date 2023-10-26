@@ -7,23 +7,18 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class OppenheimerCoil extends Tour {
 
-    private int TAUX_TIR = 3; // Taux de tir de la tour (coups par seconde)
 
     public OppenheimerCoil(int x, int y, int niveau) {
-        super((10-niveau),"OppenheimerCoil", x, y, TowerType.Oppenheimer, niveau, 100 * niveau, 150 + (niveau * 5));
+        super( x, y, TowerType.Oppenheimer, niveau);
         this.vie = new SimpleIntegerProperty(350);
-        this.degatsT = (55+(niveau*3));
+        this.degatsT = (35+(niveau*3));
         this.vieMax = vie.getValue();
-
-        if (TAUX_TIR < 1)
-            TAUX_TIR = 1;
+        this.TAUX_TIR = (10-niveau);
+        this.nom = "OppenheimerCoil";
+        this.prix = 100 * niveau;
+        this.portee = 150 + (niveau * 5);
     }
 
 
-    @Override
-    public void playAttackSound() {
-        Sound s = new Sound(Main.class.getResource("sons/bruit.wav"));
-        s.start();
-    }
 
 }

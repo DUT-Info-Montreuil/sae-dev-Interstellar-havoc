@@ -14,7 +14,7 @@ public class Balliste extends Ennemi {
         this.i = 0;
         this.degats = 5; // Portée de la tour
         this.portee = 30; // Dommages infligés aux tours
-        this.vie = new SimpleIntegerProperty(20);
+        this.vie = new SimpleIntegerProperty(60);
     }
 
 }

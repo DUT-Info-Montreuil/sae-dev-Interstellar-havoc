@@ -12,7 +12,7 @@ public class Scavenger extends Ennemi {
         this.i = 0;
         this.degats= 10; // Portée de la tour
         this.portee=40; // Dommages infligés aux tours
-        this.vie =  new SimpleIntegerProperty(50);
+        this.vie =  new SimpleIntegerProperty(100);
     }
 
 

@@ -60,6 +60,7 @@ public class TourVue implements ListChangeListener<Tour> {
             }
         }
     }
+
     public void lancerTourVue() {
         MessagePlacementTour.setTitle("Placement de la tour");
         MessagePlacementTour.setHeaderText(null);
@@ -189,7 +190,7 @@ public class TourVue implements ListChangeListener<Tour> {
         // Vérifie si l'ImageView est valide
         if (vueTour != null) {
             vueTour.setId(tour.getId());
-           // progressBar.setId(tour.getId());
+            progressBar.setId(tour.getId());
             int largeur = (int) vueTour.getImage().getWidth();
             int hauteur = (int) vueTour.getImage().getHeight();
             int x = (int) (tour.getX() - (largeur / 2));
