@@ -7,11 +7,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-
 import java.net.URL;
 
 public class BlastComponent extends Canvas {
-
     private final Tour tour;
     private final Ennemi ennemi;
     private ImageView vueBlast;

@@ -7,7 +7,7 @@ import com.application.S2_dev.modele.map.Terrain;
 public class Mur extends Objet {
     public Mur(Environnement environnement, Terrain terrain) {
         super(environnement, terrain);
-        prix = 50; // prix de l'objet
+        this.prix = 50; // prix de l'objet
         setComportement(new ComportementMur());
     }
 

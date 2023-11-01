@@ -1,12 +1,10 @@
 package com.application.S2_dev.modele.map;
 
 import com.application.S2_dev.modele.acteurs.ennemis.Ennemi;
-import com.application.S2_dev.modele.designPattern.EnnemiFactory.BallisteFactory;
-import com.application.S2_dev.modele.designPattern.EnnemiFactory.BehemothFactory;
-import com.application.S2_dev.modele.designPattern.EnnemiFactory.EnnemiFactory;
 import com.application.S2_dev.modele.acteurs.objet.Objet;
 import com.application.S2_dev.modele.acteurs.tours.Tour;
-import com.application.S2_dev.modele.designPattern.EnnemiFactory.ScavengerFactory;
+import com.application.S2_dev.modele.designPattern.vagueFactory.GestionVagueEnnemis;
+import com.application.S2_dev.modele.designPattern.vagueFactory.GestionnaireProbabilite;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -14,11 +12,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.layout.Pane;
-
 import java.util.*;
 
 public class Environnement {
-    private Random random = new Random(); // Random pour calculer les vagues d'ennemis
     private  static Environnement uniqueInstance = null;
     private Terrain terrain;
     private  ObservableList<Ennemi> ennemis; // liste des ennemis present sur le terrain
@@ -28,6 +24,7 @@ public class Environnement {
     public BooleanProperty aProximiteTour ; // ennemis a proximité d'une tour
     private Map<Ennemi, BlastComponent> blast;
     private Pane pane;
+
 
     public Environnement(Terrain terrain, Pane pane) {
         this.terrain = terrain;
@@ -47,16 +44,12 @@ public class Environnement {
         return uniqueInstance;
     }
 
-    // Methode qui genere des vagues d'ennemis
-    //classe vague design strat
     public void ajouterVague() {
         GestionnaireProbabilite gestionnaireProbabilite = new GestionnaireProbabilite();
         GestionVagueEnnemis gestionVagueEnnemis = new GestionVagueEnnemis(this, terrain, gestionnaireProbabilite.choisirVagueStrategy());
-
         gestionVagueEnnemis.ajouterVague();
     }
     private void traiterEnnemiSuivantSiMemePosition(int index) {
-        /* On verifie sur l'ennemi d'apres est a la meme position que l'ennemis actuel */
         if (index + 1 < ennemis.size()) {
             Ennemi ennemi = ennemis.get(index);
             Ennemi prochainEnnemi = ennemis.get(index + 1);
@@ -82,19 +75,17 @@ public class Environnement {
         }
     }
 
-
     private void gérerEnnemis() {
         for (int i = 0; i < ennemis.size(); i++) {
             Ennemi ennemi = ennemis.get(i);
             ennemi.agir();
             traiterEnnemi(ennemi);
             traiterEnnemiSuivantSiMemePosition(i);
-
         }
     }
 
     private void gérerBlastComponents(Tour tour) {
-        List<Ennemi> ennemisDansPortee = tour.getEnnemisDansPortee(aProximiteTour, ennemis);
+        List<Ennemi> ennemisDansPortee = tour.getEnnemisDansPortee(aProximiteTour, ennemis); // redon
         Set<Ennemi> ennemisAvecBlast = new HashSet<>(blast.keySet());
 
         for (Ennemi ennemi : ennemisDansPortee) {
@@ -114,7 +105,7 @@ public class Environnement {
         }
     }
     private void attaquerEnnemisAProximité(Tour tour) {
-        List<Ennemi> ennemisDansPortee = tour.getEnnemisDansPortee(aProximiteTour, ennemis);
+        List<Ennemi> ennemisDansPortee = tour.getEnnemisDansPortee(aProximiteTour, ennemis); // redon
         for (Ennemi ennemi : ennemisDansPortee) {
             tour.attaquerActeur(ennemi);
         }
@@ -145,16 +136,19 @@ public class Environnement {
             }
         }
     }
-
     public void unTour() {
         gérerEnnemis();
         gérerObjets();
         gérerTours();
-        ajouterVague(); // Ajout des vages d'ennemi
+        ajouterVague(); // Ajout des vagues d'ennemi
     }
     public void ajouterTour(Tour tour) {
         tours.add(tour); /* Ajouter des tours à la liste */
     }
+    public void ajouterEnnemi(Ennemi ennemi) {
+        ennemis.add(ennemi); /* Ajouter des tours à la liste */
+    }
+
     public void ajoutObjet(Objet objet) {
         this.objets.add(objet); /* Ajouter des objets a la liste */
     }
@@ -179,8 +173,6 @@ public class Environnement {
         return ennemis;
     }
 
-import com.application.S2_dev.modele.vagueFactory.GestionVagueEnnemis;
-import com.application.S2_dev.modele.vagueFactory.GestionnaireProbabilite;
 }
 
 

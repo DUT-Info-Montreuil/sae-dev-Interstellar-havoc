@@ -1,9 +1,7 @@
 package com.application.S2_dev.modele.designPattern.strategieObjet;
 
 import com.application.S2_dev.modele.acteurs.Acteur;
-
 import static com.application.S2_dev.modele.acteurs.objet.Objet.environnement;
-
 
 public class ComportementHydrogène implements Comportement{
 

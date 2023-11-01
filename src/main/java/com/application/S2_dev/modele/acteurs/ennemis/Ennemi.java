@@ -10,25 +10,23 @@ public abstract class Ennemi extends Acteur {
 
     protected Terrain terrain; // Terrain sur lequel évolue l'ennemi
     protected int i; // Index de la cellule dans le chemin le plus court
-    protected int degats; // Dommages infligés aux ennemis (et tours)
     protected Boolean enCoursAttaque;
-    protected Cellule celluleSuivante; // Cellule suivante de l'ennemi (x et y)
-    protected Cellule celluleCourante; // Cellule courante de l'ennemi (x et y)
+    protected Cellule celluleCourante , celluleSuivante ; // Cellules courante et suivante de l'ennemi (x et y)
 
     //Constructeur de l'ennemi
     public Ennemi(double valX, double valY, Terrain terrain) {
         super(valX, valY);
         this.terrain = terrain;
+        this.i = 0;
+        this.id = "E" + compteur;
     }
     @Override
     public void attaquerActeur(Acteur tour) {
-
         if (this.estDansPortee(tour)) {
             // Infliger des dégâts à la tour
             tour.infligerDegats(degats);
         }
     }
-
 
     public boolean objetProximite(Objet objet) {
         // Verifie si un objet est a proximité de l'ennemi
@@ -69,9 +67,52 @@ public abstract class Ennemi extends Acteur {
                 i++;
         this.toString();
     }
-
     public Cellule getCelluleCourante() {
         return celluleCourante;
     }
-
 }
+
+
+
+
+
+
+
+
+
+
+   /* public void agir(ObservableList<Ennemi> fileEnnemis) {
+        celluleCourante = terrain.getPlusCourtChemin().get(i);
+        celluleSuivante = i > 0 ? terrain.getPlusCourtChemin().get(i - 1) : null;
+
+        if (celluleSuivante != null) {
+            if (terrain.getCase1(celluleSuivante.getI(), celluleSuivante.getJ()) == 1) {
+                int diffX = celluleCourante.getI() - celluleSuivante.getI();
+                int diffY = celluleCourante.getJ() - celluleSuivante.getJ();
+
+                // Votre code pour vérifier la superposition avec d'autres ennemis
+                if (!superpositionAvecAutresEnnemis(fileEnnemis)) {
+                    PixelMoveTimeEvent.initAnimation(this, diffX, diffY);
+                }
+            }
+            if (terrain.getCase1(celluleSuivante.getI(), celluleSuivante.getJ()) == 2) {
+                while (AttaquerObjet()) {
+                    return;
+                }
+            }
+        }
+        i++;
+        this.toString();
+    }
+
+    // Votre méthode pour vérifier la superposition avec d'autres ennemis
+    private boolean superpositionAvecAutresEnnemis(ObservableList<Ennemi> fileEnnemis) {
+        for (Ennemi ennemi : fileEnnemis) {
+            if (ennemi != this && ennemi.getCelluleCourante() == celluleSuivante) {
+                return true;
+            }
+        }
+        return false;
+    }*/
+
+

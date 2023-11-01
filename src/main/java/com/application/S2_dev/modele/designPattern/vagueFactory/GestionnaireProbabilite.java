@@ -1,4 +1,9 @@
-package com.application.S2_dev.modele.vagueFactory;
+package com.application.S2_dev.modele.designPattern.vagueFactory;
+
+import com.application.S2_dev.modele.designPattern.vagueFactory.VagueDifficile;
+import com.application.S2_dev.modele.designPattern.vagueFactory.VagueMoyenne;
+import com.application.S2_dev.modele.designPattern.vagueFactory.VagueSimple;
+import com.application.S2_dev.modele.designPattern.vagueFactory.VagueStrategy;
 
 import java.util.Random;
 

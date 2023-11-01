@@ -1,17 +1,26 @@
 package com.application.S2_dev.modele.designPattern.vagueFactory;
 
-import com.application.S2_dev.modele.acteurs.ennemis.Balliste;
-import com.application.S2_dev.modele.acteurs.ennemis.Behemoth;
 import com.application.S2_dev.modele.acteurs.ennemis.Ennemi;
-import com.application.S2_dev.modele.acteurs.ennemis.Scavenger;
+import com.application.S2_dev.modele.designPattern.EnnemiFactory.BallisteFactory;
+import com.application.S2_dev.modele.designPattern.EnnemiFactory.BehemothFactory;
+import com.application.S2_dev.modele.designPattern.EnnemiFactory.EnnemiFactory;
+import com.application.S2_dev.modele.designPattern.EnnemiFactory.ScavengerFactory;
 import com.application.S2_dev.modele.map.Environnement;
 import com.application.S2_dev.modele.map.Terrain;
-import com.application.S2_dev.modele.designPattern.vagueFactory.VagueStrategy;
 
 import java.util.Random;
 
 public class VagueMoyenne implements VagueStrategy {
     private final Random random = new Random();
+    private EnnemiFactory balliste;
+    private EnnemiFactory behemoth;
+    private EnnemiFactory scavenger;
+
+    public VagueMoyenne() {
+        this.balliste = new BallisteFactory();
+        this.behemoth = new BehemothFactory();
+        this.scavenger = new ScavengerFactory();
+    }
 
     @Override
     public void ajouterVague(Environnement environnement, Terrain terrain) {
@@ -27,14 +36,14 @@ public class VagueMoyenne implements VagueStrategy {
                 Ennemi en;
 
                 if (spawnType <= 50) { // 50% de chance de générer un Balliste
-                    en = new Balliste(5, 21, terrain);
+                    en = balliste.créerEnnemi(terrain);
                 } else if (spawnType <= 80) { // 30% de chance de générer un Scavenger
-                    en = new Scavenger(5, 21, terrain);
+                    en = scavenger.créerEnnemi(terrain);
                 } else { // 20% de chance de générer un Behemoth
-                    en = new Behemoth(5, 21, terrain);
+                    en = behemoth.créerEnnemi(terrain);
                 }
 
-                environnement.getEnnemis().add(en);
+                environnement.ajouterEnnemi(en);
             }
         }
     }
