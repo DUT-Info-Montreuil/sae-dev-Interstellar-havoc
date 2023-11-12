@@ -3,6 +3,7 @@ module com.example.demo {
     requires javafx.fxml;
 
     requires java.desktop;
+    requires java.sql;
 
     opens com.application.S2_dev to javafx.fxml;
     exports com.application.S2_dev;

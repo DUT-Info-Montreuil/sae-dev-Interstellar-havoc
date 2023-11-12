@@ -68,6 +68,7 @@
                </font>
             </Label>
             <Button layoutX="1082.0" layoutY="-8.0" mnemonicParsing="false" onAction="#ButtonInventaire" prefHeight="31.0" prefWidth="98.0" styleClass="bouton" stylesheets="@terrainJeu.css" text="Inventaire" />
+            <Label fx:id="labelTimer" layoutX="839.0" layoutY="-8.0" prefHeight="69.0" prefWidth="90.0" text="Label" />
          </children>
       </AnchorPane>
    </bottom>

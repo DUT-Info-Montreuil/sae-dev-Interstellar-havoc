@@ -15,6 +15,9 @@ import javafx.scene.layout.Pane;
 import java.net.URL;
 
 public class EnnemiVue implements ListChangeListener<Ennemi> {
+    private int compteurScavengersTues, compteurBallisteTues, compteurBehemtohTues;
+    private int compteurScavengersTotal, compteurBallisteTotal, compteurBehemtohTotal;
+    private int score;
     private Pane panneau_de_jeu;
     private Environnement env;
     private Label LabelnbVivantScavenger, LabelnbVivantBalliste,  LabelnbVivantBehemoth;
@@ -30,6 +33,13 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
         this.LabelnbVivantBehemoth =  labelBehemoth;
         this.env = env;
         this.boutique = boutique;
+        this.compteurScavengersTues = 0;
+        this.compteurBallisteTues = 0;
+        this.compteurBehemtohTues = 0;
+        this.compteurScavengersTotal = 0;
+        this.compteurBallisteTotal = 0;
+        this.compteurBehemtohTotal = 0;
+        this.score = 0;
 
         /* URL et image des sprites */
         urlScavenger = Main.class.getResource("image/ennemis/Scavenger.png");
@@ -61,13 +71,19 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
             panneau_de_jeu.getChildren().remove(sprite); /* Suppression du sprite du panneau de jeu */
             if (c.getRemoved().get(i) instanceof Scavenger) {
                 nbVivantScavenger--; // Mise à jour du compteur
+                compteurScavengersTues++;
+                score++;
                 boutique.setPrix(boutique.getPrix()+100); // La destruction des ennemis permet de gagner de l'argent
             } else if (c.getRemoved().get(i) instanceof Balliste) {
                 nbVivantBalliste--; // Mise à jour du compteur
+                compteurBallisteTues++;
+                score++;
                 boutique.setPrix(boutique.getPrix()+50); // La destruction des ennemis permet de gagner de l'argent
             }
             else if(c.getRemoved().get(i) instanceof Behemoth){
                 nbVivantBehemoth--; // Mise à jour du compteur
+                compteurBehemtohTues++;
+                score++;
                 boutique.setPrix(boutique.getPrix()+200); // La destruction des ennemis permet de gagner de l'argent
             }
 
@@ -78,11 +94,14 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
 
             if (c.getAddedSubList().get(i) instanceof Scavenger) {
                 nbVivantScavenger++; // Mise à jour du compteur
+                compteurScavengersTotal++;
             } else if (c.getAddedSubList().get(i) instanceof Balliste) {
                 nbVivantBalliste++; // Mise à jour du compteur
+                compteurBallisteTotal++;
             }
             else if(c.getAddedSubList().get(i) instanceof Behemoth){
                 nbVivantBehemoth++; // Mise à jour du compteur
+                compteurBehemtohTotal++;
             }
 
         }
@@ -162,5 +181,32 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
             behemothProximite.setId(e.getId()); /* Attribution d'un identifiant à l'objet ImageView */
             panneau_de_jeu.getChildren().add(behemothProximite); /* Ajout du sprite au panneau de jeu */
         }
+    }
+    public int getCompteurScavengersTues() {
+        return compteurScavengersTues;
+    }
+
+    public int getCompteurBallisteTues() {
+        return compteurBallisteTues;
+    }
+
+    public int getCompteurBehemtohTues() {
+        return compteurBehemtohTues;
+    }
+
+    public int getCompteurScavengersTotal() {
+        return compteurScavengersTotal;
+    }
+
+    public int getCompteurBallisteTotal() {
+        return compteurBallisteTotal;
+    }
+
+    public int getCompteurBehemtohTotal() {
+        return compteurBehemtohTotal;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

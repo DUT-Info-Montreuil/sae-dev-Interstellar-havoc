@@ -1,6 +1,7 @@
 package com.application.S2_dev.controlleur;
 
 import com.application.S2_dev.Main;
+import com.application.S2_dev.modele.connexion.Connexion;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -59,6 +60,7 @@ public class ControlleurMenu implements Initializable {
         stage.close();
     }
 
+
     @FXML
     void ButtonPlay(ActionEvent event) {
         Parent root;
@@ -78,5 +80,6 @@ public class ControlleurMenu implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
     }
 }

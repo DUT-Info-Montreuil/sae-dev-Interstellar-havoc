@@ -1,6 +1,7 @@
 package com.application.S2_dev.controlleur;
 
 import com.application.S2_dev.Main;
+import com.application.S2_dev.modele.GestionnaireInsertionsJeu;
 import com.application.S2_dev.modele.Parametre;
 import com.application.S2_dev.modele.Boutique;
 import com.application.S2_dev.modele.map.Environnement;
@@ -9,6 +10,7 @@ import com.application.S2_dev.vue.ObjetVue;
 import com.application.S2_dev.vue.EnnemiVue;
 import com.application.S2_dev.vue.TerrainVue;
 import com.application.S2_dev.vue.TourVue;
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -26,6 +28,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
+
 
 public class ControlleurTerrainJeu implements Initializable {
 
@@ -63,6 +66,8 @@ public class ControlleurTerrainJeu implements Initializable {
     private Label labelMur;
     @FXML
     private Label labelMaintenace;
+    @FXML
+    private Label labelTimer;
 
     private Timeline gameLoop;
     private EnnemiVue ennemiVue;
@@ -72,8 +77,14 @@ public class ControlleurTerrainJeu implements Initializable {
     public Environnement env;
     private Boutique boutique;
 
+    private Duration tempsEcoule = Duration.ZERO;
+    private Timeline timer;
+    private GestionnaireInsertionsJeu gestionnaireInsertionsJeu;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        this.timer();
         terrain = Terrain.getInstance(); // Création du terrain
         env = Environnement.getInstance(terrain,pane); // Création de l'environnement
 
@@ -85,6 +96,8 @@ public class ControlleurTerrainJeu implements Initializable {
         /* Affichage des ennemis */
         ennemiVue = new EnnemiVue(pane, labelScavenger, labelBalliste, labelBehemoth, env, boutique);
         env.getEnnemis().addListener(ennemiVue);
+        this.gestionnaireInsertionsJeu = new GestionnaireInsertionsJeu(ennemiVue,timer,ennemiVue.getScore());
+        gestionnaireInsertionsJeu.debutDuJeu();
 
         /* Affichage des objets */
         objetVue = new ObjetVue(pane, env, labelBombe, LabelHydrogene, labelMur, terrain, terrainVue, boutique, labelMaintenace);
@@ -96,27 +109,45 @@ public class ControlleurTerrainJeu implements Initializable {
         env.getTour().addListener(tourVue);
         tourVue.lancerTourVue();
 
-        /* Initialisation du label de credit */
-        labelCredit.setText(String.valueOf(boutique.getPrix()));
-        this.boutique.prixProperty().addListener((observableValue, oldValue, nouvelleValeur) -> {
-            this.labelCredit.setText(String.valueOf(nouvelleValeur));
-        });
+        this.mettreAJourCredit();
+        this.mettreAJourVie();
 
+    }
+    public void mettreAJourCredit() {
+        labelCredit.setText(String.valueOf(boutique.getPrix()));
+        boutique.prixProperty().addListener((observableValue, oldValue, nouvelleValeur) -> {
+            labelCredit.setText(String.valueOf(nouvelleValeur));
+        });
+    }
+
+    private void mettreAJourVie() {
         /* Initialisation du label de vie de la base à défendre */
         labelLife.setText(String.valueOf(Parametre.nombreVies));
-        this.env.getennemisAtteintsProperty().addListener((observableValue, oldValue, nouvelleValeur) -> {
-            this.labelLife.setText(String.valueOf(Parametre.nombreVies - (int) nouvelleValeur));
+        env.getennemisAtteintsProperty().addListener((observableValue, oldValue, nouvelleValeur) -> {
+            labelLife.setText(String.valueOf(Parametre.nombreVies - (int) nouvelleValeur));
             if (env.getennemisAtteints() == Parametre.nombreVies) {
                 gameLoop.stop();
                 JOptionPane.showMessageDialog(null, "Vous avez perdu !");
-                exit(); /* fermeture de le fenetre du jeu */
+                exit(); /* Fermeture de la fenêtre du jeu */
             }
         });
     }
 
-    /**
-     * Boucle de jeu
-     */
+    private void timer(){
+        timer = new Timeline(new KeyFrame(Duration.millis(1000), event -> {
+            tempsEcoule = tempsEcoule.add(Duration.seconds(1));
+            labelTimer.setText(formatDuration(tempsEcoule));
+        }));
+        timer.setCycleCount(Animation.INDEFINITE);
+        timer.play();
+    }
+    private String formatDuration(Duration duration) {
+        long heures = (long) duration.toHours();
+        long minutes = (long) duration.toMinutes() % 60;
+        long secondes = (long) duration.toSeconds() % 60;
+        return String.format("%02d:%02d:%02d", heures, minutes, secondes);
+    }
+
     public void initAnimation() {
         gameLoop = new Timeline();
         gameLoop.setCycleCount(Timeline.INDEFINITE);
@@ -139,7 +170,7 @@ public class ControlleurTerrainJeu implements Initializable {
             stage.setScene(new Scene(root, 1000, 600));
             stage.show();
             stage.setOnHidden(e -> this.gameLoop.play()); // Lancement du jeu apres la fermeture de l'inventaire
-            } catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -149,16 +180,20 @@ public class ControlleurTerrainJeu implements Initializable {
     }
 
     public void exit() {
+        timer.stop();
         Parent root;
         try {
             gameLoop.stop(); // Arret de la gameLoop
+            gestionnaireInsertionsJeu.finDuJeu();
             Stage stage1 = (Stage) tilePane.getScene().getWindow();
             stage1.close(); // Fermeture de la page de jeu
-            root = FXMLLoader.load(Main.class.getResource("fxml/Menu/Menu.fxml"));
+            root = FXMLLoader.load(Main.class.getResource("fxml/Resultat.fxml"));
             Stage stage = new Stage();
-            stage.setTitle("Menu de jeu");
+            stage.setTitle("Resultat du jeu");
             stage.setScene(new Scene(root, 1250, 800));
             stage.show(); // Affichage du menu de jeu
+
+            System.out.println(ennemiVue.getCompteurBehemtohTues());
         } catch (IOException e) {
             e.printStackTrace();
         }
