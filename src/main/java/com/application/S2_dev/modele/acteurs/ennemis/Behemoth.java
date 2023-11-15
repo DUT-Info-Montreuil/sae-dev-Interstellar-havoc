@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class Behemoth extends Ennemi {
     public Behemoth(int x, int y, Terrain terrain){
-        super(x, y, terrain);
+        super(x, y, terrain,false);
         this.degats= 20; // Portée de la tour
         this.portee=50; // Dommages infligés aux tours
         this.vie =  new SimpleIntegerProperty(150);

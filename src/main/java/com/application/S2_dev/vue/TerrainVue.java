@@ -101,7 +101,7 @@ public class TerrainVue {
             default:
 
         }
-        terrain.getCheminPlusCourt();
+        //terrain.getCheminPlusCourt();
     }
 }
 

@@ -10,7 +10,8 @@ import java.util.LinkedList;
 public class Terrain {
     private final int[][] terrain;
     private static Terrain uniqueInstance = null;
-    private final BFS bfs;
+    private BFS bfsContournerMur;
+    private BFS bfsDirect;
     private LinkedList<Cellule> cheminPlusCourt;
     private final int[] depart = {1, 0};
     private final int[] fin = {12, 60};
@@ -55,8 +56,8 @@ public class Terrain {
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
         };
 
-        bfs = new BFS(terrain, depart, fin);
-    }
+        bfsContournerMur = new BFS(terrain, depart, fin, true);
+        bfsDirect = new BFS(terrain, depart, fin, false);    }
 
     public static Terrain getInstance(){
         if(uniqueInstance==null){
@@ -98,25 +99,30 @@ public class Terrain {
     }
 
     public void placementObjetMur(int i, int j) {
-        /* Remplacement du chemin en chemin Bloqué quand le joueur place un mur */
         if (terrain[i][j] == 1) {
             terrain[i][j] = 2;
-            setCheminNull(cheminPlusCourt);
+            recalculerChemins();
         } else if (terrain[i][j] == 2) {
             terrain[i][j] = 1;
+            recalculerChemins();
         }
     }
 
     public void placementMur(int i, int j) {
-        /* Remplacement du chemin Bloqué en chemin quand l'ennemi casse le mur' */
         if (terrain[i][j] == 2) {
             terrain[i][j] = 1;
-            setCheminNull(cheminPlusCourt);
+            recalculerChemins();
         } else if (terrain[i][j] == 1) {
             terrain[i][j] = 2;
         }
     }
 
+    private void recalculerChemins() {
+        bfsContournerMur.plusCourtChemin2(terrain, depart, fin);
+        bfsDirect.plusCourtChemin2(terrain, depart, fin);
+    }
+
+    /*
     LinkedList<Cellule> calculerCheminPlusCourt() {
         int[] start = {1, 0};
         int[] end = {12, 60};
@@ -124,19 +130,20 @@ public class Terrain {
         BFS bfs = new BFS(terrain, start, end);
         cheminPlusCourt = bfs.getPlusCourtChemin();
         return cheminPlusCourt;
-    }
+    }*/
+
 
     /* les getter et setter */
-    public LinkedList<Cellule> getCheminPlusCourt() {
-        if (cheminPlusCourt == null) {
-            return cheminPlusCourt = calculerCheminPlusCourt();
-        }
-        return cheminPlusCourt;
+    public LinkedList<Cellule> getCheminPourEnnemi(boolean peutContournerMur) {
+        return peutContournerMur ? bfsContournerMur.getPlusCourtChemin() : bfsDirect.getPlusCourtChemin();
     }
 
+/*
     public LinkedList<Cellule> getPlusCourtChemin() {
         return bfs.getPlusCourtChemin();
     }
+
+ */
 
     public int[][] getTerrain() {
         return terrain;

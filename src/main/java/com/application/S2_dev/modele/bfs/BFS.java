@@ -4,17 +4,26 @@ import java.util.LinkedList;
 
 public class BFS {
 
-    public BFS(int[][] matrice, int[] debut, int[] fin) {
+
+    private boolean peutContournerMur;
+
+    public BFS(int[][] matrice, int[] debut, int[] fin, boolean peutContournerMur) {
+        this.peutContournerMur = peutContournerMur;
         plusCourtChemin2(matrice, debut, fin);
     }
-
     private LinkedList<Cellule> plusCourtChemin;
 
-    private void visiter(Cellule[][] cellules, LinkedList<Cellule> file, int x, int y, Cellule parent) {
+    private void visiter(int[][] matrice, Cellule[][] cellules, LinkedList<Cellule> file, int x, int y, Cellule parent) {
         // hors des limites ou cellule différente de 1
-        if (x < 0 || x >= cellules.length || y < 0 || y >= cellules[0].length || cellules[x][y] == null || (cellules[x][y].distance == 2 || cellules[x][y].distance == 3)) {
+        if (x < 0 || x >= cellules.length || y < 0 || y >= cellules[0].length || cellules[x][y] == null) {
             return;
         }
+
+        // Si la cellule est un mur et que l'ennemi ne peut pas contourner, ignorer cette cellule
+        if (peutContournerMur && matrice[x][y] == 2) {
+            return;
+        }
+
 
         // mettre à jour la distance et le nœud précédent
         int distance = parent.distance + 1;
@@ -26,6 +35,7 @@ public class BFS {
             file.add(p);
         }
     }
+
 
     public void plusCourtChemin2(int[][] matrice, int[] debut, int[] fin) {
 
@@ -66,13 +76,13 @@ public class BFS {
                 }
 
                 // déplacement vers le haut
-                visiter(cellules, file, p.i - 1, p.j, p);
+                visiter(matrice, cellules, file, p.i - 1, p.j, p);
                 // déplacement vers le bas
-                visiter(cellules, file, p.i + 1, p.j, p);
+                visiter(matrice, cellules, file, p.i + 1, p.j, p);
                 // déplacement vers la gauche
-                visiter(cellules, file, p.i, p.j - 1, p);
+                visiter(matrice, cellules, file, p.i, p.j - 1, p);
                 // déplacement vers la droite
-                visiter(cellules, file, p.i, p.j + 1, p);
+                visiter(matrice, cellules, file, p.i, p.j + 1, p);
             }
 
             // composer le chemin si un chemin existe

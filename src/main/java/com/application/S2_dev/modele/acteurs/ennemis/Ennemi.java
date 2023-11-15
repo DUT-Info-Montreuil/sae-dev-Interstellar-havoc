@@ -6,17 +6,23 @@ import com.application.S2_dev.modele.données.PixelMoveTimeEvent;
 import com.application.S2_dev.modele.acteurs.objet.Objet;
 import com.application.S2_dev.modele.map.Terrain;
 
+import java.util.LinkedList;
+
 public abstract class Ennemi extends Acteur {
 
     protected Terrain terrain; // Terrain sur lequel évolue l'ennemi
     protected int i; // Index de la cellule dans le chemin le plus court
     protected Boolean enCoursAttaque;
+
+    protected boolean peutContournerMur; // Indique si l'ennemi peut contourner les murs
+
     protected Cellule celluleCourante , celluleSuivante ; // Cellules courante et suivante de l'ennemi (x et y)
 
     //Constructeur de l'ennemi
-    public Ennemi(double valX, double valY, Terrain terrain) {
+    public Ennemi(double valX, double valY, Terrain terrain, boolean peutContournerMur) {
         super(valX, valY);
         this.terrain = terrain;
+        this.peutContournerMur = peutContournerMur;
         this.i = 0;
         this.id = "E" + compteur;
     }
@@ -45,13 +51,19 @@ public abstract class Ennemi extends Acteur {
         enCoursAttaque = false;
     }
     public boolean destinationFinaleAtteinte() {
-        // Verifie si l'ennemi a atteint la base finale
-        return i >= this.terrain.getPlusCourtChemin().size();
-    }
-    public void agir() {
-        celluleCourante = terrain.getPlusCourtChemin().get(i);
-        celluleSuivante = i > 0 ? terrain.getPlusCourtChemin().get(i - 1) : null;
+        // Obtenez le chemin approprié en fonction de la capacité de l'ennemi à contourner les murs
+        LinkedList<Cellule> chemin = terrain.getCheminPourEnnemi(peutContournerMur);
 
+        // Vérifiez si l'index actuel dépasse la longueur du chemin
+        return i >= chemin.size();
+    }
+
+    public void agir () {
+        LinkedList<Cellule> chemin = terrain.getCheminPourEnnemi(peutContournerMur);
+        if (i < chemin.size()) {
+            celluleCourante = chemin.get(i);
+            celluleSuivante = i > 0 ? chemin.get(i - 1) : null;
+        }
         if (celluleSuivante != null) {
             if (terrain.getCase1(celluleSuivante.getI(), celluleSuivante.getJ()) == 1) {
                 int diffX = celluleCourante.getI() - celluleSuivante.getI();
@@ -64,12 +76,14 @@ public abstract class Ennemi extends Acteur {
                 }
             }
         }
-                i++;
+        i++;
         this.toString();
     }
-    public Cellule getCelluleCourante() {
+
+    public Cellule getCelluleCourante () {
         return celluleCourante;
     }
+
 }
 
 
