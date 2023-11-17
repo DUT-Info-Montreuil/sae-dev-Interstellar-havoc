@@ -8,7 +8,7 @@ public class CheminBloque extends Objet {
     private final int ligne, colonne;
 
     public CheminBloque(Environnement environnement, Terrain terrain, int ligne, int colonne) {
-        super(environnement, terrain);
+        super(environnement, terrain,0);
         this.prix = 50;
         this.ligne = ligne;
         this.colonne = colonne;

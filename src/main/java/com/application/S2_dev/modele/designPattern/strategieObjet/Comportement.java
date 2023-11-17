@@ -13,6 +13,6 @@ public interface Comportement {
     default boolean ennemisProximite(Ennemi ennemi, Acteur obj) {
         // ennemis à proximité de la bombe
         double distance = calculaterDistance(ennemi.getX(), ennemi.getY(),obj);
-        return distance <= ennemi.getPortee();
+        return distance <= obj.getPortee();
     }
 }
