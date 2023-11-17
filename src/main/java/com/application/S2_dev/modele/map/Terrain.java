@@ -1,5 +1,6 @@
 package com.application.S2_dev.modele.map;
 
+import com.application.S2_dev.modele.acteurs.ennemis.Ennemi;
 import com.application.S2_dev.modele.bfs.BFS;
 import com.application.S2_dev.modele.bfs.Cellule;
 import com.application.S2_dev.modele.données.TerrainType;
@@ -101,49 +102,30 @@ public class Terrain {
     public void placementObjetMur(int i, int j) {
         if (terrain[i][j] == 1) {
             terrain[i][j] = 2;
-            recalculerChemins();
         } else if (terrain[i][j] == 2) {
             terrain[i][j] = 1;
-            recalculerChemins();
         }
     }
 
     public void placementMur(int i, int j) {
         if (terrain[i][j] == 2) {
             terrain[i][j] = 1;
-            recalculerChemins();
         } else if (terrain[i][j] == 1) {
             terrain[i][j] = 2;
         }
     }
 
-    private void recalculerChemins() {
-        bfsContournerMur.plusCourtChemin2(terrain, depart, fin);
-        bfsDirect.plusCourtChemin2(terrain, depart, fin);
+    public LinkedList<Cellule> recalculerCheminPourEnnemi(Ennemi ennemi, int[] positionActuelle) {
+        BFS bfsUtilisé = ennemi.peutContournerMur() ? bfsContournerMur : bfsDirect;
+        bfsUtilisé.plusCourtChemin2(terrain, positionActuelle, fin);
+        return bfsUtilisé.getPlusCourtChemin();
     }
-
-    /*
-    LinkedList<Cellule> calculerCheminPlusCourt() {
-        int[] start = {1, 0};
-        int[] end = {12, 60};
-
-        BFS bfs = new BFS(terrain, start, end);
-        cheminPlusCourt = bfs.getPlusCourtChemin();
-        return cheminPlusCourt;
-    }*/
-
 
     /* les getter et setter */
     public LinkedList<Cellule> getCheminPourEnnemi(boolean peutContournerMur) {
         return peutContournerMur ? bfsContournerMur.getPlusCourtChemin() : bfsDirect.getPlusCourtChemin();
     }
 
-/*
-    public LinkedList<Cellule> getPlusCourtChemin() {
-        return bfs.getPlusCourtChemin();
-    }
-
- */
 
     public int[][] getTerrain() {
         return terrain;

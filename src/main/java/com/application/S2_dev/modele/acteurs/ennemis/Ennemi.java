@@ -11,6 +11,9 @@ import java.util.LinkedList;
 public abstract class Ennemi extends Acteur {
 
     protected Terrain terrain; // Terrain sur lequel évolue l'ennemi
+    private LinkedList<Cellule> chemin;
+
+
     protected int i; // Index de la cellule dans le chemin le plus court
     protected Boolean enCoursAttaque;
 
@@ -83,6 +86,22 @@ public abstract class Ennemi extends Acteur {
     public Cellule getCelluleCourante () {
         return celluleCourante;
     }
+    public void setChemin(LinkedList<Cellule> nouveauChemin) {
+        this.chemin = nouveauChemin;
+        this.i = 0; // Réinitialiser l'index si nécessaire
+    }
+
+    public LinkedList<Cellule> getChemin() {
+        return this.chemin;
+    }
+
+    public boolean peutContournerMur() {
+        return this.peutContournerMur;
+    }
+
+    protected boolean cheminBloqué() {
+        return chemin == null || chemin.isEmpty();
+    }
 
 }
 
@@ -93,40 +112,5 @@ public abstract class Ennemi extends Acteur {
 
 
 
-
-
-   /* public void agir(ObservableList<Ennemi> fileEnnemis) {
-        celluleCourante = terrain.getPlusCourtChemin().get(i);
-        celluleSuivante = i > 0 ? terrain.getPlusCourtChemin().get(i - 1) : null;
-
-        if (celluleSuivante != null) {
-            if (terrain.getCase1(celluleSuivante.getI(), celluleSuivante.getJ()) == 1) {
-                int diffX = celluleCourante.getI() - celluleSuivante.getI();
-                int diffY = celluleCourante.getJ() - celluleSuivante.getJ();
-
-                // Votre code pour vérifier la superposition avec d'autres ennemis
-                if (!superpositionAvecAutresEnnemis(fileEnnemis)) {
-                    PixelMoveTimeEvent.initAnimation(this, diffX, diffY);
-                }
-            }
-            if (terrain.getCase1(celluleSuivante.getI(), celluleSuivante.getJ()) == 2) {
-                while (AttaquerObjet()) {
-                    return;
-                }
-            }
-        }
-        i++;
-        this.toString();
-    }
-
-    // Votre méthode pour vérifier la superposition avec d'autres ennemis
-    private boolean superpositionAvecAutresEnnemis(ObservableList<Ennemi> fileEnnemis) {
-        for (Ennemi ennemi : fileEnnemis) {
-            if (ennemi != this && ennemi.getCelluleCourante() == celluleSuivante) {
-                return true;
-            }
-        }
-        return false;
-    }*/
 
 
