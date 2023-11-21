@@ -96,8 +96,8 @@ public class ControlleurTerrainJeu implements Initializable {
         /* Affichage des ennemis */
         ennemiVue = new EnnemiVue(pane, labelScavenger, labelBalliste, labelBehemoth, env, boutique);
         env.getEnnemis().addListener(ennemiVue);
-        this.gestionnaireInsertionsJeu = new GestionnaireInsertionsJeu(ennemiVue,timer,ennemiVue.getScore());
-        gestionnaireInsertionsJeu.debutDuJeu();
+        this.gestionnaireInsertionsJeu = new GestionnaireInsertionsJeu(ennemiVue,timer);
+
 
         /* Affichage des objets */
         objetVue = new ObjetVue(pane, env, labelBombe, LabelHydrogene, labelMur, terrain, terrainVue, boutique, labelMaintenace);

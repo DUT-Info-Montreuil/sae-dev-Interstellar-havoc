@@ -72,21 +72,19 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
             if (c.getRemoved().get(i) instanceof Scavenger) {
                 nbVivantScavenger--; // Mise à jour du compteur
                 compteurScavengersTues++;
-                score++;
                 boutique.setPrix(boutique.getPrix()+100); // La destruction des ennemis permet de gagner de l'argent
             } else if (c.getRemoved().get(i) instanceof Balliste) {
                 nbVivantBalliste--; // Mise à jour du compteur
                 compteurBallisteTues++;
-                score++;
                 boutique.setPrix(boutique.getPrix()+50); // La destruction des ennemis permet de gagner de l'argent
             }
             else if(c.getRemoved().get(i) instanceof Behemoth){
                 nbVivantBehemoth--; // Mise à jour du compteur
                 compteurBehemtohTues++;
-                score++;
+
                 boutique.setPrix(boutique.getPrix()+200); // La destruction des ennemis permet de gagner de l'argent
             }
-
+            score++;
         }
 
         for (int i = 0; i < c.getAddedSubList().size(); i++) {
@@ -207,6 +205,6 @@ public class EnnemiVue implements ListChangeListener<Ennemi> {
     }
 
     public int getScore() {
-        return score;
+        return compteurBallisteTues+compteurScavengersTues+compteurBehemtohTues;
     }
 }
