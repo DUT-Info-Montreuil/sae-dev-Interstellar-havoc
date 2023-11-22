@@ -7,8 +7,9 @@ import com.application.S2_dev.modele.designPattern.strategieObjet.*;
 public class Bombe extends Objet {
 
     public Bombe(Environnement environnement, Terrain terrain) {
-        super(environnement, terrain,150);
+        super(environnement, terrain);
         this.prix = 50; // prix de l'objet
+        this.setPortee(150);
         setComportement(new ComportementBombe());
     }
 }

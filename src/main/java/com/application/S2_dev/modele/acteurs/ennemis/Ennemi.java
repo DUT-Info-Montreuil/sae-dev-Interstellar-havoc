@@ -94,10 +94,6 @@ public abstract class Ennemi extends Acteur {
         return this.chemin;
     }
 
-    public boolean peutContournerMur() {
-        return this.peutContournerMur;
-    }
-
 }
 
 
