@@ -3,8 +3,6 @@ package com.application.S2_dev.modele.bfs;
 import java.util.LinkedList;
 
 public class BFS {
-
-
     private boolean peutContournerMur;
 
     public BFS(int[][] matrice, int[] debut, int[] fin, boolean peutContournerMur) {

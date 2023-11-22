@@ -8,7 +8,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import java.util.LinkedList;
 
 public class Balliste extends Ennemi {
-
     public Balliste(int Posx, int Posy, Terrain terrain) {
         super(Posx, Posy, terrain, true);
         this.degats = 5; // Portée de la tour

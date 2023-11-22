@@ -99,14 +99,6 @@ public class Terrain {
         return terrain[i][j];
     }
 
-    public void placementObjetMur(int i, int j) {
-        if (terrain[i][j] == 1) {
-            terrain[i][j] = 2;
-        } else if (terrain[i][j] == 2) {
-            terrain[i][j] = 1;
-        }
-    }
-
     public void placementMur(int i, int j) {
         if (terrain[i][j] == 2) {
             terrain[i][j] = 1;
@@ -115,11 +107,13 @@ public class Terrain {
         }
     }
 
+    /*
     public LinkedList<Cellule> recalculerCheminPourEnnemi(Ennemi ennemi, int[] positionActuelle) {
         BFS bfsUtilisé = ennemi.peutContournerMur() ? bfsContournerMur : bfsDirect;
         bfsUtilisé.plusCourtChemin2(terrain, positionActuelle, fin);
         return bfsUtilisé.getPlusCourtChemin();
     }
+     */
 
     /* les getter et setter */
     public LinkedList<Cellule> getCheminPourEnnemi(boolean peutContournerMur) {

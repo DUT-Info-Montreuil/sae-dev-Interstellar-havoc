@@ -13,7 +13,6 @@ public abstract class Ennemi extends Acteur {
     protected Terrain terrain; // Terrain sur lequel évolue l'ennemi
     private LinkedList<Cellule> chemin;
 
-
     protected int i; // Index de la cellule dans le chemin le plus court
     protected Boolean enCoursAttaque;
 
@@ -97,10 +96,6 @@ public abstract class Ennemi extends Acteur {
 
     public boolean peutContournerMur() {
         return this.peutContournerMur;
-    }
-
-    protected boolean cheminBloqué() {
-        return chemin == null || chemin.isEmpty();
     }
 
 }

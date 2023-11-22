@@ -13,7 +13,7 @@ public class Mur extends Objet {
 
     public void PlacerMur(int i, int j) {
         /* Placement du chemin apres destruction du mur */
-        terrain.placementObjetMur(i, j);
+        terrain.placementMur(i, j);
     }
 
 
